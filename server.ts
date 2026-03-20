@@ -35,6 +35,7 @@ interface Player {
   isAlive: boolean;
   isReady: boolean;
   votedFor?: string;
+  joinTime: number;
   socket?: WebSocket;
 }
 
@@ -43,8 +44,10 @@ interface Room {
   status: 'lobby' | 'reveal' | 'clues' | 'voting' | 'results';
   wordA: string;
   wordB: string;
+  category: string;
   impostorId: string;
   hostId: string;
+  messages: { userId: string, name: string, text: string }[];
   winner?: 'normal' | 'impostor';
   players: Map<string, Player>;
 }
@@ -52,11 +55,26 @@ interface Room {
 const rooms = new Map<string, Room>();
 
 const WORD_PAIRS = [
-  ["Maçã", "Pêra"], ["Café", "Chá"], ["Cachorro", "Lobo"], ["Avião", "Helicóptero"],
-  ["Praia", "Piscina"], ["Livro", "Revista"], ["Futebol", "Basquete"], ["Pizza", "Hambúrguer"],
-  ["Inverno", "Verão"], ["Cinema", "Teatro"], ["Violão", "Guitarra"], ["Gato", "Tigre"],
-  ["Ouro", "Prata"], ["Sol", "Lua"], ["Carro", "Moto"], ["Escola", "Faculdade"],
-  ["Médico", "Enfermeiro"], ["Padaria", "Supermercado"], ["Cerveja", "Vinho"], ["Chocolate", "Morango"]
+  ["Maçã", "Pêra", "Fruta"], 
+  ["Café", "Chá", "Bebida Quente"], 
+  ["Cachorro", "Lobo", "Animal"], 
+  ["Avião", "Helicóptero", "Transporte Aéreo"],
+  ["Praia", "Piscina", "Lugar para Nadar"], 
+  ["Livro", "Revista", "Leitura"], 
+  ["Futebol", "Basquete", "Esporte"], 
+  ["Pizza", "Hambúrguer", "Lanche"],
+  ["Inverno", "Verão", "Estação do Ano"], 
+  ["Cinema", "Teatro", "Entretenimento"], 
+  ["Violão", "Guitarra", "Instrumento Musical"], 
+  ["Gato", "Tigre", "Felino"],
+  ["Ouro", "Prata", "Metal Precioso"], 
+  ["Sol", "Lua", "Corpo Celeste"], 
+  ["Carro", "Moto", "Veículo"], 
+  ["Escola", "Faculdade", "Educação"],
+  ["Médico", "Enfermeiro", "Profissional da Saúde"], 
+  ["Padaria", "Supermercado", "Comércio"], 
+  ["Cerveja", "Vinho", "Bebida Alcoólica"], 
+  ["Chocolate", "Morango", "Sabor de Doce"]
 ];
 
 const roomsCollection = () => db?.collection("rooms");
@@ -120,31 +138,52 @@ async function startServer() {
             currentUserId = userId;
 
             let room = rooms.get(roomId);
+            if (!room && db) {
+              const dbRoom = await roomsCollection()?.findOne({ id: roomId });
+              if (dbRoom) {
+                const { _id, players, ...roomData } = dbRoom as any;
+                const playerMap = new Map<string, Player>();
+                Object.entries(players || {}).forEach(([id, p]: [string, any]) => {
+                  playerMap.set(id, { ...p, socket: undefined });
+                });
+                room = { ...roomData, players: playerMap };
+                rooms.set(roomId, room!);
+              }
+            }
             if (!room) {
               room = {
                 id: roomId,
                 status: 'lobby',
                 wordA: '',
                 wordB: '',
+                category: '',
                 impostorId: '',
                 hostId: userId,
+                messages: [],
                 players: new Map()
               };
               rooms.set(roomId, room);
             }
 
-            const player: Player = {
-              id: userId,
-              name,
-              role: 'normal',
-              word: '',
-              clue: '',
-              votes: 0,
-              isAlive: true,
-              isReady: false,
-              socket: ws
-            };
-            room.players.set(userId, player);
+            let player = room.players.get(userId);
+            if (player) {
+              player.socket = ws;
+              player.name = name;
+            } else {
+              player = {
+                id: userId,
+                name,
+                role: 'normal',
+                word: '',
+                clue: '',
+                votes: 0,
+                isAlive: true,
+                isReady: false,
+                joinTime: Date.now(),
+                socket: ws
+              };
+              room.players.set(userId, player);
+            }
             await saveRoomToDb(room);
             broadcastRoom(room);
             break;
@@ -161,8 +200,10 @@ async function startServer() {
             room.status = 'reveal';
             room.wordA = pair[0];
             room.wordB = pair[1];
+            room.category = pair[2];
             room.impostorId = impostorId;
             room.winner = undefined;
+            room.messages = [];
 
             room.players.forEach((p) => {
               p.role = p.id === impostorId ? 'impostor' : 'normal';
@@ -201,13 +242,46 @@ async function startServer() {
             const player = room.players.get(currentUserId!);
             if (!player) return;
 
+            const sortedPlayers = Array.from(room.players.values()).sort((a, b) => a.joinTime - b.joinTime);
+            const activePlayer = sortedPlayers.find(p => !p.clue);
+            
+            if (activePlayer?.id !== currentUserId) return;
+
             player.clue = payload.clue;
-            player.isReady = true;
-            const allClues = Array.from(room.players.values()).every(p => p.clue);
+            
+            const allClues = sortedPlayers.every(p => p.clue || p.id === currentUserId);
             if (allClues) {
               room.status = 'voting';
               room.players.forEach(p => p.isReady = false);
             }
+            await saveRoomToDb(room);
+            broadcastRoom(room);
+            break;
+          }
+
+          case "CHAT": {
+            console.log(`[CHAT RECEIVED] room:${currentRoomId} user:${currentUserId}`);
+            const room = rooms.get(currentRoomId!);
+            if (!room) {
+              console.warn(`[CHAT IGNORED] Room not found: ${currentRoomId}`);
+              return;
+            }
+            const player = room.players.get(currentUserId!);
+            if (!player) {
+              console.warn(`[CHAT IGNORED] Player not found: ${currentUserId} in ${currentRoomId}`);
+              return;
+            }
+
+            console.log(`[CHAT OK] pushing message from ${player.name}`);
+            room.messages.push({
+              userId: currentUserId!,
+              name: player.name,
+              text: payload.text
+            });
+            
+            if (room.messages.length > 50) room.messages.shift();
+            
+            console.log(`[CHAT] ${player.name} em ${room.id}: ${payload.text}`);
             await saveRoomToDb(room);
             broadcastRoom(room);
             break;
@@ -267,10 +341,14 @@ async function startServer() {
       status: room.status,
       wordA: room.wordA,
       wordB: room.wordB,
+      category: room.category,
       impostorId: room.impostorId,
       hostId: room.hostId,
+      messages: room.messages,
       winner: room.winner,
-      players: Array.from(room.players.values()).map(({ socket, ...p }) => p)
+      players: Array.from(room.players.values())
+        .sort((a, b) => a.joinTime - b.joinTime)
+        .map(({ socket, ...p }) => p)
     };
 
     room.players.forEach((p) => {

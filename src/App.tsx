@@ -17,7 +17,8 @@ import {
   Trophy, 
   AlertCircle,
   Hash,
-  Crown
+  Crown,
+  Send
 } from 'lucide-react';
 
 // --- Types ---
@@ -31,9 +32,9 @@ interface Player {
   word: string;
   clue: string;
   votes: number;
-  isAlive: boolean;
   isReady: boolean;
   votedFor?: string;
+  joinTime: number;
 }
 
 interface Room {
@@ -41,8 +42,10 @@ interface Room {
   status: GameStatus;
   wordA: string;
   wordB: string;
+  category: string;
   impostorId: string;
   hostId: string;
+  messages: { userId: string, name: string, text: string }[];
   winner?: 'normal' | 'impostor';
   players: Player[];
 }
@@ -51,22 +54,30 @@ interface Room {
 
 export default function App() {
   const [userId] = useState(() => {
-    const saved = localStorage.getItem('impostor_user_id');
+    const saved = sessionStorage.getItem('impostor_user_id');
     if (saved) return saved;
     const newId = Math.random().toString(36).substring(2, 12);
-    localStorage.setItem('impostor_user_id', newId);
+    sessionStorage.setItem('impostor_user_id', newId);
     return newId;
   });
 
   const [roomCode, setRoomCode] = useState('');
-  const [playerName, setPlayerName] = useState(() => localStorage.getItem('impostor_player_name') || '');
+  const [playerName, setPlayerName] = useState(() => sessionStorage.getItem('impostor_player_name') || '');
   const [room, setRoom] = useState<Room | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [showWord, setShowWord] = useState(false);
   const [clueInput, setClueInput] = useState('');
+  const [chatInput, setChatInput] = useState('');
   const [connected, setConnected] = useState(false);
   
   const socketRef = useRef<WebSocket | null>(null);
+  const chatEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (room?.messages) {
+      chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [room?.messages]);
 
   useEffect(() => {
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
@@ -87,12 +98,19 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('impostor_player_name', playerName);
+    sessionStorage.setItem('impostor_player_name', playerName);
   }, [playerName]);
 
+  // Auto-rejoin on reconnect
+  useEffect(() => {
+    if (connected && room?.id && playerName) {
+      send("JOIN", { roomId: room.id, userId, name: playerName });
+    }
+  }, [connected]);
+
   const currentPlayer = useMemo(() => {
-    return room?.players.find(p => p.id === userId);
-  }, [room, userId]);
+    return (room?.players || []).find(p => p.id === userId);
+  }, [room?.players, userId]);
 
   const isHost = room?.hostId === userId;
 
@@ -124,7 +142,7 @@ export default function App() {
   };
 
   const startGame = () => {
-    if ((room?.players.length || 0) < 3) return setError("Mínimo de 3 jogadores!");
+    if ((room?.players?.length || 0) < 3) return setError("Mínimo de 3 jogadores!");
     send("START_GAME", {});
   };
 
@@ -136,6 +154,12 @@ export default function App() {
     if (!clueInput.trim()) return;
     send("CLUE", { clue: clueInput.trim() });
     setClueInput('');
+  };
+
+  const submitChat = () => {
+    if (!chatInput.trim()) return;
+    send("CHAT", { text: chatInput.trim() });
+    setChatInput('');
   };
 
   const submitVote = (targetId: string) => {
@@ -293,8 +317,13 @@ export default function App() {
               {room.status === 'reveal' && (
                 <div className="flex-1 flex flex-col items-center justify-center text-center space-y-8">
                   <div className="space-y-2">
-                    <h2 className="text-2xl font-bold">Sua Palavra Secreta</h2>
-                    <p className="text-zinc-500 text-sm">Não deixe ninguém ver!</p>
+                    <h2 className="text-2xl font-bold italic uppercase tracking-tighter">Sua Palavra Secreta</h2>
+                    <div className="flex flex-col gap-1">
+                      <p className="text-zinc-500 text-sm font-medium">Não deixe ninguém ver!</p>
+                      <div className="bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-full w-fit mx-auto">
+                        <p className="text-[10px] font-bold uppercase tracking-widest text-emerald-500">Dica: {room.category}</p>
+                      </div>
+                    </div>
                   </div>
 
                   <button 
@@ -309,9 +338,20 @@ export default function App() {
                       <motion.div 
                         initial={{ scale: 0.8, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
-                        className="space-y-2"
+                        className="space-y-4"
                       >
-                        <p className="text-4xl font-black text-emerald-500 uppercase tracking-tighter">{currentPlayer?.word}</p>
+                        <div className="space-y-1">
+                          <p className="text-4xl font-black text-emerald-500 uppercase tracking-tighter">{currentPlayer?.word}</p>
+                          {currentPlayer?.role === 'impostor' && (
+                            <motion.p 
+                              initial={{ opacity: 0, y: 5 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              className="text-[10px] font-black bg-red-500 text-white px-2 py-0.5 rounded uppercase tracking-widest animate-pulse"
+                            >
+                              ⚠️ VOCÊ É O IMPOSTOR
+                            </motion.p>
+                          )}
+                        </div>
                         <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Solte para esconder</p>
                       </motion.div>
                     ) : (
@@ -340,73 +380,137 @@ export default function App() {
               {/* Clues View */}
               {room.status === 'clues' && (
                 <div className="flex-1 flex flex-col">
-                  <div className="mb-8 text-center">
-                    <h2 className="text-xl font-bold mb-2">Hora da Dica</h2>
-                    <p className="text-zinc-500 text-sm">Dê uma dica de UMA PALAVRA sobre o que você recebeu.</p>
+                  <div className="mb-6 text-center">
+                    <h2 className="text-xl font-bold mb-1 italic uppercase tracking-tighter">Hora da Dica</h2>
+                    <p className="text-zinc-500 text-xs">Apenas um jogador fala por vez.</p>
                   </div>
 
-                  <div className="space-y-3 mb-8 flex-1 overflow-y-auto pr-2 custom-scrollbar">
-                    {room.players.map((p) => (
-                      <div key={p.id} className="bg-zinc-900 border border-zinc-800 p-4 rounded-2xl flex items-center justify-between">
-                        <span className="font-medium">{p.name}</span>
-                        {p.clue ? (
-                          <span className="bg-emerald-500/10 text-emerald-500 px-3 py-1 rounded-lg text-sm font-bold uppercase tracking-wider">
-                            {p.clue}
-                          </span>
-                        ) : (
-                          <span className="text-zinc-600 text-xs italic">Pensando...</span>
-                        )}
+                  <div className="space-y-3 mb-6 flex-1 overflow-y-auto pr-2 custom-scrollbar">
+                    {(() => {
+                      const players = room?.players || [];
+                      const activePlayer = players.find(p => !p.clue);
+                      return players.map((p) => {
+                        const isTurn = activePlayer?.id === p.id;
+                        return (
+                          <div 
+                            key={p.id} 
+                            className={cn(
+                              "bg-zinc-900 border p-4 rounded-2xl flex items-center justify-between transition-all",
+                              isTurn ? "border-emerald-500 shadow-lg shadow-emerald-500/10" : "border-zinc-800 opacity-60"
+                            )}
+                          >
+                            <div className="flex items-center gap-3">
+                              <div className={cn("w-2 h-2 rounded-full", isTurn ? "bg-emerald-500 animate-pulse" : "bg-zinc-800")} />
+                              <span className={cn("font-bold text-sm", isTurn ? "text-white" : "text-zinc-500")}>{p.name}</span>
+                            </div>
+                            {p.clue ? (
+                              <span className="bg-emerald-500/10 text-emerald-500 px-3 py-1 rounded-lg text-xs font-black uppercase tracking-widest border border-emerald-500/20">
+                                {p.clue}
+                              </span>
+                            ) : (
+                              <span className="text-zinc-700 text-[10px] font-bold uppercase tracking-widest italic">
+                                {isTurn ? "Digitando..." : "Aguardando..."}
+                              </span>
+                            )}
+                          </div>
+                        );
+                      });
+                    })()}
+                  </div>
+
+                  {(() => {
+                    const players = room?.players || [];
+                    const activePlayer = players.find(p => !p.clue);
+                    return activePlayer?.id === userId && (
+                      <div className="flex gap-2 animate-in fade-in slide-in-from-bottom-2">
+                        <input 
+                          type="text" 
+                          value={clueInput}
+                          onChange={(e) => setClueInput(e.target.value)}
+                          placeholder="Sua dica única..."
+                          autoFocus
+                          className="flex-1 bg-zinc-900 border border-zinc-800 rounded-2xl px-5 py-4 focus:outline-none focus:border-emerald-500 transition-colors uppercase font-bold text-sm tracking-widest placeholder:text-zinc-700 placeholder:italic placeholder:tracking-normal"
+                          onKeyDown={(e) => e.key === 'Enter' && submitClue()}
+                        />
+                        <button 
+                          onClick={submitClue}
+                          className="bg-emerald-600 hover:bg-emerald-500 text-white px-6 rounded-2xl transition-all shadow-lg shadow-emerald-900/20"
+                        >
+                          <MessageSquare size={20} />
+                        </button>
                       </div>
-                    ))}
-                  </div>
-
-                  {!currentPlayer?.clue && (
-                    <div className="flex gap-2">
-                      <input 
-                        type="text" 
-                        value={clueInput}
-                        onChange={(e) => setClueInput(e.target.value)}
-                        placeholder="Sua dica..."
-                        className="flex-1 bg-zinc-900 border border-zinc-800 rounded-2xl px-5 py-4 focus:outline-none focus:border-emerald-500 transition-colors"
-                        onKeyDown={(e) => e.key === 'Enter' && submitClue()}
-                      />
-                      <button 
-                        onClick={submitClue}
-                        className="bg-emerald-600 hover:bg-emerald-500 text-white px-6 rounded-2xl transition-all"
-                      >
-                        <MessageSquare size={20} />
-                      </button>
-                    </div>
-                  )}
+                    );
+                  })()}
                 </div>
               )}
 
               {/* Voting View */}
               {room.status === 'voting' && (
-                <div className="flex-1 flex flex-col">
-                  <div className="mb-8 text-center">
-                    <h2 className="text-xl font-bold mb-2">Quem é o Impostor?</h2>
-                    <p className="text-zinc-500 text-sm">Vote em quem você acha que recebeu a palavra errada.</p>
+                <div className="flex-1 flex flex-col max-h-[70vh]">
+                  <div className="mb-4 text-center">
+                    <h2 className="text-xl font-bold italic uppercase tracking-tighter">Debate e Votação</h2>
+                    <p className="text-zinc-500 text-xs">Discuta no chat e selecione o impostor.</p>
+                    <p className="text-[10px] text-zinc-700 font-bold uppercase tracking-widest mt-1">
+                      {room?.messages?.length || 0} mensagens recebidas
+                    </p>
                   </div>
 
-                  <div className="space-y-3 mb-8 flex-1">
-                    {room.players.map((p) => (
+                  {/* Chat Section */}
+                  <div className="flex-1 bg-zinc-900/30 border border-zinc-900 rounded-3xl mb-4 flex flex-col overflow-hidden">
+                    <div className="flex-1 overflow-y-auto p-4 space-y-3 custom-scrollbar">
+                      {(room?.messages || []).length === 0 && (
+                        <p className="text-center text-zinc-700 text-[10px] uppercase font-bold tracking-widest mt-8">Nenhuma mensagem ainda...</p>
+                      )}
+                      {(room?.messages || []).map((msg, i) => (
+                        <div key={i} className={cn("flex flex-col gap-1", msg?.userId === userId ? "items-end" : "items-start")}>
+                          <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest px-2">{msg?.name}</span>
+                          <div className={cn(
+                            "max-w-[80%] px-4 py-2 rounded-2xl text-sm",
+                            msg?.userId === userId 
+                              ? "bg-emerald-600 text-white rounded-tr-none" 
+                              : "bg-zinc-800 text-zinc-300 rounded-tl-none"
+                          )}>
+                            {msg?.text}
+                          </div>
+                        </div>
+                      ))}
+                      <div ref={chatEndRef} />
+                    </div>
+                    
+                    <div className="p-2 bg-zinc-900/50 border-t border-zinc-800 flex gap-2">
+                       <input 
+                        type="text" 
+                        value={chatInput}
+                        onChange={(e) => setChatInput(e.target.value)}
+                        placeholder="Debata aqui..."
+                        className="flex-1 bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2 focus:outline-none focus:border-emerald-500 transition-colors text-sm"
+                        onKeyDown={(e) => e.key === 'Enter' && submitChat()}
+                      />
                       <button 
-                        key={p.id} 
-                        disabled={!!currentPlayer?.votedFor || p.id === userId}
-                        onClick={() => submitVote(p.id)}
+                        onClick={submitChat}
+                        className="bg-emerald-600 hover:bg-emerald-500 text-white px-4 rounded-xl transition-all shadow-lg shadow-emerald-900/10"
+                      >
+                        <Send size={16} />
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-2 mb-2">
+                    {(room?.players || []).map((p) => (
+                      <button 
+                        key={p?.id} 
+                        disabled={!!currentPlayer?.votedFor || p?.id === userId}
+                        onClick={() => p?.id && submitVote(p.id)}
                         className={cn(
-                          "w-full p-4 rounded-2xl border flex items-center justify-between transition-all text-left",
-                          currentPlayer?.votedFor === p.id 
+                          "p-3 rounded-2xl border flex flex-col items-center justify-center transition-all text-center gap-1",
+                          currentPlayer?.votedFor === p?.id 
                             ? "bg-emerald-500/10 border-emerald-500/50" 
                             : "bg-zinc-900 border-zinc-800 hover:border-zinc-700 disabled:opacity-50"
                         )}
                       >
-                        <div>
-                          <p className="font-bold">{p.name}</p>
-                          <p className="text-xs text-zinc-500 uppercase tracking-widest font-bold">Dica: {p.clue}</p>
-                        </div>
-                        {currentPlayer?.votedFor === p.id && <Vote size={20} className="text-emerald-500" />}
+                        <p className="font-bold text-sm truncate w-full">{p?.name}</p>
+                        <p className="text-[10px] text-zinc-500 uppercase tracking-widest font-black truncate w-full">{p?.clue}</p>
+                        {currentPlayer?.votedFor === p?.id && <Vote size={14} className="text-emerald-500" />}
                       </button>
                     ))}
                   </div>
@@ -433,11 +537,11 @@ export default function App() {
                   <div className="bg-zinc-900 border border-zinc-800 p-6 rounded-3xl w-full space-y-4">
                     <div className="flex justify-between items-center border-b border-zinc-800 pb-4">
                       <span className="text-xs font-bold uppercase tracking-widest text-zinc-500">Impostor</span>
-                      <span className="font-bold text-red-400">{room.players.find(p => p.id === room.impostorId)?.name}</span>
+                      <span className="font-bold text-red-400">{(room?.players || []).find(p => p.id === room?.impostorId)?.name || 'Desconhecido'}</span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-xs font-bold uppercase tracking-widest text-zinc-500">Palavras</span>
-                      <span className="font-bold">{room.wordA} vs {room.wordB}</span>
+                      <span className="font-bold">{room?.wordA} vs {room?.wordB}</span>
                     </div>
                   </div>
 
