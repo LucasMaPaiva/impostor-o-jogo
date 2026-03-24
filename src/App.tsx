@@ -269,7 +269,7 @@ function GameContainer() {
               </div>
 
               {/* Sidebar Chat */}
-              <aside className="w-full lg:w-[360px] lg:sticky lg:top-12 flex flex-col h-[500px] lg:h-[calc(100vh-160px)]">
+              <aside className="w-full lg:w-[400px] lg:sticky lg:top-8 flex flex-col h-[500px] lg:h-[calc(100vh-120px)] shrink-0">
                 <Chat 
                   room={room}
                   userId={userId}

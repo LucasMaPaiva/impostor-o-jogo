@@ -22,7 +22,7 @@ export function Chat({ room, userId, chatInput, onChatInputChange, onSendChat }:
   }, [room?.messages]);
 
   return (
-    <div className="flex-1 lg:flex-none lg:w-80 bg-zinc-900/40 border border-zinc-800/60 rounded-3xl flex flex-col overflow-hidden backdrop-blur-md">
+    <div className="flex-1 w-full bg-zinc-900/40 border border-zinc-800/60 rounded-3xl flex flex-col overflow-hidden backdrop-blur-md h-full">
       <div className="p-4 border-b border-zinc-800/80 bg-zinc-900/50">
         <h3 className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Debate & Estratégia</h3>
       </div>
