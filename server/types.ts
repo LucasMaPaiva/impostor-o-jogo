@@ -26,9 +26,9 @@ export interface Room {
   wordA: string;
   wordB: string;
   category: string;
-  impostorId: string;
+  impostorIds: string[];
+  impostorCount: number;
   hostId: string;
-  messages: { userId: string; name: string; text: string }[];
   winner?: 'normal' | 'impostor';
   players: Map<string, Player>;
   reRoundVotes?: number;

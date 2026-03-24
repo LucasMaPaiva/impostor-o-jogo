@@ -39,6 +39,7 @@ function GameContainer() {
   const [error, setError] = useState<string | null>(null);
   const [clueInput, setClueInput] = useState('');
   const [chatInput, setChatInput] = useState('');
+  const [localMessages, setLocalMessages] = useState<{ userId: string; name: string; text: string }[]>([]);
   const [connected, setConnected] = useState(false);
   
   const socketRef = useRef<WebSocket | null>(null);
@@ -67,6 +68,8 @@ function GameContainer() {
         if (window.location.pathname !== `/room/${syncedRoom.id}`) {
           navigate(`/room/${syncedRoom.id}`, { replace: true });
         }
+      } else if (message.type === 'CHAT_MESSAGE') {
+        setLocalMessages(prev => [...prev, message.payload]);
       }
     };
 
@@ -108,6 +111,7 @@ function GameContainer() {
     const code = Math.random().toString(36).substring(2, 8).toUpperCase();
     if (send("JOIN", { roomId: code, userId, name: playerName })) {
       setError(null);
+      setLocalMessages([]); // Clear chat for new room
       navigate(`/room/${code}`);
     }
   };
@@ -119,6 +123,7 @@ function GameContainer() {
     
     if (send("JOIN", { roomId: targetCode, userId, name: playerName })) {
       setError(null);
+      setLocalMessages([]); // Clear chat for new room
       navigate(`/room/${targetCode}`);
     }
   };
@@ -149,10 +154,15 @@ function GameContainer() {
     send("VOTE", { targetId });
   };
 
+  const updateSettings = (settings: { impostorCount: number }) => {
+    send("SET_SETTINGS", settings);
+  };
+
   const leaveRoom = () => {
     navigate('/');
     setRoom(null);
     setRoomCode('');
+    setLocalMessages([]);
   };
 
   const copyRoomId = () => {
@@ -229,12 +239,14 @@ function GameContainer() {
                       currentUserId={userId} 
                       onStartGame={startGame} 
                       onCopyRoomId={copyRoomId} 
+                      onUpdateSettings={updateSettings}
                     />
                   )}
 
                   {room.status === 'reveal' && currentPlayer && (
                     <Reveal 
                       player={currentPlayer} 
+                      players={room.players}
                       category={room.category} 
                       isReady={currentPlayer.isReady} 
                       onReady={setReady} 
@@ -271,7 +283,7 @@ function GameContainer() {
               {/* Sidebar Chat */}
               <aside className="w-full lg:w-[400px] lg:sticky lg:top-8 flex flex-col h-[500px] lg:h-[calc(100vh-120px)] shrink-0">
                 <Chat 
-                  room={room}
+                  messages={localMessages}
                   userId={userId}
                   chatInput={chatInput}
                   onChatInputChange={setChatInput}

@@ -16,7 +16,8 @@ interface ResultsProps {
 export const Results: React.FC<ResultsProps> = ({ room, onPlayAgain }) => {
   const winner = room.winner;
   const wordA = room.wordA;
-  const impostorLabel = room.players.find(p => p.id === room.impostorId)?.name || 'Desconhecido';
+  const impostors = room.players.filter(p => room.impostorIds.includes(p.id));
+  const impostorNames = impostors.map(p => p.name).join(', ');
 
   return (
     <div className="flex-1 flex flex-col items-center justify-center text-center space-y-10">
@@ -43,9 +44,11 @@ export const Results: React.FC<ResultsProps> = ({ room, onPlayAgain }) => {
 
       <div className="w-full max-w-[280px] bg-zinc-900/50 border border-zinc-800/50 p-6 rounded-3xl space-y-6">
         <div className="space-y-3">
-          <div className="flex justify-between items-center text-zinc-400">
-            <span className="text-xs font-bold uppercase tracking-widest text-zinc-500">Impostor</span>
-            <span className="font-bold text-red-400">{impostorLabel}</span>
+          <div className="flex justify-between items-center text-zinc-400 gap-4">
+            <span className="text-xs font-bold uppercase tracking-widest text-zinc-500 whitespace-nowrap">
+              {impostors.length > 1 ? 'Impostores' : 'Impostor'}
+            </span>
+            <span className="font-bold text-red-400 text-right truncate">{impostorNames}</span>
           </div>
           <div className="flex justify-between items-center">
             <span className="text-xs font-bold uppercase tracking-widest text-zinc-500">Palavra</span>
