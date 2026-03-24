@@ -19,6 +19,8 @@ import { Voting } from './components/game/Voting';
 import { Results } from './components/game/Results';
 import { Routes, Route, useParams, useNavigate } from 'react-router-dom';
 
+import { Chat } from './components/game/Chat';
+
 function GameContainer() {
   const { roomId: urlRoomId } = useParams();
   const navigate = useNavigate();
@@ -40,7 +42,6 @@ function GameContainer() {
   const [connected, setConnected] = useState(false);
   
   const socketRef = useRef<WebSocket | null>(null);
-  const chatContainerRef = useRef<HTMLDivElement>(null);
 
   // Sync roomCode with URL if it changes externally
   useEffect(() => {
@@ -48,13 +49,6 @@ function GameContainer() {
       setRoomCode(urlRoomId.toUpperCase());
     }
   }, [urlRoomId]);
-
-  useEffect(() => {
-    if (chatContainerRef.current) {
-      const container = chatContainerRef.current;
-      container.scrollTop = container.scrollHeight;
-    }
-  }, [room?.messages]);
 
   useEffect(() => {
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
@@ -172,7 +166,10 @@ function GameContainer() {
 
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100 font-sans selection:bg-emerald-500/30">
-      <main className="max-w-md mx-auto px-6 py-12 min-h-screen flex flex-col">
+      <main className={cn(
+        "mx-auto px-6 py-12 min-h-screen flex flex-col",
+        room ? "max-w-6xl" : "max-w-md"
+      )}>
         
         <Header connected={connected} />
 
@@ -191,13 +188,15 @@ function GameContainer() {
             />
           ) : (
             <motion.div 
-              key="game"
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              className="flex-1 flex flex-col"
+              key="game-layout"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="flex-1 flex flex-col lg:flex-row gap-8 items-start"
             >
-              {/* Game Info Bar */}
+              {/* Main Content Area */}
+              <div className="flex-1 w-full flex flex-col min-w-0">
+                {/* Game Info Bar */}
                 <div className="flex items-center justify-between mb-8 bg-zinc-900/50 p-4 rounded-2xl border border-zinc-800">
                   <div className="flex items-center gap-3">
                     <div className="bg-emerald-500/10 p-2 rounded-xl text-emerald-500">
@@ -223,93 +222,62 @@ function GameContainer() {
                   </div>
                 </div>
 
-              {room.status === 'lobby' && (
-                <Lobby 
-                  room={room} 
-                  currentUserId={userId} 
-                  onStartGame={startGame} 
-                  onCopyRoomId={copyRoomId} 
-                />
-              )}
+                <AnimatePresence mode="wait">
+                  {room.status === 'lobby' && (
+                    <Lobby 
+                      room={room} 
+                      currentUserId={userId} 
+                      onStartGame={startGame} 
+                      onCopyRoomId={copyRoomId} 
+                    />
+                  )}
 
-              {room.status === 'reveal' && currentPlayer && (
-                <Reveal 
-                  player={currentPlayer} 
-                  category={room.category} 
-                  isReady={currentPlayer.isReady} 
-                  onReady={setReady} 
-                />
-              )}
+                  {room.status === 'reveal' && currentPlayer && (
+                    <Reveal 
+                      player={currentPlayer} 
+                      category={room.category} 
+                      isReady={currentPlayer.isReady} 
+                      onReady={setReady} 
+                    />
+                  )}
 
-              {room.status === 'clues' && (
-                <Clues 
-                  room={room} 
-                  currentUserId={userId} 
-                  clueInput={clueInput} 
-                  onClueChange={setClueInput} 
-                  onSendClue={submitClue} 
-                />
-              )}
+                  {room.status === 'clues' && (
+                    <Clues 
+                      room={room} 
+                      currentUserId={userId} 
+                      clueInput={clueInput} 
+                      onClueChange={setClueInput} 
+                      onSendClue={submitClue} 
+                    />
+                  )}
 
-              {room.status === 'voting' && (
-                <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
-                  <div className="shrink-0">
+                  {room.status === 'voting' && (
                     <Voting 
                       room={room} 
                       currentUserId={userId} 
                       onVote={submitVote} 
                     />
-                  </div>
-                  
-                  <div className="flex-1 min-h-[200px] bg-zinc-900/30 border border-zinc-900 rounded-3xl mb-4 flex flex-col overflow-hidden mt-6">
-                    <div 
-                      ref={chatContainerRef}
-                      className="flex-1 overflow-y-auto p-4 space-y-3 custom-scrollbar"
-                    >
-                      {(room?.messages || []).length === 0 && (
-                        <p className="text-center text-zinc-700 text-[10px] uppercase font-bold tracking-widest mt-8">Nenhuma mensagem ainda...</p>
-                      )}
-                      {(room?.messages || []).map((msg, i) => (
-                        <div key={i} className={cn("flex flex-col gap-1", msg?.userId === userId ? "items-end" : "items-start")}>
-                          <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest px-2">{msg?.name}</span>
-                          <div className={cn(
-                            "max-w-[80%] px-4 py-2 rounded-2xl text-sm",
-                            msg?.userId === userId 
-                              ? "bg-emerald-600 text-white rounded-tr-none" 
-                              : "bg-zinc-800 text-zinc-300 rounded-tl-none"
-                          )}>
-                            {msg?.text}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                    
-                    <div className="p-2 bg-zinc-900/50 border-t border-zinc-800 flex gap-2">
-                       <input 
-                        type="text" 
-                        value={chatInput}
-                        onChange={(e) => setChatInput(e.target.value)}
-                        placeholder="Debata aqui..."
-                        className="flex-1 bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2 focus:outline-none focus:border-emerald-500 transition-colors text-sm"
-                        onKeyDown={(e) => e.key === 'Enter' && submitChat()}
-                      />
-                      <button 
-                        onClick={submitChat}
-                        className="bg-emerald-600 hover:bg-emerald-500 text-white px-4 rounded-xl transition-all shadow-lg shadow-emerald-900/10"
-                      >
-                        <Send size={16} />
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              )}
+                  )}
 
-              {room.status === 'results' && (
-                <Results 
-                  room={room} 
-                  onPlayAgain={startGame} 
+                  {room.status === 'results' && (
+                    <Results 
+                      room={room} 
+                      onPlayAgain={startGame} 
+                    />
+                  )}
+                </AnimatePresence>
+              </div>
+
+              {/* Sidebar Chat */}
+              <aside className="w-full lg:w-[360px] lg:sticky lg:top-12 flex flex-col h-[500px] lg:h-[calc(100vh-160px)]">
+                <Chat 
+                  room={room}
+                  userId={userId}
+                  chatInput={chatInput}
+                  onChatInputChange={setChatInput}
+                  onSendChat={submitChat}
                 />
-              )}
+              </aside>
             </motion.div>
           )}
         </AnimatePresence>
