@@ -26,9 +26,10 @@ COPY package.json package-lock.json ./
 # Install only production dependencies
 RUN npm install --omit=dev
 
-# Copy built assets and server file
+# Copy built assets and server files
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/server.ts ./
+COPY --from=builder /app/server ./server
 COPY --from=builder /app/palavras_dicas_1000(1).json ./
 
 # Install tsx globally or as a dependency to run server.ts
