@@ -4,23 +4,28 @@ import { WebSocketServer, WebSocket } from "ws";
 import { MongoClient, Db } from "mongodb";
 import path from "path";
 import { fileURLToPath } from "url";
+import { readFileSync } from "fs";
+import "dotenv/config";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const PORT = 3000;
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/impostor";
+const PORT = Number(process.env.PORT) || 3000;
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://mongodb:27017/impostor";
 
 let db: Db | null = null;
 
 async function connectToMongo() {
   try {
-    const client = new MongoClient(MONGODB_URI);
+    const client = new MongoClient(MONGODB_URI, {
+      serverSelectionTimeoutMS: 5000,
+      connectTimeoutMS: 5000
+    });
     await client.connect();
     db = client.db();
-    console.log("Connected to MongoDB");
+    console.log("Connected to MongoDB at " + MONGODB_URI);
   } catch (err) {
-    console.error("Failed to connect to MongoDB, using in-memory fallback", err);
+    console.warn("MongoDB unavailable at " + MONGODB_URI + ". Using in-memory fallback (game sessions won't persist on restart).");
   }
 }
 
@@ -54,28 +59,47 @@ interface Room {
 
 const rooms = new Map<string, Room>();
 
-const WORD_PAIRS = [
-  ["Maçã", "Pêra", "Fruta"], 
-  ["Café", "Chá", "Bebida Quente"], 
-  ["Cachorro", "Lobo", "Animal"], 
-  ["Avião", "Helicóptero", "Transporte Aéreo"],
-  ["Praia", "Piscina", "Lugar para Nadar"], 
-  ["Livro", "Revista", "Leitura"], 
-  ["Futebol", "Basquete", "Esporte"], 
-  ["Pizza", "Hambúrguer", "Lanche"],
-  ["Inverno", "Verão", "Estação do Ano"], 
-  ["Cinema", "Teatro", "Entretenimento"], 
-  ["Violão", "Guitarra", "Instrumento Musical"], 
-  ["Gato", "Tigre", "Felino"],
-  ["Ouro", "Prata", "Metal Precioso"], 
-  ["Sol", "Lua", "Corpo Celeste"], 
-  ["Carro", "Moto", "Veículo"], 
-  ["Escola", "Faculdade", "Educação"],
-  ["Médico", "Enfermeiro", "Profissional da Saúde"], 
-  ["Padaria", "Supermercado", "Comércio"], 
-  ["Cerveja", "Vinho", "Bebida Alcoólica"], 
-  ["Chocolate", "Morango", "Sabor de Doce"]
-];
+// --- Word Loading ---
+interface WordData {
+  palavra: string;
+  dica: string;
+}
+
+const CATEGORIES = new Map<string, string[]>();
+
+try {
+  const jsonPath = path.join(__dirname, "palavras_dicas_1000(1).json");
+  const rawData = readFileSync(jsonPath, "utf-8");
+  const data: WordData[] = JSON.parse(rawData);
+  
+  data.forEach(item => {
+    if (!CATEGORIES.has(item.dica)) {
+      CATEGORIES.set(item.dica, []);
+    }
+    CATEGORIES.get(item.dica)!.push(item.palavra);
+  });
+  
+  console.log(`Loaded ${data.length} words into ${CATEGORIES.size} categories.`);
+} catch (err) {
+  console.error("Error loading words JSON. Using hardcoded survival list.", err);
+  CATEGORIES.set("Geral", ["Maçã", "Pêra", "Banana", "Uva", "Melancia", "Abacaxi"]);
+}
+
+function getRandomPair(): [string, string, string] {
+  // Filter categories that have at least 2 words
+  const validHints = Array.from(CATEGORIES.keys()).filter(h => CATEGORIES.get(h)!.length >= 2);
+  
+  if (validHints.length === 0) {
+    return ["Início", "Fim", "Sistema"];
+  }
+
+  const randomHint = validHints[Math.floor(Math.random() * validHints.length)];
+  const words = CATEGORIES.get(randomHint)!;
+  
+  // Pick two distinct random words
+  const shuffled = [...words].sort(() => 0.5 - Math.random());
+  return [shuffled[0], shuffled[1], randomHint];
+}
 
 const roomsCollection = () => db?.collection("rooms");
 
@@ -193,21 +217,21 @@ async function startServer() {
             const room = rooms.get(currentRoomId!);
             if (!room || room.hostId !== currentUserId) return;
 
-            const pair = WORD_PAIRS[Math.floor(Math.random() * WORD_PAIRS.length)];
+            const [wordA, wordB, category] = getRandomPair();
             const playerIds = Array.from(room.players.keys());
             const impostorId = playerIds[Math.floor(Math.random() * playerIds.length)];
 
             room.status = 'reveal';
-            room.wordA = pair[0];
-            room.wordB = pair[1];
-            room.category = pair[2];
+            room.wordA = wordA;
+            room.wordB = wordB;
+            room.category = category;
             room.impostorId = impostorId;
             room.winner = undefined;
             room.messages = [];
 
             room.players.forEach((p) => {
               p.role = p.id === impostorId ? 'impostor' : 'normal';
-              p.word = p.id === impostorId ? pair[1] : pair[0];
+              p.word = p.id === impostorId ? wordB : wordA;
               p.clue = '';
               p.votes = 0;
               p.votedFor = undefined;

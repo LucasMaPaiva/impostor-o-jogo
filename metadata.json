@@ -1,5 +1,5 @@
 {
-  "name": "Impostor das Palavras",
+  "name": "Impostor",
   "description": "Um jogo de dedução social onde um jogador recebe uma palavra diferente e deve fingir que sabe a palavra secreta.",
   "requestFramePermissions": []
 }

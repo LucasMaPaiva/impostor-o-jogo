@@ -1,0 +1,4002 @@
+[
+  {
+    "palavra": "pizza",
+    "dica": "fatia"
+  },
+  {
+    "palavra": "hamburguer",
+    "dica": "grelha"
+  },
+  {
+    "palavra": "sushi",
+    "dica": "hashi"
+  },
+  {
+    "palavra": "lasanha",
+    "dica": "camadas"
+  },
+  {
+    "palavra": "macarrao",
+    "dica": "garfo"
+  },
+  {
+    "palavra": "feijoada",
+    "dica": "panela"
+  },
+  {
+    "palavra": "churrasco",
+    "dica": "brasa"
+  },
+  {
+    "palavra": "coxinha",
+    "dica": "recheio"
+  },
+  {
+    "palavra": "pastel",
+    "dica": "feira"
+  },
+  {
+    "palavra": "esfiha",
+    "dica": "arabe"
+  },
+  {
+    "palavra": "empada",
+    "dica": "massa"
+  },
+  {
+    "palavra": "risoto",
+    "dica": "cremoso"
+  },
+  {
+    "palavra": "nhoque",
+    "dica": "molho"
+  },
+  {
+    "palavra": "taco",
+    "dica": "pimenta"
+  },
+  {
+    "palavra": "burrito",
+    "dica": "enrolado"
+  },
+  {
+    "palavra": "paella",
+    "dica": "acafrao"
+  },
+  {
+    "palavra": "ramen",
+    "dica": "caldo"
+  },
+  {
+    "palavra": "yakisoba",
+    "dica": "salteado"
+  },
+  {
+    "palavra": "strogonoff",
+    "dica": "creme"
+  },
+  {
+    "palavra": "panqueca",
+    "dica": "recheio"
+  },
+  {
+    "palavra": "omelete",
+    "dica": "frigideira"
+  },
+  {
+    "palavra": "salada",
+    "dica": "folhas"
+  },
+  {
+    "palavra": "farofa",
+    "dica": "manteiga"
+  },
+  {
+    "palavra": "acaraje",
+    "dica": "dende"
+  },
+  {
+    "palavra": "vatapa",
+    "dica": "baiano"
+  },
+  {
+    "palavra": "moqueca",
+    "dica": "coentro"
+  },
+  {
+    "palavra": "bobodecamarao",
+    "dica": "mandioca"
+  },
+  {
+    "palavra": "pamonha",
+    "dica": "milho"
+  },
+  {
+    "palavra": "curau",
+    "dica": "canela"
+  },
+  {
+    "palavra": "pipoca",
+    "dica": "estouro"
+  },
+  {
+    "palavra": "brigadeiro",
+    "dica": "granulado"
+  },
+  {
+    "palavra": "beijinho",
+    "dica": "coco"
+  },
+  {
+    "palavra": "quindim",
+    "dica": "gema"
+  },
+  {
+    "palavra": "pudim",
+    "dica": "calda"
+  },
+  {
+    "palavra": "sorvete",
+    "dica": "casquinha"
+  },
+  {
+    "palavra": "gelato",
+    "dica": "italiano"
+  },
+  {
+    "palavra": "acai",
+    "dica": "tigela"
+  },
+  {
+    "palavra": "mousse",
+    "dica": "aerado"
+  },
+  {
+    "palavra": "cheesecake",
+    "dica": "frutas"
+  },
+  {
+    "palavra": "brownie",
+    "dica": "cacau"
+  },
+  {
+    "palavra": "croissant",
+    "dica": "folhado"
+  },
+  {
+    "palavra": "baguete",
+    "dica": "frances"
+  },
+  {
+    "palavra": "bagel",
+    "dica": "anel"
+  },
+  {
+    "palavra": "waffle",
+    "dica": "quadrados"
+  },
+  {
+    "palavra": "panetone",
+    "dica": "frutas"
+  },
+  {
+    "palavra": "torrada",
+    "dica": "crocante"
+  },
+  {
+    "palavra": "crepioca",
+    "dica": "goma"
+  },
+  {
+    "palavra": "tapioca",
+    "dica": "goma"
+  },
+  {
+    "palavra": "cuscuz",
+    "dica": "flocos"
+  },
+  {
+    "palavra": "mingau",
+    "dica": "colher"
+  },
+  {
+    "palavra": "cafe",
+    "dica": "aroma"
+  },
+  {
+    "palavra": "capuccino",
+    "dica": "espuma"
+  },
+  {
+    "palavra": "latte",
+    "dica": "vaporizado"
+  },
+  {
+    "palavra": "espresso",
+    "dica": "dose"
+  },
+  {
+    "palavra": "cha",
+    "dica": "infusao"
+  },
+  {
+    "palavra": "suco",
+    "dica": "polpa"
+  },
+  {
+    "palavra": "refrigerante",
+    "dica": "gas"
+  },
+  {
+    "palavra": "agua",
+    "dica": "sede"
+  },
+  {
+    "palavra": "vinho",
+    "dica": "safra"
+  },
+  {
+    "palavra": "cerveja",
+    "dica": "lupulo"
+  },
+  {
+    "palavra": "whisky",
+    "dica": "barril"
+  },
+  {
+    "palavra": "vodka",
+    "dica": "destilado"
+  },
+  {
+    "palavra": "gin",
+    "dica": "tonica"
+  },
+  {
+    "palavra": "champanhe",
+    "dica": "brinde"
+  },
+  {
+    "palavra": "tequila",
+    "dica": "agave"
+  },
+  {
+    "palavra": "rum",
+    "dica": "pirata"
+  },
+  {
+    "palavra": "licor",
+    "dica": "doce"
+  },
+  {
+    "palavra": "limonada",
+    "dica": "acidez"
+  },
+  {
+    "palavra": "mate",
+    "dica": "erva"
+  },
+  {
+    "palavra": "chimarrao",
+    "dica": "cuia"
+  },
+  {
+    "palavra": "milkshake",
+    "dica": "canudo"
+  },
+  {
+    "palavra": "vitamina",
+    "dica": "liquidificador"
+  },
+  {
+    "palavra": "elefante",
+    "dica": "memoria"
+  },
+  {
+    "palavra": "leao",
+    "dica": "juba"
+  },
+  {
+    "palavra": "tigre",
+    "dica": "listras"
+  },
+  {
+    "palavra": "zebra",
+    "dica": "faixas"
+  },
+  {
+    "palavra": "girafa",
+    "dica": "pescoco"
+  },
+  {
+    "palavra": "rinoceronte",
+    "dica": "chifre"
+  },
+  {
+    "palavra": "hipopotamo",
+    "dica": "lama"
+  },
+  {
+    "palavra": "macaco",
+    "dica": "galho"
+  },
+  {
+    "palavra": "gorila",
+    "dica": "prata"
+  },
+  {
+    "palavra": "chimpanze",
+    "dica": "ferramenta"
+  },
+  {
+    "palavra": "orangotango",
+    "dica": "selva"
+  },
+  {
+    "palavra": "lobo",
+    "dica": "alcateia"
+  },
+  {
+    "palavra": "raposa",
+    "dica": "astucia"
+  },
+  {
+    "palavra": "urso",
+    "dica": "hibernacao"
+  },
+  {
+    "palavra": "panda",
+    "dica": "bambu"
+  },
+  {
+    "palavra": "koala",
+    "dica": "eucalipto"
+  },
+  {
+    "palavra": "canguru",
+    "dica": "bolsa"
+  },
+  {
+    "palavra": "lontra",
+    "dica": "rio"
+  },
+  {
+    "palavra": "castor",
+    "dica": "represa"
+  },
+  {
+    "palavra": "esquilo",
+    "dica": "noz"
+  },
+  {
+    "palavra": "coelho",
+    "dica": "cenoura"
+  },
+  {
+    "palavra": "lebre",
+    "dica": "rapidez"
+  },
+  {
+    "palavra": "tartaruga",
+    "dica": "casco"
+  },
+  {
+    "palavra": "jabuti",
+    "dica": "longevidade"
+  },
+  {
+    "palavra": "cobra",
+    "dica": "peconha"
+  },
+  {
+    "palavra": "jacare",
+    "dica": "pantano"
+  },
+  {
+    "palavra": "crocodilo",
+    "dica": "mordida"
+  },
+  {
+    "palavra": "lagarto",
+    "dica": "escamas"
+  },
+  {
+    "palavra": "camaleao",
+    "dica": "disfarce"
+  },
+  {
+    "palavra": "iguana",
+    "dica": "tropical"
+  },
+  {
+    "palavra": "sapo",
+    "dica": "coaxo"
+  },
+  {
+    "palavra": "ra",
+    "dica": "lagoa"
+  },
+  {
+    "palavra": "salamandra",
+    "dica": "anfibio"
+  },
+  {
+    "palavra": "polvo",
+    "dica": "tentaculos"
+  },
+  {
+    "palavra": "lula",
+    "dica": "jato"
+  },
+  {
+    "palavra": "baleia",
+    "dica": "oceano"
+  },
+  {
+    "palavra": "golfinho",
+    "dica": "ecolocalizacao"
+  },
+  {
+    "palavra": "tubarao",
+    "dica": "barbatana"
+  },
+  {
+    "palavra": "arraia",
+    "dica": "ferrão"
+  },
+  {
+    "palavra": "peixe",
+    "dica": "guelras"
+  },
+  {
+    "palavra": "sardinha",
+    "dica": "lata"
+  },
+  {
+    "palavra": "atum",
+    "dica": "cardume"
+  },
+  {
+    "palavra": "pinguim",
+    "dica": "antartida"
+  },
+  {
+    "palavra": "gaivota",
+    "dica": "litoral"
+  },
+  {
+    "palavra": "aguia",
+    "dica": "altitude"
+  },
+  {
+    "palavra": "falcao",
+    "dica": "rasante"
+  },
+  {
+    "palavra": "coruja",
+    "dica": "noturno"
+  },
+  {
+    "palavra": "papagaio",
+    "dica": "repeticao"
+  },
+  {
+    "palavra": "arara",
+    "dica": "colorido"
+  },
+  {
+    "palavra": "canario",
+    "dica": "gaiola"
+  },
+  {
+    "palavra": "pardal",
+    "dica": "calcada"
+  },
+  {
+    "palavra": "pombo",
+    "dica": "praca"
+  },
+  {
+    "palavra": "galinha",
+    "dica": "terreiro"
+  },
+  {
+    "palavra": "galo",
+    "dica": "madrugada"
+  },
+  {
+    "palavra": "pato",
+    "dica": "lago"
+  },
+  {
+    "palavra": "cisne",
+    "dica": "elegancia"
+  },
+  {
+    "palavra": "pavao",
+    "dica": "exibicao"
+  },
+  {
+    "palavra": "avestruz",
+    "dica": "corrida"
+  },
+  {
+    "palavra": "ema",
+    "dica": "cerrado"
+  },
+  {
+    "palavra": "camelo",
+    "dica": "deserto"
+  },
+  {
+    "palavra": "alpaca",
+    "dica": "lã"
+  },
+  {
+    "palavra": "ovelha",
+    "dica": "rebanho"
+  },
+  {
+    "palavra": "cabra",
+    "dica": "serra"
+  },
+  {
+    "palavra": "boi",
+    "dica": "curral"
+  },
+  {
+    "palavra": "vaca",
+    "dica": "ordenha"
+  },
+  {
+    "palavra": "cavalo",
+    "dica": "sela"
+  },
+  {
+    "palavra": "burro",
+    "dica": "carga"
+  },
+  {
+    "palavra": "porco",
+    "dica": "chiqueiro"
+  },
+  {
+    "palavra": "javali",
+    "dica": "presas"
+  },
+  {
+    "palavra": "veado",
+    "dica": "galhadas"
+  },
+  {
+    "palavra": "alce",
+    "dica": "neve"
+  },
+  {
+    "palavra": "anta",
+    "dica": "amazonia"
+  },
+  {
+    "palavra": "onca",
+    "dica": "pintas"
+  },
+  {
+    "palavra": "guepardo",
+    "dica": "velocidade"
+  },
+  {
+    "palavra": "hiena",
+    "dica": "risada"
+  },
+  {
+    "palavra": "texugo",
+    "dica": "toca"
+  },
+  {
+    "palavra": "ouriço",
+    "dica": "espinhos"
+  },
+  {
+    "palavra": "morcego",
+    "dica": "ultrassom"
+  },
+  {
+    "palavra": "abelha",
+    "dica": "colmeia"
+  },
+  {
+    "palavra": "vespa",
+    "dica": "ferroada"
+  },
+  {
+    "palavra": "formiga",
+    "dica": "trilha"
+  },
+  {
+    "palavra": "cupim",
+    "dica": "madeira"
+  },
+  {
+    "palavra": "borboleta",
+    "dica": "metamorfose"
+  },
+  {
+    "palavra": "mariposa",
+    "dica": "lampada"
+  },
+  {
+    "palavra": "joaninha",
+    "dica": "pintas"
+  },
+  {
+    "palavra": "grilo",
+    "dica": "estridulo"
+  },
+  {
+    "palavra": "gafanhoto",
+    "dica": "salto"
+  },
+  {
+    "palavra": "barata",
+    "dica": "esgoto"
+  },
+  {
+    "palavra": "mosquito",
+    "dica": "picada"
+  },
+  {
+    "palavra": "mosca",
+    "dica": "zumbido"
+  },
+  {
+    "palavra": "libelula",
+    "dica": "alagado"
+  },
+  {
+    "palavra": "aranha",
+    "dica": "teia"
+  },
+  {
+    "palavra": "escorpiao",
+    "dica": "ferrão"
+  },
+  {
+    "palavra": "caracol",
+    "dica": "lento"
+  },
+  {
+    "palavra": "lesma",
+    "dica": "viscoso"
+  },
+  {
+    "palavra": "caranguejo",
+    "dica": "pinças"
+  },
+  {
+    "palavra": "lagosta",
+    "dica": "casca"
+  },
+  {
+    "palavra": "ostra",
+    "dica": "perola"
+  },
+  {
+    "palavra": "mexilhao",
+    "dica": "concha"
+  },
+  {
+    "palavra": "estrela-do-mar",
+    "dica": "radial"
+  },
+  {
+    "palavra": "ouriço-do-mar",
+    "dica": "espinhos"
+  },
+  {
+    "palavra": "planeta",
+    "dica": "orbita"
+  },
+  {
+    "palavra": "terra",
+    "dica": "continentes"
+  },
+  {
+    "palavra": "marte",
+    "dica": "vermelho"
+  },
+  {
+    "palavra": "venus",
+    "dica": "nuvens"
+  },
+  {
+    "palavra": "mercurio",
+    "dica": "proximo"
+  },
+  {
+    "palavra": "jupiter",
+    "dica": "gigante"
+  },
+  {
+    "palavra": "saturno",
+    "dica": "aneis"
+  },
+  {
+    "palavra": "urano",
+    "dica": "inclinado"
+  },
+  {
+    "palavra": "netuno",
+    "dica": "azul"
+  },
+  {
+    "palavra": "plutao",
+    "dica": "anão"
+  },
+  {
+    "palavra": "sol",
+    "dica": "astro"
+  },
+  {
+    "palavra": "lua",
+    "dica": "mares"
+  },
+  {
+    "palavra": "estrela",
+    "dica": "brilho"
+  },
+  {
+    "palavra": "cometa",
+    "dica": "cauda"
+  },
+  {
+    "palavra": "asteroide",
+    "dica": "cinturao"
+  },
+  {
+    "palavra": "galaxia",
+    "dica": "espiral"
+  },
+  {
+    "palavra": "universo",
+    "dica": "infinito"
+  },
+  {
+    "palavra": "meteoro",
+    "dica": "rastro"
+  },
+  {
+    "palavra": "eclipse",
+    "dica": "sombra"
+  },
+  {
+    "palavra": "constelacao",
+    "dica": "desenho"
+  },
+  {
+    "palavra": "oceano",
+    "dica": "profundidade"
+  },
+  {
+    "palavra": "mar",
+    "dica": "sal"
+  },
+  {
+    "palavra": "rio",
+    "dica": "correnteza"
+  },
+  {
+    "palavra": "lago",
+    "dica": "margem"
+  },
+  {
+    "palavra": "cachoeira",
+    "dica": "queda"
+  },
+  {
+    "palavra": "montanha",
+    "dica": "altitude"
+  },
+  {
+    "palavra": "vulcao",
+    "dica": "lava"
+  },
+  {
+    "palavra": "ilha",
+    "dica": "isolamento"
+  },
+  {
+    "palavra": "praia",
+    "dica": "areia"
+  },
+  {
+    "palavra": "deserto",
+    "dica": "dunas"
+  },
+  {
+    "palavra": "floresta",
+    "dica": "copas"
+  },
+  {
+    "palavra": "selva",
+    "dica": "umidade"
+  },
+  {
+    "palavra": "pantano",
+    "dica": "charco"
+  },
+  {
+    "palavra": "geleira",
+    "dica": "gelo"
+  },
+  {
+    "palavra": "iceberg",
+    "dica": "deriva"
+  },
+  {
+    "palavra": "caverna",
+    "dica": "estalactite"
+  },
+  {
+    "palavra": "vale",
+    "dica": "depressao"
+  },
+  {
+    "palavra": "penhasco",
+    "dica": "abismo"
+  },
+  {
+    "palavra": "canion",
+    "dica": "erosao"
+  },
+  {
+    "palavra": "planicie",
+    "dica": "extensao"
+  },
+  {
+    "palavra": "cerrado",
+    "dica": "savana"
+  },
+  {
+    "palavra": "caatinga",
+    "dica": "seca"
+  },
+  {
+    "palavra": "tundra",
+    "dica": "permafrost"
+  },
+  {
+    "palavra": "taiga",
+    "dica": "coniferas"
+  },
+  {
+    "palavra": "aurora",
+    "dica": "boreal"
+  },
+  {
+    "palavra": "tempestade",
+    "dica": "trovao"
+  },
+  {
+    "palavra": "chuva",
+    "dica": "guarda-chuva"
+  },
+  {
+    "palavra": "garoa",
+    "dica": "fina"
+  },
+  {
+    "palavra": "neve",
+    "dica": "flocos"
+  },
+  {
+    "palavra": "granizo",
+    "dica": "pedras"
+  },
+  {
+    "palavra": "vento",
+    "dica": "brisa"
+  },
+  {
+    "palavra": "furacao",
+    "dica": "olho"
+  },
+  {
+    "palavra": "tornado",
+    "dica": "funil"
+  },
+  {
+    "palavra": "arcoiris",
+    "dica": "cores"
+  },
+  {
+    "palavra": "relampago",
+    "dica": "clarão"
+  },
+  {
+    "palavra": "nuvem",
+    "dica": "algodao"
+  },
+  {
+    "palavra": "neblina",
+    "dica": "visibilidade"
+  },
+  {
+    "palavra": "orvalho",
+    "dica": "amanhecer"
+  },
+  {
+    "palavra": "sereno",
+    "dica": "frio"
+  },
+  {
+    "palavra": "calor",
+    "dica": "verao"
+  },
+  {
+    "palavra": "frio",
+    "dica": "inverno"
+  },
+  {
+    "palavra": "outono",
+    "dica": "folhas"
+  },
+  {
+    "palavra": "primavera",
+    "dica": "flores"
+  },
+  {
+    "palavra": "verao",
+    "dica": "praia"
+  },
+  {
+    "palavra": "inverno",
+    "dica": "cachecol"
+  },
+  {
+    "palavra": "camisa",
+    "dica": "colarinho"
+  },
+  {
+    "palavra": "camiseta",
+    "dica": "algodao"
+  },
+  {
+    "palavra": "blusa",
+    "dica": "manga"
+  },
+  {
+    "palavra": "jaqueta",
+    "dica": "ziper"
+  },
+  {
+    "palavra": "casaco",
+    "dica": "agasalho"
+  },
+  {
+    "palavra": "vestido",
+    "dica": "barra"
+  },
+  {
+    "palavra": "saia",
+    "dica": "pregas"
+  },
+  {
+    "palavra": "calca",
+    "dica": "bolsos"
+  },
+  {
+    "palavra": "bermuda",
+    "dica": "joelho"
+  },
+  {
+    "palavra": "short",
+    "dica": "praia"
+  },
+  {
+    "palavra": "terno",
+    "dica": "gravata"
+  },
+  {
+    "palavra": "blazer",
+    "dica": "lapela"
+  },
+  {
+    "palavra": "gravata",
+    "dica": "nó"
+  },
+  {
+    "palavra": "meia",
+    "dica": "par"
+  },
+  {
+    "palavra": "sapato",
+    "dica": "cadarco"
+  },
+  {
+    "palavra": "tenis",
+    "dica": "solado"
+  },
+  {
+    "palavra": "chinelo",
+    "dica": "borracha"
+  },
+  {
+    "palavra": "sandalia",
+    "dica": "tiras"
+  },
+  {
+    "palavra": "bota",
+    "dica": "cano"
+  },
+  {
+    "palavra": "bone",
+    "dica": "aba"
+  },
+  {
+    "palavra": "chapeu",
+    "dica": "copa"
+  },
+  {
+    "palavra": "luva",
+    "dica": "dedos"
+  },
+  {
+    "palavra": "cachecol",
+    "dica": "pescoço"
+  },
+  {
+    "palavra": "oculos",
+    "dica": "lentes"
+  },
+  {
+    "palavra": "relogio",
+    "dica": "pulso"
+  },
+  {
+    "palavra": "anel",
+    "dica": "dedo"
+  },
+  {
+    "palavra": "colar",
+    "dica": "pingente"
+  },
+  {
+    "palavra": "brinco",
+    "dica": "orelha"
+  },
+  {
+    "palavra": "pulseira",
+    "dica": "fecho"
+  },
+  {
+    "palavra": "mochila",
+    "dica": "alcas"
+  },
+  {
+    "palavra": "bolsa",
+    "dica": "zper"
+  },
+  {
+    "palavra": "carteira",
+    "dica": "documentos"
+  },
+  {
+    "palavra": "guarda-chuva",
+    "dica": "haste"
+  },
+  {
+    "palavra": "guarda-sol",
+    "dica": "sombra"
+  },
+  {
+    "palavra": "toalha",
+    "dica": "algodao"
+  },
+  {
+    "palavra": "cobertor",
+    "dica": "lã"
+  },
+  {
+    "palavra": "travesseiro",
+    "dica": "sono"
+  },
+  {
+    "palavra": "colchao",
+    "dica": "molas"
+  },
+  {
+    "palavra": "sofá",
+    "dica": "encosto"
+  },
+  {
+    "palavra": "cadeira",
+    "dica": "assento"
+  },
+  {
+    "palavra": "mesa",
+    "dica": "tampo"
+  },
+  {
+    "palavra": "estante",
+    "dica": "prateleiras"
+  },
+  {
+    "palavra": "armario",
+    "dica": "portas"
+  },
+  {
+    "palavra": "gaveta",
+    "dica": "puxador"
+  },
+  {
+    "palavra": "cama",
+    "dica": "lençol"
+  },
+  {
+    "palavra": "beliche",
+    "dica": "altura"
+  },
+  {
+    "palavra": "luminaria",
+    "dica": "abajur"
+  },
+  {
+    "palavra": "abajur",
+    "dica": "cabeceira"
+  },
+  {
+    "palavra": "espelho",
+    "dica": "reflexo"
+  },
+  {
+    "palavra": "quadro",
+    "dica": "moldura"
+  },
+  {
+    "palavra": "tapete",
+    "dica": "fibra"
+  },
+  {
+    "palavra": "cortina",
+    "dica": "varao"
+  },
+  {
+    "palavra": "janela",
+    "dica": "vidro"
+  },
+  {
+    "palavra": "porta",
+    "dica": "maçaneta"
+  },
+  {
+    "palavra": "fechadura",
+    "dica": "chave"
+  },
+  {
+    "palavra": "cozinha",
+    "dica": "fogao"
+  },
+  {
+    "palavra": "geladeira",
+    "dica": "resfriamento"
+  },
+  {
+    "palavra": "freezer",
+    "dica": "congelado"
+  },
+  {
+    "palavra": "fogao",
+    "dica": "bocas"
+  },
+  {
+    "palavra": "forno",
+    "dica": "assar"
+  },
+  {
+    "palavra": "microondas",
+    "dica": "ondas"
+  },
+  {
+    "palavra": "liquidificador",
+    "dica": "laminas"
+  },
+  {
+    "palavra": "batedeira",
+    "dica": "massa"
+  },
+  {
+    "palavra": "cafeteira",
+    "dica": "filtro"
+  },
+  {
+    "palavra": "torradeira",
+    "dica": "fatias"
+  },
+  {
+    "palavra": "airfryer",
+    "dica": "cesto"
+  },
+  {
+    "palavra": "panela",
+    "dica": "tampa"
+  },
+  {
+    "palavra": "frigideira",
+    "dica": "antiaderente"
+  },
+  {
+    "palavra": "colher",
+    "dica": "concha"
+  },
+  {
+    "palavra": "garfo",
+    "dica": "dentes"
+  },
+  {
+    "palavra": "faca",
+    "dica": "lamina"
+  },
+  {
+    "palavra": "prato",
+    "dica": "louca"
+  },
+  {
+    "palavra": "copo",
+    "dica": "vidro"
+  },
+  {
+    "palavra": "xicara",
+    "dica": "alca"
+  },
+  {
+    "palavra": "caneca",
+    "dica": "ceramica"
+  },
+  {
+    "palavra": "jarra",
+    "dica": "vertedor"
+  },
+  {
+    "palavra": "talher",
+    "dica": "mesa"
+  },
+  {
+    "palavra": "guardanapo",
+    "dica": "dobrado"
+  },
+  {
+    "palavra": "escova",
+    "dica": "cerdas"
+  },
+  {
+    "palavra": "pente",
+    "dica": "dentes"
+  },
+  {
+    "palavra": "shampoo",
+    "dica": "espuma"
+  },
+  {
+    "palavra": "sabonete",
+    "dica": "banho"
+  },
+  {
+    "palavra": "toalete",
+    "dica": "privacidade"
+  },
+  {
+    "palavra": "escova-de-dentes",
+    "dica": "higiene"
+  },
+  {
+    "palavra": "pasta-de-dente",
+    "dica": "menta"
+  },
+  {
+    "palavra": "fio-dental",
+    "dica": "gengiva"
+  },
+  {
+    "palavra": "perfume",
+    "dica": "fragrancia"
+  },
+  {
+    "palavra": "desodorante",
+    "dica": "aerossol"
+  },
+  {
+    "palavra": "maquiagem",
+    "dica": "paleta"
+  },
+  {
+    "palavra": "batom",
+    "dica": "vermelho"
+  },
+  {
+    "palavra": "secador",
+    "dica": "vento"
+  },
+  {
+    "palavra": "chapinha",
+    "dica": "alisar"
+  },
+  {
+    "palavra": "barbeador",
+    "dica": "lamina"
+  },
+  {
+    "palavra": "toalha-de-banho",
+    "dica": "maciez"
+  },
+  {
+    "palavra": "tesoura",
+    "dica": "corte"
+  },
+  {
+    "palavra": "martelo",
+    "dica": "prego"
+  },
+  {
+    "palavra": "parafuso",
+    "dica": "rosca"
+  },
+  {
+    "palavra": "chave-de-fenda",
+    "dica": "ranhura"
+  },
+  {
+    "palavra": "furadeira",
+    "dica": "broca"
+  },
+  {
+    "palavra": "serrote",
+    "dica": "madeira"
+  },
+  {
+    "palavra": "alicate",
+    "dica": "pressao"
+  },
+  {
+    "palavra": "trena",
+    "dica": "medida"
+  },
+  {
+    "palavra": "nivel",
+    "dica": "prumo"
+  },
+  {
+    "palavra": "escada",
+    "dica": "degraus"
+  },
+  {
+    "palavra": "lanterna",
+    "dica": "facho"
+  },
+  {
+    "palavra": "vela",
+    "dica": "chama"
+  },
+  {
+    "palavra": "isqueiro",
+    "dica": "faísca"
+  },
+  {
+    "palavra": "fosforo",
+    "dica": "palito"
+  },
+  {
+    "palavra": "tomada",
+    "dica": "voltagem"
+  },
+  {
+    "palavra": "interruptor",
+    "dica": "clique"
+  },
+  {
+    "palavra": "lampada",
+    "dica": "filamento"
+  },
+  {
+    "palavra": "fio",
+    "dica": "cobre"
+  },
+  {
+    "palavra": "bateria",
+    "dica": "carga"
+  },
+  {
+    "palavra": "pilha",
+    "dica": "alcalina"
+  },
+  {
+    "palavra": "telefone",
+    "dica": "ligacao"
+  },
+  {
+    "palavra": "celular",
+    "dica": "toque"
+  },
+  {
+    "palavra": "smartphone",
+    "dica": "app"
+  },
+  {
+    "palavra": "tablet",
+    "dica": "toque"
+  },
+  {
+    "palavra": "notebook",
+    "dica": "portatil"
+  },
+  {
+    "palavra": "computador",
+    "dica": "processador"
+  },
+  {
+    "palavra": "teclado",
+    "dica": "digitos"
+  },
+  {
+    "palavra": "mouse",
+    "dica": "cursor"
+  },
+  {
+    "palavra": "monitor",
+    "dica": "pixels"
+  },
+  {
+    "palavra": "impressora",
+    "dica": "cartucho"
+  },
+  {
+    "palavra": "camera",
+    "dica": "lente"
+  },
+  {
+    "palavra": "microfone",
+    "dica": "captacao"
+  },
+  {
+    "palavra": "fone",
+    "dica": "ouvido"
+  },
+  {
+    "palavra": "caixa-de-som",
+    "dica": "grave"
+  },
+  {
+    "palavra": "televisao",
+    "dica": "canal"
+  },
+  {
+    "palavra": "controle-remoto",
+    "dica": "botões"
+  },
+  {
+    "palavra": "videogame",
+    "dica": "console"
+  },
+  {
+    "palavra": "joystick",
+    "dica": "analógico"
+  },
+  {
+    "palavra": "drone",
+    "dica": "hélice"
+  },
+  {
+    "palavra": "roteador",
+    "dica": "sinal"
+  },
+  {
+    "palavra": "modem",
+    "dica": "internet"
+  },
+  {
+    "palavra": "pendrive",
+    "dica": "usb"
+  },
+  {
+    "palavra": "hd",
+    "dica": "armazenamento"
+  },
+  {
+    "palavra": "ssd",
+    "dica": "velocidade"
+  },
+  {
+    "palavra": "placa-mae",
+    "dica": "chipset"
+  },
+  {
+    "palavra": "processador",
+    "dica": "clock"
+  },
+  {
+    "palavra": "memoria-ram",
+    "dica": "temporario"
+  },
+  {
+    "palavra": "placa-de-video",
+    "dica": "render"
+  },
+  {
+    "palavra": "cooler",
+    "dica": "ventilacao"
+  },
+  {
+    "palavra": "fonte",
+    "dica": "watt"
+  },
+  {
+    "palavra": "gabinete",
+    "dica": "baias"
+  },
+  {
+    "palavra": "servidor",
+    "dica": "rack"
+  },
+  {
+    "palavra": "codigo",
+    "dica": "logica"
+  },
+  {
+    "palavra": "algoritmo",
+    "dica": "passos"
+  },
+  {
+    "palavra": "banco-de-dados",
+    "dica": "consulta"
+  },
+  {
+    "palavra": "api",
+    "dica": "endpoint"
+  },
+  {
+    "palavra": "backend",
+    "dica": "servidor"
+  },
+  {
+    "palavra": "frontend",
+    "dica": "interface"
+  },
+  {
+    "palavra": "nodejs",
+    "dica": "javascript"
+  },
+  {
+    "palavra": "react",
+    "dica": "componentes"
+  },
+  {
+    "palavra": "vue",
+    "dica": "reatividade"
+  },
+  {
+    "palavra": "angular",
+    "dica": "typescript"
+  },
+  {
+    "palavra": "laravel",
+    "dica": "artisan"
+  },
+  {
+    "palavra": "php",
+    "dica": "servidor"
+  },
+  {
+    "palavra": "python",
+    "dica": "indentacao"
+  },
+  {
+    "palavra": "java",
+    "dica": "jvm"
+  },
+  {
+    "palavra": "golang",
+    "dica": "goroutine"
+  },
+  {
+    "palavra": "rust",
+    "dica": "ownership"
+  },
+  {
+    "palavra": "docker",
+    "dica": "container"
+  },
+  {
+    "palavra": "kubernetes",
+    "dica": "orquestracao"
+  },
+  {
+    "palavra": "git",
+    "dica": "versionamento"
+  },
+  {
+    "palavra": "github",
+    "dica": "repositorio"
+  },
+  {
+    "palavra": "gitlab",
+    "dica": "pipeline"
+  },
+  {
+    "palavra": "bitbucket",
+    "dica": "branch"
+  },
+  {
+    "palavra": "linux",
+    "dica": "kernel"
+  },
+  {
+    "palavra": "ubuntu",
+    "dica": "deb"
+  },
+  {
+    "palavra": "archlinux",
+    "dica": "rolling"
+  },
+  {
+    "palavra": "windows",
+    "dica": "explorer"
+  },
+  {
+    "palavra": "macos",
+    "dica": "finder"
+  },
+  {
+    "palavra": "android",
+    "dica": "playstore"
+  },
+  {
+    "palavra": "ios",
+    "dica": "apple"
+  },
+  {
+    "palavra": "chrome",
+    "dica": "abas"
+  },
+  {
+    "palavra": "firefox",
+    "dica": "raposa"
+  },
+  {
+    "palavra": "safari",
+    "dica": "webkit"
+  },
+  {
+    "palavra": "edge",
+    "dica": "microsoft"
+  },
+  {
+    "palavra": "opera",
+    "dica": "atalhos"
+  },
+  {
+    "palavra": "figma",
+    "dica": "prototipo"
+  },
+  {
+    "palavra": "photoshop",
+    "dica": "camadas"
+  },
+  {
+    "palavra": "illustrator",
+    "dica": "vetor"
+  },
+  {
+    "palavra": "notion",
+    "dica": "workspace"
+  },
+  {
+    "palavra": "slack",
+    "dica": "canal"
+  },
+  {
+    "palavra": "discord",
+    "dica": "voz"
+  },
+  {
+    "palavra": "whatsapp",
+    "dica": "mensagem"
+  },
+  {
+    "palavra": "telegram",
+    "dica": "nuvem"
+  },
+  {
+    "palavra": "instagram",
+    "dica": "stories"
+  },
+  {
+    "palavra": "facebook",
+    "dica": "amizades"
+  },
+  {
+    "palavra": "tiktok",
+    "dica": "viral"
+  },
+  {
+    "palavra": "youtube",
+    "dica": "inscritos"
+  },
+  {
+    "palavra": "spotify",
+    "dica": "playlist"
+  },
+  {
+    "palavra": "netflix",
+    "dica": "streaming"
+  },
+  {
+    "palavra": "amazon",
+    "dica": "entrega"
+  },
+  {
+    "palavra": "mercadolivre",
+    "dica": "frete"
+  },
+  {
+    "palavra": "ifood",
+    "dica": "delivery"
+  },
+  {
+    "palavra": "uber",
+    "dica": "corrida"
+  },
+  {
+    "palavra": "99",
+    "dica": "motorista"
+  },
+  {
+    "palavra": "pix",
+    "dica": "instantaneo"
+  },
+  {
+    "palavra": "boleto",
+    "dica": "vencimento"
+  },
+  {
+    "palavra": "cartao",
+    "dica": "credito"
+  },
+  {
+    "palavra": "dinheiro",
+    "dica": "troco"
+  },
+  {
+    "palavra": "moeda",
+    "dica": "cara"
+  },
+  {
+    "palavra": "cedula",
+    "dica": "cofre"
+  },
+  {
+    "palavra": "banco",
+    "dica": "agencia"
+  },
+  {
+    "palavra": "caixa",
+    "dica": "saque"
+  },
+  {
+    "palavra": "cofre",
+    "dica": "senha"
+  },
+  {
+    "palavra": "chave",
+    "dica": "segredo"
+  },
+  {
+    "palavra": "cadeado",
+    "dica": "trinco"
+  },
+  {
+    "palavra": "documento",
+    "dica": "assinatura"
+  },
+  {
+    "palavra": "passaporte",
+    "dica": "fronteira"
+  },
+  {
+    "palavra": "rg",
+    "dica": "identidade"
+  },
+  {
+    "palavra": "cpf",
+    "dica": "receita"
+  },
+  {
+    "palavra": "certidao",
+    "dica": "registro"
+  },
+  {
+    "palavra": "contrato",
+    "dica": "clausula"
+  },
+  {
+    "palavra": "advogado",
+    "dica": "peticao"
+  },
+  {
+    "palavra": "juiz",
+    "dica": "sentenca"
+  },
+  {
+    "palavra": "promotor",
+    "dica": "acusacao"
+  },
+  {
+    "palavra": "delegado",
+    "dica": "inquerito"
+  },
+  {
+    "palavra": "policial",
+    "dica": "farda"
+  },
+  {
+    "palavra": "bombeiro",
+    "dica": "sirene"
+  },
+  {
+    "palavra": "medico",
+    "dica": "diagnostico"
+  },
+  {
+    "palavra": "enfermeiro",
+    "dica": "plantao"
+  },
+  {
+    "palavra": "dentista",
+    "dica": "canal"
+  },
+  {
+    "palavra": "psicologo",
+    "dica": "terapia"
+  },
+  {
+    "palavra": "professor",
+    "dica": "lousa"
+  },
+  {
+    "palavra": "aluno",
+    "dica": "caderno"
+  },
+  {
+    "palavra": "engenheiro",
+    "dica": "calculo"
+  },
+  {
+    "palavra": "arquiteto",
+    "dica": "planta"
+  },
+  {
+    "palavra": "pedreiro",
+    "dica": "cimento"
+  },
+  {
+    "palavra": "encanador",
+    "dica": "cano"
+  },
+  {
+    "palavra": "eletricista",
+    "dica": "fio"
+  },
+  {
+    "palavra": "mecanico",
+    "dica": "oficina"
+  },
+  {
+    "palavra": "motorista",
+    "dica": "volante"
+  },
+  {
+    "palavra": "piloto",
+    "dica": "cabine"
+  },
+  {
+    "palavra": "comissario",
+    "dica": "embarque"
+  },
+  {
+    "palavra": "cozinheiro",
+    "dica": "receita"
+  },
+  {
+    "palavra": "garcom",
+    "dica": "bandeja"
+  },
+  {
+    "palavra": "barista",
+    "dica": "espresso"
+  },
+  {
+    "palavra": "padeiro",
+    "dica": "fornada"
+  },
+  {
+    "palavra": "açougueiro",
+    "dica": "cutelo"
+  },
+  {
+    "palavra": "agricultor",
+    "dica": "colheita"
+  },
+  {
+    "palavra": "pecuarista",
+    "dica": "rebanho"
+  },
+  {
+    "palavra": "pescador",
+    "dica": "rede"
+  },
+  {
+    "palavra": "vendedor",
+    "dica": "meta"
+  },
+  {
+    "palavra": "gerente",
+    "dica": "equipe"
+  },
+  {
+    "palavra": "diretor",
+    "dica": "estrategia"
+  },
+  {
+    "palavra": "ceo",
+    "dica": "empresa"
+  },
+  {
+    "palavra": "contador",
+    "dica": "balanco"
+  },
+  {
+    "palavra": "economista",
+    "dica": "inflacao"
+  },
+  {
+    "palavra": "jornalista",
+    "dica": "apuração"
+  },
+  {
+    "palavra": "fotografo",
+    "dica": "clique"
+  },
+  {
+    "palavra": "cineasta",
+    "dica": "roteiro"
+  },
+  {
+    "palavra": "ator",
+    "dica": "palco"
+  },
+  {
+    "palavra": "atriz",
+    "dica": "cena"
+  },
+  {
+    "palavra": "cantor",
+    "dica": "microfone"
+  },
+  {
+    "palavra": "musicista",
+    "dica": "partitura"
+  },
+  {
+    "palavra": "pintor",
+    "dica": "tela"
+  },
+  {
+    "palavra": "escritor",
+    "dica": "capitulo"
+  },
+  {
+    "palavra": "poeta",
+    "dica": "metafora"
+  },
+  {
+    "palavra": "designer",
+    "dica": "tipografia"
+  },
+  {
+    "palavra": "programador",
+    "dica": "debug"
+  },
+  {
+    "palavra": "cientista",
+    "dica": "laboratorio"
+  },
+  {
+    "palavra": "astronauta",
+    "dica": "espaco"
+  },
+  {
+    "palavra": "bailarino",
+    "dica": "ponta"
+  },
+  {
+    "palavra": "jogador",
+    "dica": "partida"
+  },
+  {
+    "palavra": "arbitro",
+    "dica": "apito"
+  },
+  {
+    "palavra": "treinador",
+    "dica": "tatica"
+  },
+  {
+    "palavra": "nutricionista",
+    "dica": "dieta"
+  },
+  {
+    "palavra": "farmaceutico",
+    "dica": "formula"
+  },
+  {
+    "palavra": "veterinario",
+    "dica": "clinica"
+  },
+  {
+    "palavra": "biologo",
+    "dica": "ecossistema"
+  },
+  {
+    "palavra": "quimico",
+    "dica": "reagente"
+  },
+  {
+    "palavra": "fisico",
+    "dica": "particula"
+  },
+  {
+    "palavra": "matematico",
+    "dica": "teorema"
+  },
+  {
+    "palavra": "historiador",
+    "dica": "arquivo"
+  },
+  {
+    "palavra": "geografo",
+    "dica": "mapa"
+  },
+  {
+    "palavra": "bibliotecario",
+    "dica": "acervo"
+  },
+  {
+    "palavra": "carteiro",
+    "dica": "encomenda"
+  },
+  {
+    "palavra": "juventude",
+    "dica": "idade"
+  },
+  {
+    "palavra": "infancia",
+    "dica": "brincadeira"
+  },
+  {
+    "palavra": "adolescencia",
+    "dica": "transicao"
+  },
+  {
+    "palavra": "velhice",
+    "dica": "experiencia"
+  },
+  {
+    "palavra": "familia",
+    "dica": "parentes"
+  },
+  {
+    "palavra": "amizade",
+    "dica": "lealdade"
+  },
+  {
+    "palavra": "amor",
+    "dica": "afeto"
+  },
+  {
+    "palavra": "paixao",
+    "dica": "intenso"
+  },
+  {
+    "palavra": "saudade",
+    "dica": "distancia"
+  },
+  {
+    "palavra": "alegria",
+    "dica": "sorriso"
+  },
+  {
+    "palavra": "tristeza",
+    "dica": "lagrima"
+  },
+  {
+    "palavra": "raiva",
+    "dica": "explosao"
+  },
+  {
+    "palavra": "medo",
+    "dica": "escuro"
+  },
+  {
+    "palavra": "coragem",
+    "dica": "ousadia"
+  },
+  {
+    "palavra": "esperanca",
+    "dica": "amanha"
+  },
+  {
+    "palavra": "ansiedade",
+    "dica": "anticipacao"
+  },
+  {
+    "palavra": "calma",
+    "dica": "silencio"
+  },
+  {
+    "palavra": "paz",
+    "dica": "harmonia"
+  },
+  {
+    "palavra": "guerra",
+    "dica": "batalha"
+  },
+  {
+    "palavra": "vitoria",
+    "dica": "trofeu"
+  },
+  {
+    "palavra": "derrota",
+    "dica": "queda"
+  },
+  {
+    "palavra": "sucesso",
+    "dica": "reconhecimento"
+  },
+  {
+    "palavra": "fracasso",
+    "dica": "tentativa"
+  },
+  {
+    "palavra": "trabalho",
+    "dica": "rotina"
+  },
+  {
+    "palavra": "ferias",
+    "dica": "descanso"
+  },
+  {
+    "palavra": "escola",
+    "dica": "intervalo"
+  },
+  {
+    "palavra": "faculdade",
+    "dica": "campus"
+  },
+  {
+    "palavra": "igreja",
+    "dica": "altar"
+  },
+  {
+    "palavra": "hospital",
+    "dica": "ambulancia"
+  },
+  {
+    "palavra": "mercado",
+    "dica": "carrinho"
+  },
+  {
+    "palavra": "padaria",
+    "dica": "fornada"
+  },
+  {
+    "palavra": "farmacia",
+    "dica": "receita"
+  },
+  {
+    "palavra": "cinema",
+    "dica": "pipoca"
+  },
+  {
+    "palavra": "teatro",
+    "dica": "cortina"
+  },
+  {
+    "palavra": "estadio",
+    "dica": "torcida"
+  },
+  {
+    "palavra": "academia",
+    "dica": "halteres"
+  },
+  {
+    "palavra": "parque",
+    "dica": "gramado"
+  },
+  {
+    "palavra": "museu",
+    "dica": "acervo"
+  },
+  {
+    "palavra": "biblioteca",
+    "dica": "silencio"
+  },
+  {
+    "palavra": "aeroporto",
+    "dica": "pista"
+  },
+  {
+    "palavra": "rodoviaria",
+    "dica": "plataforma"
+  },
+  {
+    "palavra": "estacao",
+    "dica": "trilhos"
+  },
+  {
+    "palavra": "posto",
+    "dica": "combustivel"
+  },
+  {
+    "palavra": "oficina",
+    "dica": "graxa"
+  },
+  {
+    "palavra": "hotel",
+    "dica": "recepcao"
+  },
+  {
+    "palavra": "motel",
+    "dica": "sigilo"
+  },
+  {
+    "palavra": "restaurante",
+    "dica": "garcom"
+  },
+  {
+    "palavra": "pizzaria",
+    "dica": "forno"
+  },
+  {
+    "palavra": "cafeteria",
+    "dica": "aroma"
+  },
+  {
+    "palavra": "gelateria",
+    "dica": "casquinha"
+  },
+  {
+    "palavra": "sorveteria",
+    "dica": "freezer"
+  },
+  {
+    "palavra": "bar",
+    "dica": "balcao"
+  },
+  {
+    "palavra": "boate",
+    "dica": "pista"
+  },
+  {
+    "palavra": "praça",
+    "dica": "banco"
+  },
+  {
+    "palavra": "avenida",
+    "dica": "fluxo"
+  },
+  {
+    "palavra": "rua",
+    "dica": "esquina"
+  },
+  {
+    "palavra": "bairro",
+    "dica": "vizinhanca"
+  },
+  {
+    "palavra": "cidade",
+    "dica": "prefeitura"
+  },
+  {
+    "palavra": "estado",
+    "dica": "governo"
+  },
+  {
+    "palavra": "pais",
+    "dica": "bandeira"
+  },
+  {
+    "palavra": "continente",
+    "dica": "fronteiras"
+  },
+  {
+    "palavra": "brasil",
+    "dica": "carnaval"
+  },
+  {
+    "palavra": "argentina",
+    "dica": "mate"
+  },
+  {
+    "palavra": "uruguai",
+    "dica": "montevideu"
+  },
+  {
+    "palavra": "paraguai",
+    "dica": "guarani"
+  },
+  {
+    "palavra": "chile",
+    "dica": "cordilheira"
+  },
+  {
+    "palavra": "peru",
+    "dica": "machu"
+  },
+  {
+    "palavra": "bolivia",
+    "dica": "altitude"
+  },
+  {
+    "palavra": "colombia",
+    "dica": "cafe"
+  },
+  {
+    "palavra": "venezuela",
+    "dica": "petroleo"
+  },
+  {
+    "palavra": "equador",
+    "dica": "linha"
+  },
+  {
+    "palavra": "mexico",
+    "dica": "sombrero"
+  },
+  {
+    "palavra": "canada",
+    "dica": "bordo"
+  },
+  {
+    "palavra": "estadosunidos",
+    "dica": "hollywood"
+  },
+  {
+    "palavra": "portugal",
+    "dica": "fado"
+  },
+  {
+    "palavra": "espanha",
+    "dica": "flamenco"
+  },
+  {
+    "palavra": "franca",
+    "dica": "croissant"
+  },
+  {
+    "palavra": "italia",
+    "dica": "massa"
+  },
+  {
+    "palavra": "alemanha",
+    "dica": "cerveja"
+  },
+  {
+    "palavra": "inglaterra",
+    "dica": "rainha"
+  },
+  {
+    "palavra": "irlanda",
+    "dica": "trevo"
+  },
+  {
+    "palavra": "escocia",
+    "dica": "gaita"
+  },
+  {
+    "palavra": "noruega",
+    "dica": "fiordes"
+  },
+  {
+    "palavra": "suecia",
+    "dica": "ikea"
+  },
+  {
+    "palavra": "finlandia",
+    "dica": "sauna"
+  },
+  {
+    "palavra": "russia",
+    "dica": "kremlin"
+  },
+  {
+    "palavra": "ucrania",
+    "dica": "girassol"
+  },
+  {
+    "palavra": "grecia",
+    "dica": "olimpo"
+  },
+  {
+    "palavra": "turquia",
+    "dica": "bazar"
+  },
+  {
+    "palavra": "egito",
+    "dica": "piramides"
+  },
+  {
+    "palavra": "marrocos",
+    "dica": "medina"
+  },
+  {
+    "palavra": "nigeria",
+    "dica": "lagos"
+  },
+  {
+    "palavra": "africadosul",
+    "dica": "safari"
+  },
+  {
+    "palavra": "india",
+    "dica": "bollywood"
+  },
+  {
+    "palavra": "china",
+    "dica": "muralha"
+  },
+  {
+    "palavra": "japao",
+    "dica": "sakura"
+  },
+  {
+    "palavra": "coreia",
+    "dica": "kpop"
+  },
+  {
+    "palavra": "tailandia",
+    "dica": "templos"
+  },
+  {
+    "palavra": "australia",
+    "dica": "canguru"
+  },
+  {
+    "palavra": "novazelandia",
+    "dica": "kiwi"
+  },
+  {
+    "palavra": "dubai",
+    "dica": "arranhaceu"
+  },
+  {
+    "palavra": "saopaulo",
+    "dica": "garoa"
+  },
+  {
+    "palavra": "riodejaneiro",
+    "dica": "samba"
+  },
+  {
+    "palavra": "fortaleza",
+    "dica": "litoral"
+  },
+  {
+    "palavra": "salvador",
+    "dica": "pelourinho"
+  },
+  {
+    "palavra": "recife",
+    "dica": "frevo"
+  },
+  {
+    "palavra": "manaus",
+    "dica": "amazonia"
+  },
+  {
+    "palavra": "belem",
+    "dica": "ver-o-peso"
+  },
+  {
+    "palavra": "curitiba",
+    "dica": "frio"
+  },
+  {
+    "palavra": "florianopolis",
+    "dica": "ponte"
+  },
+  {
+    "palavra": "portoalegre",
+    "dica": "chimarrao"
+  },
+  {
+    "palavra": "brasilia",
+    "dica": "eixo"
+  },
+  {
+    "palavra": "goiania",
+    "dica": "sertanejo"
+  },
+  {
+    "palavra": "belohorizonte",
+    "dica": "pao-de-queijo"
+  },
+  {
+    "palavra": "campinas",
+    "dica": "tecnologia"
+  },
+  {
+    "palavra": "santos",
+    "dica": "porto"
+  },
+  {
+    "palavra": "natal",
+    "dica": "dunas"
+  },
+  {
+    "palavra": "joaopessoa",
+    "dica": "orla"
+  },
+  {
+    "palavra": "maceio",
+    "dica": "piscinas"
+  },
+  {
+    "palavra": "aracaju",
+    "dica": "atalaia"
+  },
+  {
+    "palavra": "teresina",
+    "dica": "calor"
+  },
+  {
+    "palavra": "saoluis",
+    "dica": "reggae"
+  },
+  {
+    "palavra": "palmas",
+    "dica": "tocantins"
+  },
+  {
+    "palavra": "cuiaba",
+    "dica": "pantanal"
+  },
+  {
+    "palavra": "campogrande",
+    "dica": "ipê"
+  },
+  {
+    "palavra": "saocarlos",
+    "dica": "ufscar"
+  },
+  {
+    "palavra": "londrina",
+    "dica": "cafezal"
+  },
+  {
+    "palavra": "maringa",
+    "dica": "catedral"
+  },
+  {
+    "palavra": "joinville",
+    "dica": "danca"
+  },
+  {
+    "palavra": "blumenau",
+    "dica": "oktober"
+  },
+  {
+    "palavra": "pelotas",
+    "dica": "doces"
+  },
+  {
+    "palavra": "uberlandia",
+    "dica": "triangulo"
+  },
+  {
+    "palavra": "juizdefora",
+    "dica": "mineira"
+  },
+  {
+    "palavra": "petroleo",
+    "dica": "derivado"
+  },
+  {
+    "palavra": "gasolina",
+    "dica": "octanagem"
+  },
+  {
+    "palavra": "etanol",
+    "dica": "cana"
+  },
+  {
+    "palavra": "diesel",
+    "dica": "torque"
+  },
+  {
+    "palavra": "carro",
+    "dica": "chave"
+  },
+  {
+    "palavra": "moto",
+    "dica": "capacete"
+  },
+  {
+    "palavra": "bicicleta",
+    "dica": "pedal"
+  },
+  {
+    "palavra": "patins",
+    "dica": "rodinhas"
+  },
+  {
+    "palavra": "skate",
+    "dica": "shape"
+  },
+  {
+    "palavra": "patinete",
+    "dica": "urbano"
+  },
+  {
+    "palavra": "onibus",
+    "dica": "catraca"
+  },
+  {
+    "palavra": "metro",
+    "dica": "subsolo"
+  },
+  {
+    "palavra": "trem",
+    "dica": "vagao"
+  },
+  {
+    "palavra": "aviao",
+    "dica": "turbina"
+  },
+  {
+    "palavra": "helicoptero",
+    "dica": "rotor"
+  },
+  {
+    "palavra": "barco",
+    "dica": "ancora"
+  },
+  {
+    "palavra": "navio",
+    "dica": "convés"
+  },
+  {
+    "palavra": "submarino",
+    "dica": "imersao"
+  },
+  {
+    "palavra": "foguete",
+    "dica": "lançamento"
+  },
+  {
+    "palavra": "satélite",
+    "dica": "sinal"
+  },
+  {
+    "palavra": "parquedas",
+    "dica": "queda"
+  },
+  {
+    "palavra": "parapente",
+    "dica": "corrente"
+  },
+  {
+    "palavra": "surfe",
+    "dica": "prancha"
+  },
+  {
+    "palavra": "natação",
+    "dica": "braçadas"
+  },
+  {
+    "palavra": "corrida",
+    "dica": "ritmo"
+  },
+  {
+    "palavra": "futebol",
+    "dica": "gol"
+  },
+  {
+    "palavra": "basquete",
+    "dica": "garrafao"
+  },
+  {
+    "palavra": "volei",
+    "dica": "rede"
+  },
+  {
+    "palavra": "pinguepongue",
+    "dica": "raquete"
+  },
+  {
+    "palavra": "xadrez",
+    "dica": "xeque"
+  },
+  {
+    "palavra": "damas",
+    "dica": "diagonal"
+  },
+  {
+    "palavra": "sinuca",
+    "dica": "taco"
+  },
+  {
+    "palavra": "golfe",
+    "dica": "buraco"
+  },
+  {
+    "palavra": "beisebol",
+    "dica": "rebatedor"
+  },
+  {
+    "palavra": "handebol",
+    "dica": "arremesso"
+  },
+  {
+    "palavra": "rugby",
+    "dica": "oval"
+  },
+  {
+    "palavra": "criquete",
+    "dica": "wicket"
+  },
+  {
+    "palavra": "judo",
+    "dica": "ippon"
+  },
+  {
+    "palavra": "karate",
+    "dica": "kata"
+  },
+  {
+    "palavra": "taekwondo",
+    "dica": "chute"
+  },
+  {
+    "palavra": "boxe",
+    "dica": "luvas"
+  },
+  {
+    "palavra": "mma",
+    "dica": "octogono"
+  },
+  {
+    "palavra": "jiujitsu",
+    "dica": "guarda"
+  },
+  {
+    "palavra": "capoeira",
+    "dica": "ginga"
+  },
+  {
+    "palavra": "yoga",
+    "dica": "postura"
+  },
+  {
+    "palavra": "pilates",
+    "dica": "core"
+  },
+  {
+    "palavra": "crossfit",
+    "dica": "wod"
+  },
+  {
+    "palavra": "musculacao",
+    "dica": "repeticao"
+  },
+  {
+    "palavra": "ciclismo",
+    "dica": "pelotao"
+  },
+  {
+    "palavra": "esgrima",
+    "dica": "florete"
+  },
+  {
+    "palavra": "ginastica",
+    "dica": "solo"
+  },
+  {
+    "palavra": "patinacao",
+    "dica": "gelo"
+  },
+  {
+    "palavra": "esqui",
+    "dica": "neve"
+  },
+  {
+    "palavra": "snowboard",
+    "dica": "prancha"
+  },
+  {
+    "palavra": "mergulho",
+    "dica": "cilindro"
+  },
+  {
+    "palavra": "canoagem",
+    "dica": "remo"
+  },
+  {
+    "palavra": "remo",
+    "dica": "regata"
+  },
+  {
+    "palavra": "futsal",
+    "dica": "quadra"
+  },
+  {
+    "palavra": "formula1",
+    "dica": "grid"
+  },
+  {
+    "palavra": "nascar",
+    "dica": "oval"
+  },
+  {
+    "palavra": "motogp",
+    "dica": "curva"
+  },
+  {
+    "palavra": "messi",
+    "dica": "canhoto"
+  },
+  {
+    "palavra": "ronaldo",
+    "dica": "fenomeno"
+  },
+  {
+    "palavra": "neymar",
+    "dica": "drible"
+  },
+  {
+    "palavra": "pele",
+    "dica": "rei"
+  },
+  {
+    "palavra": "maradona",
+    "dica": "argentina"
+  },
+  {
+    "palavra": "ronaldinho",
+    "dica": "sorriso"
+  },
+  {
+    "palavra": "haaland",
+    "dica": "noruegues"
+  },
+  {
+    "palavra": "mbappe",
+    "dica": "velocidade"
+  },
+  {
+    "palavra": "modric",
+    "dica": "croata"
+  },
+  {
+    "palavra": "vinijr",
+    "dica": "explosao"
+  },
+  {
+    "palavra": "casemiro",
+    "dica": "volante"
+  },
+  {
+    "palavra": "alisson",
+    "dica": "muralha"
+  },
+  {
+    "palavra": "kaka",
+    "dica": "elegancia"
+  },
+  {
+    "palavra": "zidane",
+    "dica": "careca"
+  },
+  {
+    "palavra": "cristiano",
+    "dica": "salto"
+  },
+  {
+    "palavra": "ferrari",
+    "dica": "vermelho"
+  },
+  {
+    "palavra": "porsche",
+    "dica": "esportivo"
+  },
+  {
+    "palavra": "lamborghini",
+    "dica": "touro"
+  },
+  {
+    "palavra": "tesla",
+    "dica": "eletrico"
+  },
+  {
+    "palavra": "toyota",
+    "dica": "confianca"
+  },
+  {
+    "palavra": "honda",
+    "dica": "japonesa"
+  },
+  {
+    "palavra": "bmw",
+    "dica": "alemã"
+  },
+  {
+    "palavra": "audi",
+    "dica": "quatro"
+  },
+  {
+    "palavra": "mercedes",
+    "dica": "estrela"
+  },
+  {
+    "palavra": "chevrolet",
+    "dica": "gravatinha"
+  },
+  {
+    "palavra": "ford",
+    "dica": "picape"
+  },
+  {
+    "palavra": "fiat",
+    "dica": "italiana"
+  },
+  {
+    "palavra": "volkswagen",
+    "dica": "fusca"
+  },
+  {
+    "palavra": "hyundai",
+    "dica": "coreana"
+  },
+  {
+    "palavra": "kia",
+    "dica": "design"
+  },
+  {
+    "palavra": "renault",
+    "dica": "losango"
+  },
+  {
+    "palavra": "peugeot",
+    "dica": "leao"
+  },
+  {
+    "palavra": "citroen",
+    "dica": "setas"
+  },
+  {
+    "palavra": "jeep",
+    "dica": "trilha"
+  },
+  {
+    "palavra": "ram",
+    "dica": "força"
+  },
+  {
+    "palavra": "volvo",
+    "dica": "seguranca"
+  },
+  {
+    "palavra": "apple",
+    "dica": "maça"
+  },
+  {
+    "palavra": "samsung",
+    "dica": "galaxy"
+  },
+  {
+    "palavra": "xiaomi",
+    "dica": "custo"
+  },
+  {
+    "palavra": "motorola",
+    "dica": "batwing"
+  },
+  {
+    "palavra": "nokia",
+    "dica": "resistencia"
+  },
+  {
+    "palavra": "sony",
+    "dica": "playstation"
+  },
+  {
+    "palavra": "nintendo",
+    "dica": "mario"
+  },
+  {
+    "palavra": "microsoft",
+    "dica": "office"
+  },
+  {
+    "palavra": "google",
+    "dica": "busca"
+  },
+  {
+    "palavra": "openai",
+    "dica": "ia"
+  },
+  {
+    "palavra": "coca-cola",
+    "dica": "bolhas"
+  },
+  {
+    "palavra": "pepsi",
+    "dica": "rival"
+  },
+  {
+    "palavra": "guarana",
+    "dica": "brasileiro"
+  },
+  {
+    "palavra": "nestle",
+    "dica": "cacau"
+  },
+  {
+    "palavra": "lacta",
+    "dica": "quadrados"
+  },
+  {
+    "palavra": "garoto",
+    "dica": "serenata"
+  },
+  {
+    "palavra": "nike",
+    "dica": "swoosh"
+  },
+  {
+    "palavra": "adidas",
+    "dica": "listras"
+  },
+  {
+    "palavra": "puma",
+    "dica": "felino"
+  },
+  {
+    "palavra": "reebok",
+    "dica": "fitness"
+  },
+  {
+    "palavra": "newbalance",
+    "dica": "corrida"
+  },
+  {
+    "palavra": "vans",
+    "dica": "skate"
+  },
+  {
+    "palavra": "converse",
+    "dica": "cano"
+  },
+  {
+    "palavra": "havaianas",
+    "dica": "borracha"
+  },
+  {
+    "palavra": "lego",
+    "dica": "blocos"
+  },
+  {
+    "palavra": "barbie",
+    "dica": "rosa"
+  },
+  {
+    "palavra": "hotwheels",
+    "dica": "miniatura"
+  },
+  {
+    "palavra": "disney",
+    "dica": "castelo"
+  },
+  {
+    "palavra": "pixar",
+    "dica": "animacao"
+  },
+  {
+    "palavra": "marvel",
+    "dica": "herois"
+  },
+  {
+    "palavra": "dc",
+    "dica": "gotham"
+  },
+  {
+    "palavra": "batman",
+    "dica": "morcego"
+  },
+  {
+    "palavra": "superman",
+    "dica": "capa"
+  },
+  {
+    "palavra": "homem-aranha",
+    "dica": "teia"
+  },
+  {
+    "palavra": "ironman",
+    "dica": "armadura"
+  },
+  {
+    "palavra": "thor",
+    "dica": "martelo"
+  },
+  {
+    "palavra": "hulk",
+    "dica": "verde"
+  },
+  {
+    "palavra": "capitaoamerica",
+    "dica": "escudo"
+  },
+  {
+    "palavra": "wolverine",
+    "dica": "garras"
+  },
+  {
+    "palavra": "deadpool",
+    "dica": "sarcasmo"
+  },
+  {
+    "palavra": "joker",
+    "dica": "caos"
+  },
+  {
+    "palavra": "harrypotter",
+    "dica": "varinha"
+  },
+  {
+    "palavra": "hermione",
+    "dica": "biblioteca"
+  },
+  {
+    "palavra": "rony",
+    "dica": "xadrez"
+  },
+  {
+    "palavra": "voldemort",
+    "dica": "nariz"
+  },
+  {
+    "palavra": "dumbledore",
+    "dica": "barba"
+  },
+  {
+    "palavra": "frodo",
+    "dica": "anel"
+  },
+  {
+    "palavra": "gandalf",
+    "dica": "cinzento"
+  },
+  {
+    "palavra": "aragorn",
+    "dica": "trono"
+  },
+  {
+    "palavra": "legolas",
+    "dica": "arco"
+  },
+  {
+    "palavra": "gollum",
+    "dica": "precioso"
+  },
+  {
+    "palavra": "yoda",
+    "dica": "sabedoria"
+  },
+  {
+    "palavra": "vader",
+    "dica": "mascara"
+  },
+  {
+    "palavra": "luke",
+    "dica": "forca"
+  },
+  {
+    "palavra": "leia",
+    "dica": "rebeldia"
+  },
+  {
+    "palavra": "anakin",
+    "dica": "queda"
+  },
+  {
+    "palavra": "obiwan",
+    "dica": "mestre"
+  },
+  {
+    "palavra": "simba",
+    "dica": "savana"
+  },
+  {
+    "palavra": "mufasa",
+    "dica": "reino"
+  },
+  {
+    "palavra": "elsa",
+    "dica": "gelo"
+  },
+  {
+    "palavra": "anna",
+    "dica": "irma"
+  },
+  {
+    "palavra": "olaf",
+    "dica": "neve"
+  },
+  {
+    "palavra": "moana",
+    "dica": "oceano"
+  },
+  {
+    "palavra": "mulan",
+    "dica": "honra"
+  },
+  {
+    "palavra": "aladdin",
+    "dica": "lampada"
+  },
+  {
+    "palavra": "jasmine",
+    "dica": "tapete"
+  },
+  {
+    "palavra": "cinderela",
+    "dica": "sapatinho"
+  },
+  {
+    "palavra": "bela",
+    "dica": "biblioteca"
+  },
+  {
+    "palavra": "fera",
+    "dica": "castelo"
+  },
+  {
+    "palavra": "sheldon",
+    "dica": "bazinga"
+  },
+  {
+    "palavra": "walterwhite",
+    "dica": "quimica"
+  },
+  {
+    "palavra": "jessiepinkman",
+    "dica": "yeah"
+  },
+  {
+    "palavra": "jonsnow",
+    "dica": "norte"
+  },
+  {
+    "palavra": "daenerys",
+    "dica": "dragoes"
+  },
+  {
+    "palavra": "tyrion",
+    "dica": "vinho"
+  },
+  {
+    "palavra": "naruto",
+    "dica": "ninja"
+  },
+  {
+    "palavra": "sasuke",
+    "dica": "vinganca"
+  },
+  {
+    "palavra": "goku",
+    "dica": "kamehameha"
+  },
+  {
+    "palavra": "vegeta",
+    "dica": "orgulho"
+  },
+  {
+    "palavra": "luffy",
+    "dica": "chapéu"
+  },
+  {
+    "palavra": "zoro",
+    "dica": "espadas"
+  },
+  {
+    "palavra": "nami",
+    "dica": "mapa"
+  },
+  {
+    "palavra": "pikachu",
+    "dica": "choque"
+  },
+  {
+    "palavra": "ash",
+    "dica": "pokebola"
+  },
+  {
+    "palavra": "mario",
+    "dica": "encanador"
+  },
+  {
+    "palavra": "luigi",
+    "dica": "verde"
+  },
+  {
+    "palavra": "zelda",
+    "dica": "reino"
+  },
+  {
+    "palavra": "link",
+    "dica": "triforce"
+  },
+  {
+    "palavra": "sonic",
+    "dica": "velocidade"
+  },
+  {
+    "palavra": "kratos",
+    "dica": "caos"
+  },
+  {
+    "palavra": "ellie",
+    "dica": "fungo"
+  },
+  {
+    "palavra": "joel",
+    "dica": "contrabando"
+  },
+  {
+    "palavra": "minecraft",
+    "dica": "blocos"
+  },
+  {
+    "palavra": "fortnite",
+    "dica": "build"
+  },
+  {
+    "palavra": "lol",
+    "dica": "rota"
+  },
+  {
+    "palavra": "valorant",
+    "dica": "tatico"
+  },
+  {
+    "palavra": "csgo",
+    "dica": "smoke"
+  },
+  {
+    "palavra": "freefire",
+    "dica": "drop"
+  },
+  {
+    "palavra": "amongus",
+    "dica": "impostor"
+  },
+  {
+    "palavra": "tetris",
+    "dica": "encaixe"
+  },
+  {
+    "palavra": "pacman",
+    "dica": "labirinto"
+  },
+  {
+    "palavra": "zelador",
+    "dica": "portaria"
+  },
+  {
+    "palavra": "porteiro",
+    "dica": "interfone"
+  },
+  {
+    "palavra": "faxineiro",
+    "dica": "vassoura"
+  },
+  {
+    "palavra": "camareira",
+    "dica": "arrumacao"
+  },
+  {
+    "palavra": "cabeleireiro",
+    "dica": "tesoura"
+  },
+  {
+    "palavra": "manicure",
+    "dica": "cuticula"
+  },
+  {
+    "palavra": "massagista",
+    "dica": "relaxamento"
+  },
+  {
+    "palavra": "seguranca",
+    "dica": "vigilancia"
+  },
+  {
+    "palavra": "recepcionista",
+    "dica": "balcao"
+  },
+  {
+    "palavra": "secretaria",
+    "dica": "agenda"
+  },
+  {
+    "palavra": "coracao",
+    "dica": "batida"
+  },
+  {
+    "palavra": "cerebro",
+    "dica": "neuronio"
+  },
+  {
+    "palavra": "pulmao",
+    "dica": "oxigenio"
+  },
+  {
+    "palavra": "figado",
+    "dica": "toxina"
+  },
+  {
+    "palavra": "rim",
+    "dica": "filtragem"
+  },
+  {
+    "palavra": "estomago",
+    "dica": "acidez"
+  },
+  {
+    "palavra": "intestino",
+    "dica": "digestao"
+  },
+  {
+    "palavra": "osso",
+    "dica": "fratura"
+  },
+  {
+    "palavra": "musculo",
+    "dica": "forca"
+  },
+  {
+    "palavra": "sangue",
+    "dica": "veias"
+  },
+  {
+    "palavra": "olho",
+    "dica": "iris"
+  },
+  {
+    "palavra": "nariz",
+    "dica": "olfato"
+  },
+  {
+    "palavra": "boca",
+    "dica": "fala"
+  },
+  {
+    "palavra": "lingua",
+    "dica": "paladar"
+  },
+  {
+    "palavra": "dente",
+    "dica": "esmalte"
+  },
+  {
+    "palavra": "orelha",
+    "dica": "audição"
+  },
+  {
+    "palavra": "mao",
+    "dica": "palma"
+  },
+  {
+    "palavra": "pe",
+    "dica": "sola"
+  },
+  {
+    "palavra": "joelho",
+    "dica": "dobradiça"
+  },
+  {
+    "palavra": "cotovelo",
+    "dica": "apoio"
+  },
+  {
+    "palavra": "ombro",
+    "dica": "articulacao"
+  },
+  {
+    "palavra": "coluna",
+    "dica": "postura"
+  },
+  {
+    "palavra": "cabelo",
+    "dica": "fios"
+  },
+  {
+    "palavra": "barba",
+    "dica": "pelos"
+  },
+  {
+    "palavra": "unha",
+    "dica": "cuticula"
+  },
+  {
+    "palavra": "febre",
+    "dica": "termometro"
+  },
+  {
+    "palavra": "tosse",
+    "dica": "peito"
+  },
+  {
+    "palavra": "gripe",
+    "dica": "virus"
+  },
+  {
+    "palavra": "resfriado",
+    "dica": "espirro"
+  },
+  {
+    "palavra": "alergia",
+    "dica": "coceira"
+  },
+  {
+    "palavra": "asma",
+    "dica": "inalador"
+  },
+  {
+    "palavra": "apneia",
+    "dica": "sono"
+  },
+  {
+    "palavra": "insonia",
+    "dica": "vigilia"
+  },
+  {
+    "palavra": "dor",
+    "dica": "latejar"
+  },
+  {
+    "palavra": "sintoma",
+    "dica": "sinal"
+  },
+  {
+    "palavra": "remedio",
+    "dica": "dose"
+  },
+  {
+    "palavra": "vacina",
+    "dica": "imunidade"
+  },
+  {
+    "palavra": "cirurgia",
+    "dica": "bisturi"
+  },
+  {
+    "palavra": "ambulancia",
+    "dica": "urgencia"
+  },
+  {
+    "palavra": "receita",
+    "dica": "carimbo"
+  },
+  {
+    "palavra": "exame",
+    "dica": "resultado"
+  },
+  {
+    "palavra": "raiox",
+    "dica": "osso"
+  },
+  {
+    "palavra": "ultrassom",
+    "dica": "imagem"
+  },
+  {
+    "palavra": "ressonancia",
+    "dica": "campo"
+  },
+  {
+    "palavra": "pressao",
+    "dica": "arteria"
+  },
+  {
+    "palavra": "glicose",
+    "dica": "insulina"
+  },
+  {
+    "palavra": "colesterol",
+    "dica": "arteria"
+  },
+  {
+    "palavra": "proteina",
+    "dica": "músculo"
+  },
+  {
+    "palavra": "carboidrato",
+    "dica": "energia"
+  },
+  {
+    "palavra": "gordura",
+    "dica": "reserva"
+  },
+  {
+    "palavra": "ferro",
+    "dica": "anemia"
+  },
+  {
+    "palavra": "calcio",
+    "dica": "ossos"
+  },
+  {
+    "palavra": "sono",
+    "dica": "descanso"
+  },
+  {
+    "palavra": "dieta",
+    "dica": "restricao"
+  },
+  {
+    "palavra": "jejum",
+    "dica": "horas"
+  },
+  {
+    "palavra": "meditacao",
+    "dica": "respiracao"
+  },
+  {
+    "palavra": "oracao",
+    "dica": "fe"
+  },
+  {
+    "palavra": "fé",
+    "dica": "crenca"
+  },
+  {
+    "palavra": "religiao",
+    "dica": "rito"
+  },
+  {
+    "palavra": "deus",
+    "dica": "divino"
+  },
+  {
+    "palavra": "anjo",
+    "dica": "asas"
+  },
+  {
+    "palavra": "demonio",
+    "dica": "tentacao"
+  },
+  {
+    "palavra": "startup",
+    "dica": "rodada"
+  },
+  {
+    "palavra": "empresa",
+    "dica": "cnpj"
+  },
+  {
+    "palavra": "mercadofinanceiro",
+    "dica": "bolsa"
+  },
+  {
+    "palavra": "acao",
+    "dica": "ticker"
+  },
+  {
+    "palavra": "criptomoeda",
+    "dica": "blockchain"
+  },
+  {
+    "palavra": "bitcoin",
+    "dica": "halving"
+  },
+  {
+    "palavra": "ethereum",
+    "dica": "gas"
+  },
+  {
+    "palavra": "solana",
+    "dica": "latencia"
+  },
+  {
+    "palavra": "dinamite",
+    "dica": "explosao"
+  },
+  {
+    "palavra": "ouro",
+    "dica": "lingote"
+  },
+  {
+    "palavra": "prata",
+    "dica": "metal"
+  },
+  {
+    "palavra": "bronze",
+    "dica": "liga"
+  },
+  {
+    "palavra": "diamante",
+    "dica": "quilate"
+  },
+  {
+    "palavra": "esmeralda",
+    "dica": "verde"
+  },
+  {
+    "palavra": "rubi",
+    "dica": "vermelho"
+  },
+  {
+    "palavra": "safira",
+    "dica": "azul"
+  },
+  {
+    "palavra": "perola",
+    "dica": "ostra"
+  },
+  {
+    "palavra": "cristal",
+    "dica": "transparencia"
+  },
+  {
+    "palavra": "madeira",
+    "dica": "veios"
+  },
+  {
+    "palavra": "aco",
+    "dica": "liga"
+  },
+  {
+    "palavra": "aluminio",
+    "dica": "leveza"
+  },
+  {
+    "palavra": "plastico",
+    "dica": "polimero"
+  },
+  {
+    "palavra": "vidro",
+    "dica": "estilhaço"
+  },
+  {
+    "palavra": "papel",
+    "dica": "celulose"
+  },
+  {
+    "palavra": "livro",
+    "dica": "capitulo"
+  },
+  {
+    "palavra": "revista",
+    "dica": "banca"
+  },
+  {
+    "palavra": "jornal",
+    "dica": "manchete"
+  },
+  {
+    "palavra": "caderno",
+    "dica": "espiral"
+  },
+  {
+    "palavra": "agenda",
+    "dica": "anotacao"
+  },
+  {
+    "palavra": "caneta",
+    "dica": "tinta"
+  },
+  {
+    "palavra": "lapis",
+    "dica": "grafite"
+  },
+  {
+    "palavra": "borracha",
+    "dica": "apagar"
+  },
+  {
+    "palavra": "marcador",
+    "dica": "neon"
+  },
+  {
+    "palavra": "régua",
+    "dica": "centimetros"
+  },
+  {
+    "palavra": "compasso",
+    "dica": "circunferencia"
+  },
+  {
+    "palavra": "estojo",
+    "dica": "ziper"
+  },
+  {
+    "palavra": "quadro-negro",
+    "dica": "giz"
+  },
+  {
+    "palavra": "giz",
+    "dica": "poeira"
+  },
+  {
+    "palavra": "lousa",
+    "dica": "marcador"
+  },
+  {
+    "palavra": "prova",
+    "dica": "nota"
+  },
+  {
+    "palavra": "exercicio",
+    "dica": "resolucao"
+  },
+  {
+    "palavra": "pesquisa",
+    "dica": "fonte"
+  },
+  {
+    "palavra": "tese",
+    "dica": "defesa"
+  },
+  {
+    "palavra": "artigo",
+    "dica": "periodico"
+  },
+  {
+    "palavra": "revista-cientifica",
+    "dica": "peerreview"
+  },
+  {
+    "palavra": "laboratorio",
+    "dica": "microscopio"
+  },
+  {
+    "palavra": "microscopio",
+    "dica": "lamina"
+  },
+  {
+    "palavra": "telescopio",
+    "dica": "ampliacao"
+  },
+  {
+    "palavra": "binoculo",
+    "dica": "distancia"
+  },
+  {
+    "palavra": "imã",
+    "dica": "magnetismo"
+  },
+  {
+    "palavra": "gravidade",
+    "dica": "queda"
+  },
+  {
+    "palavra": "energia",
+    "dica": "potencia"
+  },
+  {
+    "palavra": "forca",
+    "dica": "vetor"
+  },
+  {
+    "palavra": "velocidade",
+    "dica": "deslocamento"
+  },
+  {
+    "palavra": "aceleracao",
+    "dica": "curva"
+  },
+  {
+    "palavra": "massa",
+    "dica": "inercia"
+  },
+  {
+    "palavra": "volume",
+    "dica": "litros"
+  },
+  {
+    "palavra": "temperatura",
+    "dica": "celsius"
+  },
+  {
+    "palavra": "densidade",
+    "dica": "flutuar"
+  },
+  {
+    "palavra": "acido",
+    "dica": "ph"
+  },
+  {
+    "palavra": "base",
+    "dica": "alcalino"
+  },
+  {
+    "palavra": "sal",
+    "dica": "sodio"
+  },
+  {
+    "palavra": "oxigenio",
+    "dica": "respirar"
+  },
+  {
+    "palavra": "hidrogenio",
+    "dica": "leve"
+  },
+  {
+    "palavra": "carbono",
+    "dica": "organico"
+  },
+  {
+    "palavra": "nitrogenio",
+    "dica": "atmosfera"
+  },
+  {
+    "palavra": "helium",
+    "dica": "balão"
+  },
+  {
+    "palavra": "ouroboro",
+    "dica": "circular"
+  },
+  {
+    "palavra": "labirinto",
+    "dica": "minotauro"
+  },
+  {
+    "palavra": "mitologia",
+    "dica": "deuses"
+  },
+  {
+    "palavra": "dragao",
+    "dica": "escamas"
+  },
+  {
+    "palavra": "fada",
+    "dica": "encanto"
+  },
+  {
+    "palavra": "bruxa",
+    "dica": "caldeirao"
+  },
+  {
+    "palavra": "mago",
+    "dica": "grimorio"
+  },
+  {
+    "palavra": "feitico",
+    "dica": "encantamento"
+  },
+  {
+    "palavra": "espada",
+    "dica": "lamina"
+  },
+  {
+    "palavra": "escudo",
+    "dica": "defesa"
+  },
+  {
+    "palavra": "arco",
+    "dica": "flecha"
+  },
+  {
+    "palavra": "flecha",
+    "dica": "aljava"
+  }
+]
