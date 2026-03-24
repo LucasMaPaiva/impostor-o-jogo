@@ -1,0 +1,33 @@
+/**
+ * @license
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+export type GameStatus = 'lobby' | 'reveal' | 'clues' | 'voting' | 'results';
+
+export interface Player {
+  id: string;
+  name: string;
+  role: 'normal' | 'impostor';
+  word: string;
+  clue: string;
+  votes: number;
+  isReady: boolean;
+  votedFor?: string;
+  joinTime: number;
+}
+
+export interface Room {
+  id: string;
+  status: GameStatus;
+  wordA: string;
+  wordB: string;
+  category: string;
+  impostorId: string;
+  hostId: string;
+  messages: { userId: string; name: string; text: string }[];
+  winner?: 'normal' | 'impostor';
+  players: Player[];
+  turnIndex: number;
+  turnOrder?: string[];
+}

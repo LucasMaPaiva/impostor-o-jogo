@@ -29,66 +29,25 @@ async function connectToMongo() {
   }
 }
 
-// --- Game State ---
-interface Player {
-  id: string;
-  name: string;
-  role: 'normal' | 'impostor';
-  word: string;
-  clue: string;
-  votes: number;
-  isAlive: boolean;
-  isReady: boolean;
-  votedFor?: string;
-  joinTime: number;
-  socket?: WebSocket;
-}
+import { Player, Room, GameStatus } from './server/types.js';
+import { loadWords, getRandomWord } from './server/gameLogic.js';
 
-interface Room {
-  id: string;
-  status: 'lobby' | 'reveal' | 'clues' | 'voting' | 'results';
-  wordA: string;
-  wordB: string;
-  category: string;
-  impostorId: string;
-  hostId: string;
-  messages: { userId: string, name: string, text: string }[];
-  winner?: 'normal' | 'impostor';
-  players: Map<string, Player>;
-  reRoundVotes?: number;
-}
-
+// --- Room State ---
 const rooms = new Map<string, Room>();
 
-// --- Word Loading ---
-interface WordData {
-  palavra: string;
-  dica: string;
-}
-
-const ALL_WORDS: WordData[] = [];
-
-try {
-  const jsonPath = path.join(__dirname, "palavras_dicas_1000(1).json");
-  const rawData = readFileSync(jsonPath, "utf-8");
-  const data: WordData[] = JSON.parse(rawData);
-  
-  ALL_WORDS.push(...data);
-  
-  console.log(`Loaded ${ALL_WORDS.length} words.`);
-} catch (err) {
-  console.error("Error loading words JSON. Using hardcoded survival list.", err);
-  ALL_WORDS.push({ palavra: "Maçã", dica: "Fruta" });
-}
-
-function getRandomWord(): WordData {
-  if (ALL_WORDS.length === 0) {
-    return { palavra: "Início", dica: "Sistema" };
-  }
-  return ALL_WORDS[Math.floor(Math.random() * ALL_WORDS.length)];
-}
+// Load words on startup
+loadWords();
 
 const roomsCollection = () => db?.collection("rooms");
+
+function shuffle<T>(array: T[]): T[] {
+  const newArray = [...array];
+  for (let i = newArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+  }
+  return newArray;
+}
 
 async function saveRoomToDb(room: Room) {
   if (!db) return;
@@ -171,7 +130,8 @@ async function startServer() {
                 impostorId: '',
                 hostId: userId,
                 messages: [],
-                players: new Map()
+                players: new Map(),
+                turnIndex: 0
               };
               rooms.set(roomId, room);
             }
@@ -215,6 +175,9 @@ async function startServer() {
             room.impostorId = impostorId;
             room.winner = undefined;
             room.messages = [];
+            room.turnIndex = 0;
+            room.turnOrder = shuffle(playerIds);
+            room.reRoundVotes = 0;
 
             room.players.forEach((p) => {
               p.role = p.id === impostorId ? 'impostor' : 'normal';
@@ -253,14 +216,19 @@ async function startServer() {
             const player = room.players.get(currentUserId!);
             if (!player) return;
 
-            const sortedPlayers = Array.from(room.players.values()).sort((a, b) => a.joinTime - b.joinTime);
-            const activePlayer = sortedPlayers.find(p => !p.clue);
+            const orderedIds = room.turnOrder || Array.from(room.players.keys()).sort((a,b) => (room.players.get(a)?.joinTime || 0) - (room.players.get(b)?.joinTime || 0));
+            const sortedPlayers = orderedIds.map(id => room.players.get(id)).filter(Boolean) as Player[];
+            const activePlayer = sortedPlayers[room.turnIndex];
             
-            if (activePlayer?.id !== currentUserId) return;
+            if (!activePlayer || activePlayer.id !== currentUserId) {
+              console.log(`[CLUE REJECTED] Not player's turn. Expected: ${activePlayer?.name}, Got: ${player.name}`);
+              return;
+            }
 
             player.clue = payload.clue;
+            room.turnIndex++;
             
-            const allClues = sortedPlayers.every(p => p.clue || p.id === currentUserId);
+            const allClues = sortedPlayers.every(p => !!p.clue);
             if (allClues) {
               room.status = 'voting';
               room.players.forEach(p => p.isReady = false);
@@ -324,6 +292,7 @@ async function startServer() {
                 // Restart for another round of clues with the same words
                 room.status = 'clues';
                 room.reRoundVotes = 0;
+                room.turnIndex = 0;
                 room.players.forEach(p => {
                   p.clue = '';
                   p.votes = 0;
@@ -378,9 +347,13 @@ async function startServer() {
           hostId: room.hostId,
           messages: room.messages,
           winner: room.winner,
-          players: Array.from(room.players.values())
-            .sort((a, b) => a.joinTime - b.joinTime)
+          turnIndex: room.turnIndex,
+          turnOrder: room.turnOrder,
+          players: (room.turnOrder || Array.from(room.players.keys()).sort((a,b) => (room.players.get(a)?.joinTime || 0) - (room.players.get(b)?.joinTime || 0)))
+            .map(id => room.players.get(id))
+            .filter(Boolean)
             .map((player) => {
+              const p = player!;
               const { socket, word, role, ...pData } = player;
               const isCurrent = player.id === p.id;
               const revealAll = room.status === 'results';
