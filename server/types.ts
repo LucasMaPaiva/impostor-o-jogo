@@ -14,6 +14,7 @@ export interface Player {
   votes: number;
   isReady: boolean;
   isAlive: boolean;
+  active: boolean;
   votedFor?: string;
   joinTime: number;
   socket?: any; // Use any for WebSocket to avoid circular dependency or complex typing for now

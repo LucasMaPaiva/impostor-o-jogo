@@ -40,7 +40,7 @@ function GameContainer() {
   const [connected, setConnected] = useState(false);
   
   const socketRef = useRef<WebSocket | null>(null);
-  const chatEndRef = useRef<HTMLDivElement>(null);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
 
   // Sync roomCode with URL if it changes externally
   useEffect(() => {
@@ -50,8 +50,9 @@ function GameContainer() {
   }, [urlRoomId]);
 
   useEffect(() => {
-    if (room?.messages) {
-      chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (chatContainerRef.current) {
+      const container = chatContainerRef.current;
+      container.scrollTop = container.scrollHeight;
     }
   }, [room?.messages]);
 
@@ -197,23 +198,30 @@ function GameContainer() {
               className="flex-1 flex flex-col"
             >
               {/* Game Info Bar */}
-              <div className="flex items-center justify-between mb-8 bg-zinc-900/50 p-4 rounded-2xl border border-zinc-800">
-                <div className="flex items-center gap-3">
-                  <div className="bg-emerald-500/10 p-2 rounded-xl text-emerald-500">
-                    <Hash size={18} />
+                <div className="flex items-center justify-between mb-8 bg-zinc-900/50 p-4 rounded-2xl border border-zinc-800">
+                  <div className="flex items-center gap-3">
+                    <div className="bg-emerald-500/10 p-2 rounded-xl text-emerald-500">
+                      <Hash size={18} />
+                    </div>
+                    <div>
+                      <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Sala</p>
+                      <p className="font-mono font-bold text-lg leading-none">{room.id}</p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Sala</p>
-                    <p className="font-mono font-bold text-lg leading-none">{room.id}</p>
+                  <div className="flex items-center gap-2">
+                    {currentPlayer && !currentPlayer.active && room.status !== 'lobby' && (
+                      <span className="bg-amber-500/10 text-amber-500 text-[10px] font-bold uppercase tracking-widest px-2 py-1 rounded-lg border border-amber-500/20">
+                        Espectador
+                      </span>
+                    )}
+                    <button 
+                      onClick={leaveRoom}
+                      className="text-zinc-500 hover:text-red-400 transition-colors p-2"
+                    >
+                      <LogOut size={20} />
+                    </button>
                   </div>
                 </div>
-                <button 
-                  onClick={leaveRoom}
-                  className="text-zinc-500 hover:text-red-400 transition-colors p-2"
-                >
-                  <LogOut size={20} />
-                </button>
-              </div>
 
               {room.status === 'lobby' && (
                 <Lobby 
@@ -254,7 +262,10 @@ function GameContainer() {
                   </div>
                   
                   <div className="flex-1 min-h-[200px] bg-zinc-900/30 border border-zinc-900 rounded-3xl mb-4 flex flex-col overflow-hidden mt-6">
-                    <div className="flex-1 overflow-y-auto p-4 space-y-3 custom-scrollbar">
+                    <div 
+                      ref={chatContainerRef}
+                      className="flex-1 overflow-y-auto p-4 space-y-3 custom-scrollbar"
+                    >
                       {(room?.messages || []).length === 0 && (
                         <p className="text-center text-zinc-700 text-[10px] uppercase font-bold tracking-widest mt-8">Nenhuma mensagem ainda...</p>
                       )}
@@ -271,7 +282,6 @@ function GameContainer() {
                           </div>
                         </div>
                       ))}
-                      <div ref={chatEndRef} />
                     </div>
                     
                     <div className="p-2 bg-zinc-900/50 border-t border-zinc-800 flex gap-2">

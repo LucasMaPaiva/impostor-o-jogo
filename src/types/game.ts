@@ -13,6 +13,7 @@ export interface Player {
   clue: string;
   votes: number;
   isReady: boolean;
+  active: boolean;
   votedFor?: string;
   joinTime: number;
 }

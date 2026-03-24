@@ -151,7 +151,8 @@ async function startServer() {
                 isAlive: true,
                 isReady: false,
                 joinTime: Date.now(),
-                socket: ws
+                socket: ws,
+                active: room.status === 'lobby' || room.status === 'results'
               };
               room.players.set(userId, player);
             }
@@ -186,6 +187,7 @@ async function startServer() {
               p.votes = 0;
               p.votedFor = undefined;
               p.isReady = false;
+              p.active = true;
             });
 
             await saveRoomToDb(room);
@@ -200,7 +202,9 @@ async function startServer() {
             if (!player) return;
 
             player.isReady = true;
-            const allReady = Array.from(room.players.values()).every(p => p.isReady);
+            const allReady = Array.from(room.players.values())
+              .filter(p => p.active)
+              .every(p => p.isReady);
             if (allReady) {
               room.status = 'clues';
               room.players.forEach(p => p.isReady = false);
@@ -228,7 +232,8 @@ async function startServer() {
             player.clue = payload.clue;
             room.turnIndex++;
             
-            const allClues = sortedPlayers.every(p => !!p.clue);
+            const activePlayers = sortedPlayers.filter(p => p.active);
+            const allClues = activePlayers.every(p => !!p.clue);
             if (allClues) {
               room.status = 'voting';
               room.players.forEach(p => p.isReady = false);
@@ -282,9 +287,10 @@ async function startServer() {
               if (target) target.votes++;
             }
 
-            const allVoted = Array.from(room.players.values()).every(p => p.votedFor);
+            const activePlayers = Array.from(room.players.values()).filter(p => p.active);
+            const allVoted = activePlayers.every(p => p.votedFor);
             if (allVoted) {
-              const sorted = Array.from(room.players.values()).sort((a, b) => b.votes - a.votes);
+              const sorted = activePlayers.sort((a, b) => b.votes - a.votes);
               const topPlayer = sorted[0];
               const reRoundTotal = room.reRoundVotes || 0;
 
