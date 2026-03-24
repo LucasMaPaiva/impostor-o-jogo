@@ -66,40 +66,26 @@ interface WordData {
   dica: string;
 }
 
-const CATEGORIES = new Map<string, string[]>();
+const ALL_WORDS: WordData[] = [];
 
 try {
   const jsonPath = path.join(__dirname, "palavras_dicas_1000(1).json");
   const rawData = readFileSync(jsonPath, "utf-8");
   const data: WordData[] = JSON.parse(rawData);
   
-  data.forEach(item => {
-    if (!CATEGORIES.has(item.dica)) {
-      CATEGORIES.set(item.dica, []);
-    }
-    CATEGORIES.get(item.dica)!.push(item.palavra);
-  });
+  ALL_WORDS.push(...data);
   
-  console.log(`Loaded ${data.length} words into ${CATEGORIES.size} categories.`);
+  console.log(`Loaded ${ALL_WORDS.length} words.`);
 } catch (err) {
   console.error("Error loading words JSON. Using hardcoded survival list.", err);
-  CATEGORIES.set("Geral", ["Maçã", "Pêra", "Banana", "Uva", "Melancia", "Abacaxi"]);
+  ALL_WORDS.push({ palavra: "Maçã", dica: "Fruta" });
 }
 
-function getRandomPair(): [string, string, string] {
-  // Filter categories that have at least 2 words
-  const validHints = Array.from(CATEGORIES.keys()).filter(h => CATEGORIES.get(h)!.length >= 2);
-  
-  if (validHints.length === 0) {
-    return ["Início", "Fim", "Sistema"];
+function getRandomWord(): WordData {
+  if (ALL_WORDS.length === 0) {
+    return { palavra: "Início", dica: "Sistema" };
   }
-
-  const randomHint = validHints[Math.floor(Math.random() * validHints.length)];
-  const words = CATEGORIES.get(randomHint)!;
-  
-  // Pick two distinct random words
-  const shuffled = [...words].sort(() => 0.5 - Math.random());
-  return [shuffled[0], shuffled[1], randomHint];
+  return ALL_WORDS[Math.floor(Math.random() * ALL_WORDS.length)];
 }
 
 const roomsCollection = () => db?.collection("rooms");
@@ -218,21 +204,21 @@ async function startServer() {
             const room = rooms.get(currentRoomId!);
             if (!room || room.hostId !== currentUserId) return;
 
-            const [wordA, wordB, category] = getRandomPair();
+            const { palavra, dica } = getRandomWord();
             const playerIds = Array.from(room.players.keys());
             const impostorId = playerIds[Math.floor(Math.random() * playerIds.length)];
 
             room.status = 'reveal';
-            room.wordA = wordA;
-            room.wordB = wordB;
-            room.category = category;
+            room.wordA = palavra;
+            room.wordB = dica;
+            room.category = ''; // Not used for hints anymore
             room.impostorId = impostorId;
             room.winner = undefined;
             room.messages = [];
 
             room.players.forEach((p) => {
               p.role = p.id === impostorId ? 'impostor' : 'normal';
-              p.word = p.id === impostorId ? wordB : wordA;
+              p.word = p.id === impostorId ? dica : palavra;
               p.clue = '';
               p.votes = 0;
               p.votedFor = undefined;
@@ -385,10 +371,10 @@ async function startServer() {
           id: room.id,
           status: room.status,
           // Hide shared words
-          category: p.role === 'impostor' ? room.category : '',
+          category: '', // No longer sending category to anyone
           impostorId: room.status === 'results' ? room.impostorId : '',
           wordA: room.status === 'results' ? room.wordA : '',
-          wordB: room.status === 'results' ? room.wordB : '',
+          wordB: '', // No longer sending wordB to everyone
           hostId: room.hostId,
           messages: room.messages,
           winner: room.winner,

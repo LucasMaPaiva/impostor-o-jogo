@@ -557,8 +557,8 @@ export default function App() {
                       <span className="font-bold text-red-400">{(room?.players || []).find(p => p.id === room?.impostorId)?.name || 'Desconhecido'}</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-xs font-bold uppercase tracking-widest text-zinc-500">Palavras</span>
-                      <span className="font-bold">{room?.wordA} vs {room?.wordB}</span>
+                      <span className="text-xs font-bold uppercase tracking-widest text-zinc-500">Palavra</span>
+                      <span className="font-bold text-emerald-500 tracking-wider transition-all">{room?.wordA}</span>
                     </div>
                   </div>
 
