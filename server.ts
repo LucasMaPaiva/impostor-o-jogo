@@ -55,6 +55,7 @@ interface Room {
   messages: { userId: string, name: string, text: string }[];
   winner?: 'normal' | 'impostor';
   players: Map<string, Player>;
+  reRoundVotes?: number;
 }
 
 const rooms = new Map<string, Room>();
@@ -319,15 +320,33 @@ async function startServer() {
 
             if (player.votedFor) return;
             player.votedFor = payload.targetId;
-            const target = room.players.get(payload.targetId);
-            if (target) target.votes++;
+
+            if (payload.targetId === "RE_ROUND") {
+              room.reRoundVotes = (room.reRoundVotes || 0) + 1;
+            } else {
+              const target = room.players.get(payload.targetId);
+              if (target) target.votes++;
+            }
 
             const allVoted = Array.from(room.players.values()).every(p => p.votedFor);
             if (allVoted) {
               const sorted = Array.from(room.players.values()).sort((a, b) => b.votes - a.votes);
-              const mostVoted = sorted[0];
-              room.status = 'results';
-              room.winner = mostVoted.id === room.impostorId ? 'normal' : 'impostor';
+              const topPlayer = sorted[0];
+              const reRoundTotal = room.reRoundVotes || 0;
+
+              if (reRoundTotal > topPlayer.votes) {
+                // Restart for another round of clues with the same words
+                room.status = 'clues';
+                room.reRoundVotes = 0;
+                room.players.forEach(p => {
+                  p.clue = '';
+                  p.votes = 0;
+                  p.votedFor = undefined;
+                });
+              } else {
+                room.status = 'results';
+                room.winner = topPlayer.id === room.impostorId ? 'normal' : 'impostor';
+              }
             }
             await saveRoomToDb(room);
             broadcastRoom(room);
@@ -360,23 +379,34 @@ async function startServer() {
   });
 
   function broadcastRoom(room: Room) {
-    const state = {
-      id: room.id,
-      status: room.status,
-      wordA: room.wordA,
-      wordB: room.wordB,
-      category: room.category,
-      impostorId: room.impostorId,
-      hostId: room.hostId,
-      messages: room.messages,
-      winner: room.winner,
-      players: Array.from(room.players.values())
-        .sort((a, b) => a.joinTime - b.joinTime)
-        .map(({ socket, ...p }) => p)
-    };
-
     room.players.forEach((p) => {
       if (p.socket && p.socket.readyState === WebSocket.OPEN) {
+        const state = {
+          id: room.id,
+          status: room.status,
+          // Hide shared words
+          category: p.role === 'impostor' ? room.category : '',
+          impostorId: room.status === 'results' ? room.impostorId : '',
+          wordA: room.status === 'results' ? room.wordA : '',
+          wordB: room.status === 'results' ? room.wordB : '',
+          hostId: room.hostId,
+          messages: room.messages,
+          winner: room.winner,
+          players: Array.from(room.players.values())
+            .sort((a, b) => a.joinTime - b.joinTime)
+            .map((player) => {
+              const { socket, word, role, ...pData } = player;
+              const isCurrent = player.id === p.id;
+              const revealAll = room.status === 'results';
+              
+              return {
+                ...pData,
+                // Only send the player's own word/role unless the game is over
+                role: (isCurrent || revealAll) ? role : undefined,
+                word: (isCurrent || revealAll) ? word : ''
+              };
+            })
+        };
         p.socket.send(JSON.stringify({ type: "SYNC", payload: state }));
       }
     });

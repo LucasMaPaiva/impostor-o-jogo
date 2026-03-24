@@ -320,9 +320,11 @@ export default function App() {
                     <h2 className="text-2xl font-bold italic uppercase tracking-tighter">Sua Palavra Secreta</h2>
                     <div className="flex flex-col gap-1">
                       <p className="text-zinc-500 text-sm font-medium">Não deixe ninguém ver!</p>
-                      <div className="bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-full w-fit mx-auto">
-                        <p className="text-[10px] font-bold uppercase tracking-widest text-emerald-500">Dica: {room.category}</p>
-                      </div>
+                      {room.category && (
+                        <div className="bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-full w-fit mx-auto">
+                          <p className="text-[10px] font-bold uppercase tracking-widest text-emerald-500">Dica: {room.category}</p>
+                        </div>
+                      )}
                     </div>
                   </div>
 
@@ -496,6 +498,21 @@ export default function App() {
                   </div>
 
                   <div className="grid grid-cols-2 gap-2 mb-2">
+                    {/* Special Option: More Clues */}
+                    <button 
+                      disabled={!!currentPlayer?.votedFor}
+                      onClick={() => submitVote("RE_ROUND")}
+                      className={cn(
+                        "p-3 rounded-2xl border flex flex-col items-center justify-center transition-all text-center gap-1",
+                        currentPlayer?.votedFor === "RE_ROUND" 
+                          ? "bg-amber-500/10 border-amber-500/50" 
+                          : "bg-zinc-900 border-zinc-800 hover:border-zinc-700 disabled:opacity-50"
+                      )}
+                    >
+                      <p className="font-bold text-sm text-amber-500">Mais uma rodada</p>
+                      <p className="text-[10px] text-zinc-500 uppercase tracking-widest font-black">Pedir mais dicas</p>
+                    </button>
+
                     {(room?.players || []).map((p) => (
                       <button 
                         key={p?.id} 
