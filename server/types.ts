@@ -35,7 +35,6 @@ export interface Room {
   turnIndex: number;
   turnOrder?: string[];
   restartVotes?: string[];
-  kickVotes?: Record<string, string[]>; // targetId -> array of userIds who voted to kick
   lastEliminatedId?: string;
   eliminatedRole?: string;
 }

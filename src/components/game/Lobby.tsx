@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { motion } from 'motion/react';
-import { User, Copy, Play, UserMinus, Gavel } from 'lucide-react';
+import { User, Copy, Play, UserMinus } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { Room, Player } from '../../types/game';
 
@@ -16,10 +16,16 @@ interface LobbyProps {
   onCopyRoomId: () => void;
   onUpdateSettings: (settings: { impostorCount: number }) => void;
   onKickPlayer: (targetId: string) => void;
-  onVoteKickPlayer: (targetId: string) => void;
 }
 
-export const Lobby: React.FC<LobbyProps> = ({ room, currentUserId, onStartGame, onCopyRoomId, onUpdateSettings, onKickPlayer, onVoteKickPlayer }) => {
+export const Lobby: React.FC<LobbyProps> = ({ 
+  room, 
+  currentUserId, 
+  onStartGame, 
+  onCopyRoomId, 
+  onUpdateSettings,
+  onKickPlayer
+}) => {
   const isHost = room.hostId === currentUserId;
   const canStart = room.players.length >= 3;
   
@@ -111,38 +117,15 @@ export const Lobby: React.FC<LobbyProps> = ({ room, currentUserId, onStartGame, 
                 </div>
               </div>
 
-              {p.id !== currentUserId && (
+              {p.id !== currentUserId && isHost && (
                 <div className="flex items-center gap-2">
-                  {/* Vote count for kicking this player */}
-                  {room.kickVotes?.[p.id] && room.kickVotes[p.id].length > 0 && (
-                    <span className="text-[10px] font-black bg-red-500/10 text-red-500 px-2 py-1 rounded-lg border border-red-500/20">
-                      {room.kickVotes[p.id].length}/{Math.ceil(room.players.length / 2)}
-                    </span>
-                  )}
-                  
-                  {isHost ? (
-                    <button
-                      onClick={() => onKickPlayer(p.id)}
-                      title="Expulsar Jogador"
-                      className="p-2 rounded-xl bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-all border border-red-500/20 hover:border-transparent active:scale-95"
-                    >
-                      <UserMinus size={14} />
-                    </button>
-                  ) : (
-                    <button
-                      onClick={() => onVoteKickPlayer(p.id)}
-                      disabled={room.kickVotes?.[p.id]?.includes(currentUserId)}
-                      title="Votar para Expulsar"
-                      className={cn(
-                        "p-2 rounded-xl transition-all border active:scale-95",
-                        room.kickVotes?.[p.id]?.includes(currentUserId)
-                          ? "bg-zinc-800 text-zinc-600 border-zinc-700 cursor-not-allowed"
-                          : "bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white border-red-500/20 hover:border-transparent"
-                      )}
-                    >
-                      <Gavel size={14} />
-                    </button>
-                  )}
+                  <button
+                    onClick={() => onKickPlayer(p.id)}
+                    title="Expulsar Jogador"
+                    className="p-2 rounded-xl bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-all border border-red-500/20 hover:border-transparent active:scale-95"
+                  >
+                    <UserMinus size={14} />
+                  </button>
                 </div>
               )}
             </motion.div>

@@ -32,7 +32,6 @@ export interface Room {
   turnIndex: number;
   turnOrder?: string[];
   restartVotes?: string[];
-  kickVotes?: Record<string, string[]>;
   lastEliminatedId?: string;
   eliminatedRole?: 'normal' | 'impostor';
 }

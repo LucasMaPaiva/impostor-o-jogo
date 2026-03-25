@@ -5,18 +5,29 @@
 
 import React from 'react';
 import { motion } from 'motion/react';
-import { Info, RotateCcw, Bell, BellOff } from 'lucide-react';
+import { Info, RotateCcw, Bell, BellOff, ShieldAlert } from 'lucide-react';
 
 interface HeaderProps {
   connected: boolean;
   isRoomActive: boolean;
+  isHost: boolean;
   onShowRules: () => void;
+  onShowAdmin: () => void;
   onRestartRequest?: () => void;
   notificationsEnabled: boolean;
   onToggleNotifications: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ connected, isRoomActive, onShowRules, onRestartRequest, notificationsEnabled, onToggleNotifications }) => {
+export const Header: React.FC<HeaderProps> = ({ 
+  connected, 
+  isRoomActive, 
+  isHost,
+  onShowRules, 
+  onShowAdmin,
+  onRestartRequest, 
+  notificationsEnabled, 
+  onToggleNotifications 
+}) => {
   return (
     <header className="mb-12 flex items-center justify-between">
       <div className="flex-1" /> {/* Spacer */}
@@ -36,6 +47,15 @@ export const Header: React.FC<HeaderProps> = ({ connected, isRoomActive, onShowR
       </div>
 
       <div className="flex-1 flex justify-end gap-2">
+        {isHost && (
+          <button
+            onClick={onShowAdmin}
+            title="Painel Admin"
+            className="p-3 bg-zinc-900/50 hover:bg-amber-400/10 text-zinc-400 hover:text-amber-400 border border-zinc-800 hover:border-amber-400/20 rounded-2xl transition-all active:scale-90"
+          >
+            <ShieldAlert size={20} />
+          </button>
+        )}
         {isRoomActive && onRestartRequest && (
           <button
             onClick={onRestartRequest}

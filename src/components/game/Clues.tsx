@@ -4,8 +4,8 @@
  */
 
 import React from 'react';
-import { motion } from 'motion/react';
-import { MessageSquare, Send } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { Send } from 'lucide-react';
 import { Room, Player } from '../../types/game';
 
 interface CluesProps {
@@ -98,39 +98,52 @@ export const Clues: React.FC<CluesProps> = ({ room, currentUserId, clueInput, on
         })}
       </div>
 
-      <div className="mt-auto pt-8 border-t border-zinc-900">
-        {isMyTurn ? (
-          <div className="space-y-4">
-            <div className="bg-zinc-900 border border-zinc-800 p-2 rounded-2xl flex gap-2">
-              <input 
-                value={clueInput}
-                onChange={(e) => onClueChange(e.target.value)}
-                placeholder="Sua dica rápida..."
-                autoFocus
-                className="flex-1 bg-transparent border-none outline-none px-4 text-sm font-medium text-white placeholder:text-zinc-700"
-                onKeyDown={(e) => e.key === 'Enter' && onSendClue()}
-              />
-              <button 
-                onClick={onSendClue}
-                disabled={!clueInput.trim()}
-                className="bg-emerald-500 hover:bg-emerald-400 disabled:opacity-50 disabled:grayscale text-black p-3 rounded-xl transition-all active:scale-90 flex items-center justify-center shadow-[0_0_20px_rgba(16,185,129,0.2)]"
-              >
-                <Send size={18} fill="currentColor" />
-              </button>
+      <div className="mt-auto h-32" /> {/* Spacer for floating input */}
+
+      <AnimatePresence>
+        {isMyTurn && (
+          <motion.div
+            initial={{ opacity: 0, y: 100 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 100 }}
+            className="fixed bottom-12 left-1/2 -translate-x-1/2 w-full max-w-sm px-6 z-50"
+          >
+            <div className="bg-zinc-900/90 backdrop-blur-xl border border-emerald-500/30 p-3 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.5),0_0_30px_rgba(16,185,129,0.1)] flex flex-col gap-3">
+              <div className="flex gap-2">
+                <input 
+                  value={clueInput}
+                  onChange={(e) => onClueChange(e.target.value)}
+                  placeholder="Sua dica secreta..."
+                  autoFocus
+                  className="flex-1 bg-zinc-800/50 border border-zinc-700/50 rounded-full px-5 py-3 text-sm font-medium text-white placeholder:text-zinc-600 focus:outline-none focus:border-emerald-500/50 transition-colors"
+                  onKeyDown={(e) => e.key === 'Enter' && clueInput.trim() && onSendClue()}
+                />
+                <button 
+                  onClick={onSendClue}
+                  disabled={!clueInput.trim()}
+                  className="bg-emerald-500 hover:bg-emerald-400 disabled:opacity-20 disabled:grayscale text-black p-3 rounded-full transition-all active:scale-90 flex items-center justify-center shadow-[0_0_20px_rgba(16,185,129,0.3)]"
+                >
+                  <Send size={20} fill="currentColor" />
+                </button>
+              </div>
+              <div className="px-4 pb-1">
+                <p className="text-[10px] uppercase tracking-[0.2em] text-emerald-500 font-black text-center animate-pulse">
+                  ✨ É a sua vez de brilhar!
+                </p>
+              </div>
             </div>
-            <p className="text-center text-[10px] uppercase tracking-widest text-emerald-500/50 font-black">
-              Agora é a sua vez! Envie sua dica.
-            </p>
-          </div>
-        ) : (
-          <div className="px-8 py-4 bg-zinc-900/30 border border-zinc-800/50 rounded-2xl text-center">
-            <p className="text-xs font-bold text-zinc-600 uppercase tracking-widest leading-relaxed">
-              Aguarde sua vez para enviar a dica.<br/>
-              O jogador atual é <span className="text-zinc-400">{activePlayer?.name}</span>.
-            </p>
-          </div>
+          </motion.div>
         )}
-      </div>
+      </AnimatePresence>
+
+      {!isMyTurn && (
+        <div className="mt-auto pt-8 border-t border-zinc-900 px-8 py-4 bg-zinc-900/30 border border-zinc-800/50 rounded-2xl text-center">
+          <p className="text-xs font-bold text-zinc-600 uppercase tracking-widest leading-relaxed">
+            Aguarde sua vez para enviar a dica.<br/>
+            O jogador atual é <span className="text-zinc-400">{activePlayer?.name}</span>.
+          </p>
+        </div>
+      )}
     </div>
   );
 };

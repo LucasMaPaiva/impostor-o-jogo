@@ -415,7 +415,6 @@ async function startServer() {
             }
 
             room.players.delete(targetId);
-            if (room.kickVotes) delete room.kickVotes[targetId];
             
             broadcastToRoom(currentRoomId!, {
               type: "CHAT_MESSAGE",
@@ -425,67 +424,6 @@ async function startServer() {
                 text: `🚫 ${target.name} foi expulso pelo host.`
               }
             });
-
-            await saveRoomToDb(room);
-            broadcastRoom(room);
-            break;
-          }
-
-          case "VOTE_KICK_PLAYER": {
-            const room = rooms.get(currentRoomId!);
-            if (!room) return;
-            const player = room.players.get(currentUserId!);
-            if (!player) return;
-
-            const targetId = payload.targetId;
-            if (targetId === currentUserId) return; // Cannot vote to kick self
-
-            const target = room.players.get(targetId);
-            if (!target) return;
-
-            if (!room.kickVotes) room.kickVotes = {};
-            if (!room.kickVotes[targetId]) room.kickVotes[targetId] = [];
-
-            if (room.kickVotes[targetId].includes(currentUserId!)) return;
-
-            room.kickVotes[targetId].push(currentUserId!);
-            
-            const activePlayers = Array.from(room.players.values()).filter(p => p.active);
-            // Majority of total active players (including the target)
-            const votesNeeded = Math.ceil(activePlayers.length / 2);
-
-            broadcastToRoom(currentRoomId!, {
-              type: "CHAT_MESSAGE",
-              payload: {
-                userId: "system",
-                name: "Sistema",
-                text: `💬 ${player.name} votou para expulsar ${target.name} (${room.kickVotes[targetId].length}/${votesNeeded})`
-              }
-            });
-
-            if (room.kickVotes[targetId].length >= votesNeeded) {
-              // Execute Kick
-              if (target.socket && target.socket.readyState === WebSocket.OPEN) {
-                target.socket.send(JSON.stringify({ type: "KICKED", payload: { reason: "A maioria votou para te expulsar." } }));
-              }
-              
-              room.players.delete(targetId);
-              delete room.kickVotes[targetId];
-
-              // Handle host transfer if host was kicked
-              if (room.hostId === targetId && room.players.size > 0) {
-                room.hostId = Array.from(room.players.keys())[0];
-              }
-
-              broadcastToRoom(currentRoomId!, {
-                type: "CHAT_MESSAGE",
-                payload: {
-                  userId: "system",
-                  name: "Sistema",
-                  text: `🚫 ${target.name} foi expulso por votação da maioria.`
-                }
-              });
-            }
 
             await saveRoomToDb(room);
             broadcastRoom(room);
@@ -547,7 +485,6 @@ async function startServer() {
           wordA: room.status === 'results' ? room.wordA : '',
           hostId: room.hostId,
           winner: room.winner,
-          kickVotes: room.kickVotes,
           lastEliminatedId: room.lastEliminatedId,
           eliminatedRole: room.eliminatedRole,
           turnIndex: room.turnIndex,

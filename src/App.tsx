@@ -9,6 +9,7 @@ import {
 
 import { Room, Player } from './types/game';
 import { Header } from './components/Header';
+import { AdminPanel } from './components/AdminPanel';
 import { Footer } from './components/Footer';
 import { ErrorAlert } from './components/ErrorAlert';
 import { RoomAccess } from './components/RoomAccess';
@@ -44,6 +45,7 @@ function GameContainer() {
   const [localMessages, setLocalMessages] = useState<{ userId: string; name: string; text: string }[]>([]);
   const [connected, setConnected] = useState(false);
   const [showRules, setShowRules] = useState(false);
+  const [showAdmin, setShowAdmin] = useState(false);
   const [notificationsEnabled, setNotificationsEnabled] = useState(() => {
     const saved = localStorage.getItem('impostor_notifications');
     return saved === null ? true : saved === 'true';
@@ -249,10 +251,6 @@ function GameContainer() {
     send("KICK_PLAYER", { targetId });
   };
 
-  const voteKickPlayer = (targetId: string) => {
-    send("VOTE_KICK_PLAYER", { targetId });
-  };
-
   const leaveRoom = () => {
     navigate('/');
     setRoom(null);
@@ -279,7 +277,9 @@ function GameContainer() {
         <Header 
           connected={connected} 
           isRoomActive={!!room && room.status !== 'lobby'}
+          isHost={room?.hostId === userId}
           onShowRules={() => setShowRules(true)}
+          onShowAdmin={() => setShowAdmin(true)}
           onRestartRequest={requestRestart}
           notificationsEnabled={notificationsEnabled}
           onToggleNotifications={() => {
@@ -350,7 +350,6 @@ function GameContainer() {
                       onCopyRoomId={copyRoomId} 
                       onUpdateSettings={updateSettings}
                       onKickPlayer={kickPlayer}
-                      onVoteKickPlayer={voteKickPlayer}
                     />
                   )}
 
@@ -407,6 +406,21 @@ function GameContainer() {
                 />
               </aside>
             </motion.div>
+          )}
+        </AnimatePresence>
+
+        <AnimatePresence>
+          {showAdmin && room && (
+            <AdminPanel 
+              room={room} 
+              currentUserId={userId} 
+              onClose={() => setShowAdmin(false)}
+              onKickPlayer={(targetId) => {
+                kickPlayer(targetId);
+                // Maybe don't close automatically if kicking multiple?
+                // User said "uma de host", usually panel stays open.
+              }}
+            />
           )}
         </AnimatePresence>
 
