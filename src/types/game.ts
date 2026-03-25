@@ -31,4 +31,5 @@ export interface Room {
   players: Player[];
   turnIndex: number;
   turnOrder?: string[];
+  restartVotes?: string[];
 }

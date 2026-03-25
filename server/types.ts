@@ -34,6 +34,7 @@ export interface Room {
   reRoundVotes?: number;
   turnIndex: number;
   turnOrder?: string[];
+  restartVotes?: string[];
 }
 
 export interface WordData {

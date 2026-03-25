@@ -335,6 +335,57 @@ async function startServer() {
             broadcastRoom(room);
             break;
           }
+
+          case "RESTART_VOTE": {
+            const room = rooms.get(currentRoomId!);
+            if (!room) return;
+            const player = room.players.get(currentUserId!);
+            if (!player) return;
+
+            if (!room.restartVotes) room.restartVotes = [];
+            if (room.restartVotes.includes(currentUserId!)) return;
+
+            room.restartVotes.push(currentUserId!);
+            
+            const activePlayers = Array.from(room.players.values()).filter(p => p.active);
+            const votesNeeded = Math.ceil(activePlayers.length / 2);
+
+            // Notify in chat
+            broadcastToRoom(currentRoomId!, {
+              type: "CHAT_MESSAGE",
+              payload: {
+                userId: "system",
+                name: "Sistema",
+                text: `⚠️ ${player.name} quer reiniciar o jogo (${room.restartVotes.length}/${votesNeeded})`
+              }
+            });
+
+            if (room.restartVotes.length >= votesNeeded) {
+              room.status = 'lobby';
+              room.restartVotes = [];
+              room.reRoundVotes = 0;
+              room.turnIndex = 0;
+              room.players.forEach(p => {
+                p.clue = '';
+                p.votes = 0;
+                p.votedFor = undefined;
+                p.isReady = false;
+              });
+              
+              broadcastToRoom(currentRoomId!, {
+                type: "CHAT_MESSAGE",
+                payload: {
+                  userId: "system",
+                  name: "Sistema",
+                  text: "🔄 Votação concluída! Reiniciando para o Lobby..."
+                }
+              });
+            }
+
+            await saveRoomToDb(room);
+            broadcastRoom(room);
+            break;
+          }
         }
       } catch (err) {
         console.error("Error processing message:", err);

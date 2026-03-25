@@ -20,6 +20,7 @@ import { Results } from './components/game/Results';
 import { Routes, Route, useParams, useNavigate } from 'react-router-dom';
 
 import { Chat } from './components/game/Chat';
+import { RulesModal } from './components/RulesModal';
 
 function GameContainer() {
   const { roomId: urlRoomId } = useParams();
@@ -41,6 +42,7 @@ function GameContainer() {
   const [chatInput, setChatInput] = useState('');
   const [localMessages, setLocalMessages] = useState<{ userId: string; name: string; text: string }[]>([]);
   const [connected, setConnected] = useState(false);
+  const [showRules, setShowRules] = useState(false);
   
   const socketRef = useRef<WebSocket | null>(null);
 
@@ -154,6 +156,10 @@ function GameContainer() {
     send("VOTE", { targetId });
   };
 
+  const requestRestart = () => {
+    send("RESTART_VOTE", {});
+  };
+
   const updateSettings = (settings: { impostorCount: number }) => {
     send("SET_SETTINGS", settings);
   };
@@ -181,7 +187,12 @@ function GameContainer() {
         room ? "max-w-6xl" : "max-w-md"
       )}>
         
-        <Header connected={connected} />
+        <Header 
+          connected={connected} 
+          isRoomActive={!!room && room.status !== 'lobby'}
+          onShowRules={() => setShowRules(true)}
+          onRestartRequest={requestRestart}
+        />
 
         {error && <ErrorAlert error={error} />}
 
@@ -295,6 +306,11 @@ function GameContainer() {
         </AnimatePresence>
 
         <Footer />
+        
+        <RulesModal 
+          isOpen={showRules} 
+          onClose={() => setShowRules(false)} 
+        />
       </main>
 
       <style>{`
