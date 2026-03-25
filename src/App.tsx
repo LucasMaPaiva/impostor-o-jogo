@@ -17,6 +17,7 @@ import { Reveal } from './components/game/Reveal';
 import { Clues } from './components/game/Clues';
 import { Voting } from './components/game/Voting';
 import { Results } from './components/game/Results';
+import { EliminationResult } from './components/game/EliminationResult';
 import { Routes, Route, useParams, useNavigate } from 'react-router-dom';
 
 import { Chat } from './components/game/Chat';
@@ -43,6 +44,13 @@ function GameContainer() {
   const [localMessages, setLocalMessages] = useState<{ userId: string; name: string; text: string }[]>([]);
   const [connected, setConnected] = useState(false);
   const [showRules, setShowRules] = useState(false);
+  const [notificationsEnabled, setNotificationsEnabled] = useState(() => {
+    const saved = localStorage.getItem('impostor_notifications');
+    return saved === null ? true : saved === 'true';
+  });
+  
+  const lastStatusRef = useRef<string | null>(null);
+  const lastTurnIndexRef = useRef<number | null>(null);
   
   const socketRef = useRef<WebSocket | null>(null);
 
@@ -72,6 +80,9 @@ function GameContainer() {
         }
       } else if (message.type === 'CHAT_MESSAGE') {
         setLocalMessages(prev => [...prev, message.payload]);
+      } else if (message.type === 'KICKED') {
+        alert(message.payload.reason);
+        leaveRoom();
       }
     };
 
@@ -97,6 +108,70 @@ function GameContainer() {
     return (room?.players || []).find(p => p.id === userId);
   }, [room?.players, userId]);
 
+  const activeOrderedPlayers = useMemo(() => {
+    return (room?.players || []).filter(p => p.active);
+  }, [room?.players]);
+
+  const isMyTurn = useMemo(() => {
+    if (room?.status !== 'clues') return false;
+    const activePlayer = activeOrderedPlayers[room.turnIndex % (activeOrderedPlayers.length || 1)];
+    return activePlayer?.id === userId;
+  }, [room?.status, room?.turnIndex, activeOrderedPlayers, userId]);
+
+  // --- Notifications ---
+
+  const produceBeep = () => {
+    try {
+      const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const oscillator = audioCtx.createOscillator();
+      const gainNode = audioCtx.createGain();
+
+      oscillator.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+
+      oscillator.type = 'sine';
+      oscillator.frequency.setValueAtTime(880, audioCtx.currentTime); // A5
+      gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+
+      oscillator.start();
+      oscillator.stop(audioCtx.currentTime + 0.5);
+    } catch (e) {
+      console.error("Failed to play notification sound", e);
+    }
+  };
+
+  const notifyUser = (title: string, body: string) => {
+    if (!notificationsEnabled) return;
+    
+    produceBeep();
+
+    if (Notification.permission === 'granted') {
+      new Notification(title, { body, icon: '/favicon.ico' });
+    }
+  };
+
+  useEffect(() => {
+    if (!room) return;
+
+    // Check for turn change
+    if (room.status === 'clues' && isMyTurn) {
+      if (lastStatusRef.current !== 'clues' || lastTurnIndexRef.current !== room.turnIndex) {
+        notifyUser("Sua Vez!", "É sua vez de enviar uma dica!");
+      }
+    }
+
+    // Check for voting start
+    if (room.status === 'voting' && lastStatusRef.current !== 'voting') {
+      if (currentPlayer?.active && !currentPlayer.votedFor) {
+        notifyUser("Hora de Votar!", "A rodada de dicas acabou. Vote agora!");
+      }
+    }
+
+    lastStatusRef.current = room.status;
+    lastTurnIndexRef.current = room.turnIndex;
+  }, [room?.status, room?.turnIndex, isMyTurn, notificationsEnabled]);
+
   // --- Actions ---
 
   const send = (type: string, payload: any) => {
@@ -112,6 +187,9 @@ function GameContainer() {
     if (!playerName.trim()) return setError("Digite seu nome!");
     const code = Math.random().toString(36).substring(2, 8).toUpperCase();
     if (send("JOIN", { roomId: code, userId, name: playerName })) {
+      if (notificationsEnabled && Notification.permission === 'default') {
+        Notification.requestPermission();
+      }
       setError(null);
       setLocalMessages([]); // Clear chat for new room
       navigate(`/room/${code}`);
@@ -124,6 +202,9 @@ function GameContainer() {
     if (!targetCode) return setError("Digite o código da sala!");
     
     if (send("JOIN", { roomId: targetCode, userId, name: playerName })) {
+      if (notificationsEnabled && Notification.permission === 'default') {
+        Notification.requestPermission();
+      }
       setError(null);
       setLocalMessages([]); // Clear chat for new room
       navigate(`/room/${targetCode}`);
@@ -163,6 +244,14 @@ function GameContainer() {
   const updateSettings = (settings: { impostorCount: number }) => {
     send("SET_SETTINGS", settings);
   };
+  
+  const kickPlayer = (targetId: string) => {
+    send("KICK_PLAYER", { targetId });
+  };
+
+  const voteKickPlayer = (targetId: string) => {
+    send("VOTE_KICK_PLAYER", { targetId });
+  };
 
   const leaveRoom = () => {
     navigate('/');
@@ -192,6 +281,15 @@ function GameContainer() {
           isRoomActive={!!room && room.status !== 'lobby'}
           onShowRules={() => setShowRules(true)}
           onRestartRequest={requestRestart}
+          notificationsEnabled={notificationsEnabled}
+          onToggleNotifications={() => {
+            const newValue = !notificationsEnabled;
+            setNotificationsEnabled(newValue);
+            localStorage.setItem('impostor_notifications', newValue.toString());
+            if (newValue && Notification.permission === 'default') {
+              Notification.requestPermission();
+            }
+          }}
         />
 
         {error && <ErrorAlert error={error} />}
@@ -251,6 +349,8 @@ function GameContainer() {
                       onStartGame={startGame} 
                       onCopyRoomId={copyRoomId} 
                       onUpdateSettings={updateSettings}
+                      onKickPlayer={kickPlayer}
+                      onVoteKickPlayer={voteKickPlayer}
                     />
                   )}
 
@@ -283,9 +383,14 @@ function GameContainer() {
                   )}
 
                   {room.status === 'results' && (
-                    <Results 
+                    <Results room={room} currentUserId={userId} onRestart={requestRestart} />
+                  )}
+
+                  {room.status === 'reveal_elimination' && (
+                    <EliminationResult 
                       room={room} 
-                      onPlayAgain={startGame} 
+                      currentUserId={userId} 
+                      onReady={setReady} 
                     />
                   )}
                 </AnimatePresence>

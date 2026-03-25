@@ -210,13 +210,20 @@ async function startServer() {
             if (!room) return;
             const player = room.players.get(currentUserId!);
             if (!player) return;
+            if (!player.active) return;
 
             player.isReady = true;
             const allReady = Array.from(room.players.values())
               .filter(p => p.active)
               .every(p => p.isReady);
             if (allReady) {
-              room.status = 'clues';
+              if (room.status === 'reveal_elimination') {
+                room.status = 'clues';
+                room.turnIndex = 0;
+                // Clear state for next round is already done in VOTE handler
+              } else {
+                room.status = 'clues';
+              }
               room.players.forEach(p => p.isReady = false);
             }
             await saveRoomToDb(room);
@@ -232,15 +239,15 @@ async function startServer() {
 
             const orderedIds = room.turnOrder || Array.from(room.players.keys()).sort((a,b) => (room.players.get(a)?.joinTime || 0) - (room.players.get(b)?.joinTime || 0));
             const sortedPlayers = orderedIds.map(id => room.players.get(id)).filter(Boolean) as Player[];
-            const activePlayer = sortedPlayers[room.turnIndex];
+            const activeOrderedPlayers = sortedPlayers.filter(p => p.active);
+            const activePlayer = activeOrderedPlayers[room.turnIndex];
             
             if (!activePlayer || activePlayer.id !== currentUserId) return;
 
             player.clue = payload.clue;
             room.turnIndex++;
             
-            const activePlayers = sortedPlayers.filter(p => p.active);
-            const allClues = activePlayers.every(p => !!p.clue);
+            const allClues = activeOrderedPlayers.every(p => !!p.clue);
             if (allClues) {
               room.status = 'voting';
               room.players.forEach(p => p.isReady = false);
@@ -271,7 +278,7 @@ async function startServer() {
             const room = rooms.get(currentRoomId!);
             if (!room) return;
             const player = room.players.get(currentUserId!);
-            if (!player) return;
+            if (!player || !player.active) return;
 
             if (player.votedFor) return;
             player.votedFor = payload.targetId;
@@ -302,6 +309,7 @@ async function startServer() {
               } else {
                 // Eliminate logic
                 topPlayer.active = false;
+                topPlayer.clue = '';
                 
                 const allImpostorsOut = room.impostorIds.every(id => {
                   const p = room.players.get(id);
@@ -316,21 +324,25 @@ async function startServer() {
                   const activeNormal = currentActive.filter(p => !room.impostorIds.includes(p.id));
                   const activeImpostors = currentActive.filter(p => room.impostorIds.includes(p.id));
 
-                  if (activeNormal.length <= activeImpostors.length) {
-                    room.status = 'results';
-                    room.winner = 'impostor';
-                  } else {
-                    room.status = 'clues';
-                    room.turnIndex = 0;
-                    currentActive.forEach(p => {
-                      p.clue = '';
-                      p.votes = 0;
-                      p.votedFor = undefined;
-                    });
+                    if (activeNormal.length <= activeImpostors.length) {
+                      room.status = 'results';
+                      room.winner = 'impostor';
+                    } else {
+                      room.status = 'reveal_elimination';
+                      room.lastEliminatedId = topPlayer.id;
+                      room.eliminatedRole = room.impostorIds.includes(topPlayer.id) ? 'impostor' : 'normal';
+                      
+                      currentActive.forEach(p => {
+                        p.clue = '';
+                        p.votes = 0;
+                        p.votedFor = undefined;
+                        p.isReady = false;
+                      });
+                    }
                   }
                 }
               }
-            }
+            
             await saveRoomToDb(room);
             broadcastRoom(room);
             break;
@@ -378,6 +390,99 @@ async function startServer() {
                   userId: "system",
                   name: "Sistema",
                   text: "🔄 Votação concluída! Reiniciando para o Lobby..."
+                }
+              });
+            }
+
+            await saveRoomToDb(room);
+            broadcastRoom(room);
+            break;
+          }
+
+          case "KICK_PLAYER": {
+            const room = rooms.get(currentRoomId!);
+            if (!room || room.hostId !== currentUserId) return;
+            
+            const targetId = payload.targetId;
+            if (targetId === currentUserId) return; // Cannot kick self
+
+            const target = room.players.get(targetId);
+            if (!target) return;
+
+            // Notify target
+            if (target.socket && target.socket.readyState === WebSocket.OPEN) {
+              target.socket.send(JSON.stringify({ type: "KICKED", payload: { reason: "Você foi expulso pelo host." } }));
+            }
+
+            room.players.delete(targetId);
+            if (room.kickVotes) delete room.kickVotes[targetId];
+            
+            broadcastToRoom(currentRoomId!, {
+              type: "CHAT_MESSAGE",
+              payload: {
+                userId: "system",
+                name: "Sistema",
+                text: `🚫 ${target.name} foi expulso pelo host.`
+              }
+            });
+
+            await saveRoomToDb(room);
+            broadcastRoom(room);
+            break;
+          }
+
+          case "VOTE_KICK_PLAYER": {
+            const room = rooms.get(currentRoomId!);
+            if (!room) return;
+            const player = room.players.get(currentUserId!);
+            if (!player) return;
+
+            const targetId = payload.targetId;
+            if (targetId === currentUserId) return; // Cannot vote to kick self
+
+            const target = room.players.get(targetId);
+            if (!target) return;
+
+            if (!room.kickVotes) room.kickVotes = {};
+            if (!room.kickVotes[targetId]) room.kickVotes[targetId] = [];
+
+            if (room.kickVotes[targetId].includes(currentUserId!)) return;
+
+            room.kickVotes[targetId].push(currentUserId!);
+            
+            const activePlayers = Array.from(room.players.values()).filter(p => p.active);
+            // Majority of total active players (including the target)
+            const votesNeeded = Math.ceil(activePlayers.length / 2);
+
+            broadcastToRoom(currentRoomId!, {
+              type: "CHAT_MESSAGE",
+              payload: {
+                userId: "system",
+                name: "Sistema",
+                text: `💬 ${player.name} votou para expulsar ${target.name} (${room.kickVotes[targetId].length}/${votesNeeded})`
+              }
+            });
+
+            if (room.kickVotes[targetId].length >= votesNeeded) {
+              // Execute Kick
+              if (target.socket && target.socket.readyState === WebSocket.OPEN) {
+                target.socket.send(JSON.stringify({ type: "KICKED", payload: { reason: "A maioria votou para te expulsar." } }));
+              }
+              
+              room.players.delete(targetId);
+              delete room.kickVotes[targetId];
+
+              // Handle host transfer if host was kicked
+              if (room.hostId === targetId && room.players.size > 0) {
+                room.hostId = Array.from(room.players.keys())[0];
+              }
+
+              broadcastToRoom(currentRoomId!, {
+                type: "CHAT_MESSAGE",
+                payload: {
+                  userId: "system",
+                  name: "Sistema",
+                  text: `🚫 ${target.name} foi expulso por votação da maioria.`
                 }
               });
             }
@@ -442,6 +547,9 @@ async function startServer() {
           wordA: room.status === 'results' ? room.wordA : '',
           hostId: room.hostId,
           winner: room.winner,
+          kickVotes: room.kickVotes,
+          lastEliminatedId: room.lastEliminatedId,
+          eliminatedRole: room.eliminatedRole,
           turnIndex: room.turnIndex,
           turnOrder: room.turnOrder,
           players: (room.turnOrder || Array.from(room.players.keys()).sort((a,b) => (room.players.get(a)?.joinTime || 0) - (room.players.get(b)?.joinTime || 0)))

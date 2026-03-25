@@ -10,10 +10,11 @@ import { Room } from '../../types/game';
 
 interface ResultsProps {
   room: Room;
-  onPlayAgain: () => void;
+  currentUserId: string;
+  onRestart: () => void;
 }
 
-export const Results: React.FC<ResultsProps> = ({ room, onPlayAgain }) => {
+export const Results: React.FC<ResultsProps> = ({ room, currentUserId, onRestart }) => {
   const winner = room.winner;
   const wordA = room.wordA;
   const impostors = room.players.filter(p => room.impostorIds.includes(p.id));
@@ -59,11 +60,11 @@ export const Results: React.FC<ResultsProps> = ({ room, onPlayAgain }) => {
 
       <div className="w-full space-y-4 pt-12 border-t border-zinc-900 mt-auto">
         <button 
-          onClick={onPlayAgain}
+          onClick={onRestart}
           className="w-full bg-white hover:bg-zinc-200 text-black py-4 rounded-2xl flex items-center justify-center gap-2 uppercase font-black tracking-tighter text-lg transition-all shadow-[0_10px_30px_rgba(255,255,255,0.1)] active:scale-95 group"
         >
           <History size={20} className="group-hover:-rotate-45 transition-transform" />
-          Jogar Novamente
+          Votar para Reiniciar
         </button>
       </div>
     </div>

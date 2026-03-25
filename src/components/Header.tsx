@@ -5,16 +5,18 @@
 
 import React from 'react';
 import { motion } from 'motion/react';
-import { Info, RotateCcw } from 'lucide-react';
+import { Info, RotateCcw, Bell, BellOff } from 'lucide-react';
 
 interface HeaderProps {
   connected: boolean;
   isRoomActive: boolean;
   onShowRules: () => void;
   onRestartRequest?: () => void;
+  notificationsEnabled: boolean;
+  onToggleNotifications: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ connected, isRoomActive, onShowRules, onRestartRequest }) => {
+export const Header: React.FC<HeaderProps> = ({ connected, isRoomActive, onShowRules, onRestartRequest, notificationsEnabled, onToggleNotifications }) => {
   return (
     <header className="mb-12 flex items-center justify-between">
       <div className="flex-1" /> {/* Spacer */}
@@ -43,6 +45,17 @@ export const Header: React.FC<HeaderProps> = ({ connected, isRoomActive, onShowR
             <RotateCcw size={20} />
           </button>
         )}
+        <button
+          onClick={onToggleNotifications}
+          title={notificationsEnabled ? "Desativar Notificações" : "Ativar Notificações"}
+          className={`p-3 border rounded-2xl transition-all active:scale-90 ${
+            notificationsEnabled 
+              ? "bg-emerald-400/10 text-emerald-400 border-emerald-400/20 hover:bg-emerald-400/20" 
+              : "bg-zinc-900/50 text-zinc-500 border-zinc-800 hover:text-zinc-400"
+          }`}
+        >
+          {notificationsEnabled ? <Bell size={20} /> : <BellOff size={20} />}
+        </button>
         <button
           onClick={onShowRules}
           title="Regras"

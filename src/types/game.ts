@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export type GameStatus = 'lobby' | 'reveal' | 'clues' | 'voting' | 'results';
+export type GameStatus = 'lobby' | 'reveal' | 'clues' | 'voting' | 'results' | 'reveal_elimination';
 
 export interface Player {
   id: string;
@@ -32,4 +32,7 @@ export interface Room {
   turnIndex: number;
   turnOrder?: string[];
   restartVotes?: string[];
+  kickVotes?: Record<string, string[]>;
+  lastEliminatedId?: string;
+  eliminatedRole?: 'normal' | 'impostor';
 }

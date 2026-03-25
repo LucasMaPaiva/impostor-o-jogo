@@ -17,10 +17,12 @@ interface CluesProps {
 }
 
 export const Clues: React.FC<CluesProps> = ({ room, currentUserId, clueInput, onClueChange, onSendClue }) => {
-  const activePlayer = room.players[room.turnIndex % (room.players.length || 1)] || room.players.find(p => !p.clue);
+  const activeOrderedPlayers = room.players.filter(p => p.active);
+  const activePlayer = activeOrderedPlayers[room.turnIndex % (activeOrderedPlayers.length || 1)];
   const isMyTurn = activePlayer?.id === currentUserId;
-  const nextPlayerIndex = (room.turnIndex + 1) % (room.players.length || 1);
-  const nextPlayer = room.players[nextPlayerIndex];
+  
+  const nextPlayerIndex = (room.turnIndex + 1) % (activeOrderedPlayers.length || 1);
+  const nextPlayer = activeOrderedPlayers[nextPlayerIndex];
 
   return (
     <div className="flex-1 flex flex-col space-y-8">
@@ -43,9 +45,10 @@ export const Clues: React.FC<CluesProps> = ({ room, currentUserId, clueInput, on
       </div>
 
       <div className="grid grid-cols-1 gap-2">
-        {room.players.map((p, index) => {
-          const isTurn = index === room.turnIndex;
+        {room.players.map((p) => {
+          const isTurn = p.id === activePlayer?.id;
           const hasClue = !!p.clue;
+          const isEliminated = !p.active;
           
           return (
             <motion.div 
@@ -55,9 +58,11 @@ export const Clues: React.FC<CluesProps> = ({ room, currentUserId, clueInput, on
               className={`flex items-center justify-between p-4 rounded-2xl border transition-all duration-500 ${
                 isTurn
                   ? "bg-emerald-500/10 border-emerald-500/30 scale-[1.02] shadow-[0_0_20px_rgba(16,185,129,0.1)]"
-                  : hasClue 
-                    ? "bg-zinc-900/30 border-zinc-800/20 opacity-60" 
-                    : "bg-zinc-900/50 border-zinc-800/50"
+                  : isEliminated
+                    ? "bg-zinc-950/50 border-zinc-900 opacity-40 grayscale"
+                    : hasClue 
+                      ? "bg-zinc-900/30 border-zinc-800/20 opacity-60" 
+                      : "bg-zinc-900/50 border-zinc-800/50"
               }`}
             >
               <div className="flex items-center gap-3">
@@ -71,6 +76,9 @@ export const Clues: React.FC<CluesProps> = ({ room, currentUserId, clueInput, on
                     <p className={`font-bold tracking-tight text-sm ${hasClue || isTurn ? "text-white" : "text-zinc-500"}`}>{p.name}</p>
                     {isTurn && (
                       <span className="text-[9px] font-black uppercase tracking-widest bg-emerald-500/20 text-emerald-500 px-1.5 py-0.5 rounded-md">Sua vez</span>
+                    )}
+                    {isEliminated && (
+                      <span className="text-[9px] font-black uppercase tracking-widest bg-zinc-800 text-zinc-600 px-1.5 py-0.5 rounded-md">Eliminado</span>
                     )}
                   </div>
                   {p.clue ? (
