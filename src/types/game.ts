@@ -11,6 +11,7 @@ export interface Player {
   role: 'normal' | 'impostor';
   word: string;
   clue: string;
+  clueHistory: string[];
   votes: number;
   isReady: boolean;
   active: boolean;

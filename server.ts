@@ -161,7 +161,8 @@ async function startServer() {
                 isReady: false,
                 joinTime: Date.now(),
                 socket: ws,
-                active: room.status === 'lobby' || room.status === 'results'
+                active: room.status === 'lobby' || room.status === 'results',
+                clueHistory: []
               };
               room.players.set(userId, player);
             }
@@ -194,6 +195,7 @@ async function startServer() {
               p.role = isImpostor ? 'impostor' : 'normal';
               p.word = isImpostor ? dica : palavra;
               p.clue = '';
+              p.clueHistory = [];
               p.votes = 0;
               p.votedFor = undefined;
               p.isReady = false;
@@ -244,7 +246,23 @@ async function startServer() {
             
             if (!activePlayer || activePlayer.id !== currentUserId) return;
 
+            const normalizedClue = payload.clue.trim().toLowerCase();
+            const isDuplicate = Array.from(room.players.values()).some(p => 
+              p.clueHistory.some(h => h.trim().toLowerCase() === normalizedClue)
+            );
+
+            if (isDuplicate) {
+              ws.send(JSON.stringify({
+                type: "ERROR",
+                payload: {
+                  message: `⚠️ A dica "${payload.clue}" já foi usada! Tente outra.`
+                }
+              }));
+              return;
+            }
+
             player.clue = payload.clue;
+            player.clueHistory = [...(player.clueHistory || []), payload.clue];
             room.turnIndex++;
             
             const allClues = activeOrderedPlayers.every(p => !!p.clue);
@@ -287,7 +305,7 @@ async function startServer() {
               room.reRoundVotes = (room.reRoundVotes || 0) + 1;
             } else {
               const target = room.players.get(payload.targetId);
-              if (target) target.votes++;
+              if (target && target.active) target.votes++;
             }
 
             const activePlayers = Array.from(room.players.values()).filter(p => p.active);
@@ -332,7 +350,7 @@ async function startServer() {
                       room.lastEliminatedId = topPlayer.id;
                       room.eliminatedRole = room.impostorIds.includes(topPlayer.id) ? 'impostor' : 'normal';
                       
-                      currentActive.forEach(p => {
+                      room.players.forEach(p => {
                         p.clue = '';
                         p.votes = 0;
                         p.votedFor = undefined;
@@ -379,6 +397,7 @@ async function startServer() {
               room.turnIndex = 0;
               room.players.forEach(p => {
                 p.clue = '';
+                p.clueHistory = [];
                 p.votes = 0;
                 p.votedFor = undefined;
                 p.isReady = false;
@@ -500,6 +519,7 @@ async function startServer() {
               
               return {
                 ...pData,
+                clueHistory: pl.clueHistory || [],
                 role: (isCurrent || revealAll) ? role : undefined,
                 word: (isCurrent || revealAll) ? word : ''
               };

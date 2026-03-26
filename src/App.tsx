@@ -23,6 +23,8 @@ import { Routes, Route, useParams, useNavigate } from 'react-router-dom';
 
 import { Chat } from './components/game/Chat';
 import { RulesModal } from './components/RulesModal';
+import { HistoryModal } from './components/game/HistoryModal';
+import { WarningModal } from './components/WarningModal';
 
 function GameContainer() {
   const { roomId: urlRoomId } = useParams();
@@ -50,6 +52,9 @@ function GameContainer() {
     const saved = localStorage.getItem('impostor_notifications');
     return saved === null ? true : saved === 'true';
   });
+  
+  const [historyModalPlayer, setHistoryModalPlayer] = useState<Player | null>(null);
+  const [privateError, setPrivateError] = useState<string | null>(null);
   
   const lastStatusRef = useRef<string | null>(null);
   const lastTurnIndexRef = useRef<number | null>(null);
@@ -85,6 +90,8 @@ function GameContainer() {
       } else if (message.type === 'KICKED') {
         alert(message.payload.reason);
         leaveRoom();
+      } else if (message.type === 'ERROR') {
+        setPrivateError(message.payload.message);
       }
     };
 
@@ -370,6 +377,7 @@ function GameContainer() {
                       clueInput={clueInput} 
                       onClueChange={setClueInput} 
                       onSendClue={submitClue} 
+                      onOpenHistory={(p) => setHistoryModalPlayer(p)}
                     />
                   )}
 
@@ -378,6 +386,7 @@ function GameContainer() {
                       room={room} 
                       currentUserId={userId} 
                       onVote={submitVote} 
+                      onOpenHistory={(p) => setHistoryModalPlayer(p)}
                     />
                   )}
 
@@ -430,6 +439,22 @@ function GameContainer() {
           isOpen={showRules} 
           onClose={() => setShowRules(false)} 
         />
+
+        <AnimatePresence>
+          {historyModalPlayer && (
+            <HistoryModal 
+              player={historyModalPlayer} 
+              onClose={() => setHistoryModalPlayer(null)} 
+            />
+          )}
+
+          {privateError && (
+            <WarningModal 
+              message={privateError} 
+              onClose={() => setPrivateError(null)} 
+            />
+          )}
+        </AnimatePresence>
       </main>
 
       <style>{`

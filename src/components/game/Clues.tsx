@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Send } from 'lucide-react';
+import { Send, History } from 'lucide-react';
 import { Room, Player } from '../../types/game';
 
 interface CluesProps {
@@ -14,9 +14,17 @@ interface CluesProps {
   clueInput: string;
   onClueChange: (val: string) => void;
   onSendClue: () => void;
+  onOpenHistory: (player: Player) => void;
 }
 
-export const Clues: React.FC<CluesProps> = ({ room, currentUserId, clueInput, onClueChange, onSendClue }) => {
+export const Clues: React.FC<CluesProps> = ({ 
+  room, 
+  currentUserId, 
+  clueInput, 
+  onClueChange, 
+  onSendClue,
+  onOpenHistory 
+}) => {
   const activeOrderedPlayers = room.players.filter(p => p.active);
   const activePlayer = activeOrderedPlayers[room.turnIndex % (activeOrderedPlayers.length || 1)];
   const isMyTurn = activePlayer?.id === currentUserId;
@@ -80,11 +88,19 @@ export const Clues: React.FC<CluesProps> = ({ room, currentUserId, clueInput, on
                     {isEliminated && (
                       <span className="text-[9px] font-black uppercase tracking-widest bg-zinc-800 text-zinc-600 px-1.5 py-0.5 rounded-md">Eliminado</span>
                     )}
+                    {p.clueHistory && p.clueHistory.length > 0 && (
+                      <button 
+                        onClick={() => onOpenHistory(p)}
+                        className="p-1 hover:bg-zinc-800 rounded-lg text-zinc-500 hover:text-emerald-500 transition-colors group/history relative"
+                      >
+                        <History size={14} />
+                      </button>
+                    )}
                   </div>
                   {p.clue ? (
-                    <p className="text-xs text-zinc-400 font-medium italic mt-0.5">"{p.clue}"</p>
+                    <p className="text-xs text-zinc-200 font-medium italic mt-0.5">"{p.clue}"</p>
                   ) : (
-                    <div className="flex items-center gap-1.5 mt-0.5">
+                    <div className="flex items-center gap-1.5 mt-0.5" >
                       <div className={`w-1 h-1 rounded-full ${isTurn ? "bg-emerald-500 text-emerald-500" : "bg-zinc-700"} animate-pulse`} />
                       <p className="text-[10px] uppercase tracking-widest text-zinc-700 font-bold">
                         {isTurn ? "Escrevendo..." : "Esperando..."}

@@ -5,16 +5,17 @@
 
 import React from 'react';
 import { motion } from 'motion/react';
-import { Vote, Check } from 'lucide-react';
+import { Vote, Check, History } from 'lucide-react';
 import { Room, Player } from '../../types/game';
 
 interface VotingProps {
   room: Room;
   currentUserId: string;
   onVote: (targetId: string) => void;
+  onOpenHistory: (player: Player) => void;
 }
 
-export const Voting: React.FC<VotingProps> = ({ room, currentUserId, onVote }) => {
+export const Voting: React.FC<VotingProps> = ({ room, currentUserId, onVote, onOpenHistory }) => {
   const currentPlayer = room.players.find(p => p.id === currentUserId);
   const playersLeft = room.players.filter(p => !p.votedFor).length;
 
@@ -36,19 +37,34 @@ export const Voting: React.FC<VotingProps> = ({ room, currentUserId, onVote }) =
             className={`flex flex-col rounded-2xl border transition-all ${
               p.votedFor 
                 ? "bg-zinc-900/40 border-zinc-800/50 opacity-60" 
-                : "bg-zinc-900/60 border-zinc-800/80"
+                : !p.active
+                  ? "bg-zinc-950/50 border-zinc-900/50 opacity-40 grayscale"
+                  : "bg-zinc-900/60 border-zinc-800/80"
             }`}
           >
             <div className="flex items-center justify-between p-4">
               <div className="flex items-center gap-3 overflow-hidden">
-                <div className={`w-8 h-8 shrink-0 rounded-xl flex items-center justify-center ${p.votedFor ? "bg-zinc-800 text-zinc-600" : "bg-red-400 text-black"}`}>
+                <div className={`w-8 h-8 shrink-0 rounded-xl flex items-center justify-center ${p.votedFor || !p.active ? "bg-zinc-800 text-zinc-600" : "bg-red-400 text-black"}`}>
                   <p className="text-xs font-bold leading-none">{p.name[0]}</p>
                 </div>
                 <div className="space-y-0.5 overflow-hidden">
-                  <p className={`font-bold tracking-tight text-sm truncate ${p.votedFor ? "text-zinc-500" : "text-zinc-200"}`}>
-                    {p.name}
-                    {p.id === currentUserId && <span className="ml-1 text-[10px] uppercase tracking-widest opacity-40 font-black">(Você)</span>}
-                  </p>
+                  <div className="flex items-center gap-2">
+                    <p className={`font-bold tracking-tight text-sm truncate ${p.votedFor ? "text-zinc-500" : "text-zinc-200"}`}>
+                      {p.name}
+                      {p.id === currentUserId && <span className="ml-1 text-[10px] uppercase tracking-widest opacity-40 font-black">(Você)</span>}
+                    </p>
+                    {!p.active && (
+                      <span className="text-[9px] font-black uppercase tracking-widest bg-zinc-800 text-zinc-600 px-1.5 py-0.5 rounded-md shrink-0">Eliminado</span>
+                    )}
+                    {p.clueHistory && p.clueHistory.length > 0 && (
+                      <button 
+                        onClick={() => onOpenHistory(p)}
+                        className="p-1 hover:bg-zinc-800 rounded-lg text-zinc-500 hover:text-red-400 transition-colors group/history relative shrink-0"
+                      >
+                        <History size={12} />
+                      </button>
+                    )}
+                  </div>
                   {p.clue && (
                     <p className="text-[10px] text-zinc-500 font-bold uppercase tracking-widest italic truncate">"{p.clue}"</p>
                   )}
@@ -56,7 +72,7 @@ export const Voting: React.FC<VotingProps> = ({ room, currentUserId, onVote }) =
               </div>
 
               <div className="flex items-center gap-2 shrink-0 ml-2">
-                {currentPlayer && !currentPlayer.votedFor && p.id !== currentUserId && (
+                {currentPlayer && !currentPlayer.votedFor && p.id !== currentUserId && p.active && (
                   <button 
                     onClick={() => onVote(p.id)}
                     className="bg-red-400/10 hover:bg-red-400 text-red-400 hover:text-black p-2.5 rounded-xl transition-all active:scale-90 flex items-center justify-center border border-red-400/20 hover:border-transparent"

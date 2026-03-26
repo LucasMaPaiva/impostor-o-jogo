@@ -58,8 +58,7 @@ export const Reveal: React.FC<RevealProps> = ({ player, players, category, isRea
             <div className="flex flex-col items-center justify-center gap-2">
               <p className={cn(
                 "text-4xl font-black uppercase tracking-tighter transition-all duration-300",
-                !isHolding ? "blur-xl" : "blur-0",
-                player?.role === 'impostor' ? "text-red-500" : "text-emerald-500"
+                !isHolding ? "blur-xl text-emerald-500" : (player?.role === 'impostor' ? "blur-0 text-red-500" : "blur-0 text-emerald-500")
               )}>
                 {player?.word}
               </p>
