@@ -25,6 +25,7 @@ import { Chat } from './components/game/Chat';
 import { RulesModal } from './components/RulesModal';
 import { HistoryModal } from './components/game/HistoryModal';
 import { WarningModal } from './components/WarningModal';
+import { GuessModal } from './components/game/GuessModal';
 
 function GameContainer() {
   const { roomId: urlRoomId } = useParams();
@@ -48,6 +49,7 @@ function GameContainer() {
   const [connected, setConnected] = useState(false);
   const [showRules, setShowRules] = useState(false);
   const [showAdmin, setShowAdmin] = useState(false);
+  const [showGuessModal, setShowGuessModal] = useState(false);
   const [notificationsEnabled, setNotificationsEnabled] = useState(() => {
     const saved = localStorage.getItem('impostor_notifications');
     return saved === null ? true : saved === 'true';
@@ -250,6 +252,10 @@ function GameContainer() {
     send("RESTART_VOTE", {});
   };
 
+  const submitGuess = (guess: string) => {
+    send("GUESS_WORD", { guess });
+  };
+
   const updateSettings = (settings: { impostorCount: number }) => {
     send("SET_SETTINGS", settings);
   };
@@ -333,20 +339,29 @@ function GameContainer() {
                       <p className="font-mono font-bold text-lg leading-none">{room.id}</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-2">
-                    {currentPlayer && !currentPlayer.active && room.status !== 'lobby' && (
-                      <span className="bg-amber-500/10 text-amber-500 text-[10px] font-bold uppercase tracking-widest px-2 py-1 rounded-lg border border-amber-500/20">
-                        Espectador
-                      </span>
-                    )}
-                    <button 
-                      onClick={leaveRoom}
-                      className="text-zinc-500 hover:text-red-400 transition-colors p-2"
-                    >
-                      <LogOut size={20} />
-                    </button>
+                    <div className="flex items-center gap-2">
+                      {currentPlayer?.role === 'impostor' && currentPlayer?.active && room?.status !== 'lobby' && room?.status !== 'results' && (
+                        <button 
+                          onClick={() => setShowGuessModal(true)}
+                          className="bg-amber-500/10 hover:bg-amber-500/20 text-amber-500 text-[10px] font-bold uppercase tracking-widest px-3 py-2 rounded-lg border border-amber-500/20 transition-all flex items-center gap-2"
+                        >
+                          Chutar Palavra
+                        </button>
+                      )}
+                      
+                      {currentPlayer && !currentPlayer.active && room.status !== 'lobby' && room.status !== 'results' && (
+                        <span className="bg-amber-500/10 text-amber-500 text-[10px] font-bold uppercase tracking-widest px-2 py-1 rounded-lg border border-amber-500/20">
+                          Espectador
+                        </span>
+                      )}
+                      <button 
+                        onClick={leaveRoom}
+                        className="text-zinc-500 hover:text-red-400 transition-colors p-2"
+                      >
+                        <LogOut size={20} />
+                      </button>
+                    </div>
                   </div>
-                </div>
 
                 <AnimatePresence mode="wait">
                   {room.status === 'lobby' && (
@@ -452,6 +467,13 @@ function GameContainer() {
             <WarningModal 
               message={privateError} 
               onClose={() => setPrivateError(null)} 
+            />
+          )}
+
+          {showGuessModal && (
+            <GuessModal 
+              onClose={() => setShowGuessModal(false)}
+              onSubmit={submitGuess}
             />
           )}
         </AnimatePresence>

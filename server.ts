@@ -448,6 +448,53 @@ async function startServer() {
             broadcastRoom(room);
             break;
           }
+
+          case "GUESS_WORD": {
+            const room = rooms.get(currentRoomId!);
+            if (!room) return;
+            const player = room.players.get(currentUserId!);
+            if (!player || !player.active) return;
+
+            // Only impostors can guess
+            const isImpostor = room.impostorIds.includes(player.id);
+            if (!isImpostor) return;
+
+            // Cannot guess in lobby or results
+            if (room.status === 'lobby' || room.status === 'results') return;
+
+            const guess = payload.guess.trim().toLowerCase();
+            const correctWord = room.wordA.trim().toLowerCase();
+
+            if (guess === correctWord) {
+              room.status = 'results';
+              room.winner = 'impostor';
+              
+              broadcastToRoom(currentRoomId!, {
+                type: "CHAT_MESSAGE",
+                payload: {
+                  userId: "system",
+                  name: "SISTEMA",
+                  text: `🎉 O IMPOSTOR (${player.name}) ADIVINHOU A PALAVRA "${room.wordA}" E GANHOU O JOGO!`
+                }
+              });
+            } else {
+              room.status = 'results';
+              room.winner = 'normal';
+
+              broadcastToRoom(currentRoomId!, {
+                type: "CHAT_MESSAGE",
+                payload: {
+                  userId: "system",
+                  name: "SISTEMA",
+                  text: `❌ O IMPOSTOR (${player.name}) TENTOU CHUTAR "${payload.guess}" E ERROU! A palavra era "${room.wordA}". VITÓRIA DOS INOCENTES!`
+                }
+              });
+            }
+
+            await saveRoomToDb(room);
+            broadcastRoom(room);
+            break;
+          }
         }
       } catch (err) {
         console.error("Error processing message:", err);
