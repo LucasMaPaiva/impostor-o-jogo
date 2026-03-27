@@ -239,7 +239,33 @@ function GameContainer() {
 
   const submitChat = () => {
     if (!chatInput.trim()) return;
-    send("CHAT", { text: chatInput.trim() });
+    const text = chatInput.trim();
+    
+    // Intercept impostor guess command
+    if (text.startsWith('/chutar')) {
+      if (currentPlayer?.role === 'impostor' && currentPlayer?.active) {
+        if (text === '/chutar') {
+          setShowGuessModal(true);
+          setChatInput('');
+          return;
+        }
+        if (text.startsWith('/chutar ')) {
+          const guess = text.substring(8).trim();
+          if (guess) {
+            send("GUESS_WORD", { guess });
+            setChatInput('');
+            return;
+          }
+        }
+      } else {
+        // Block non-impostors
+        setPrivateError("Você não é um impostor, por isso não pode usar esse comando.");
+        setChatInput('');
+        return;
+      }
+    }
+
+    send("CHAT", { text });
     setChatInput('');
   };
 
@@ -283,7 +309,7 @@ function GameContainer() {
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100 font-sans selection:bg-emerald-500/30">
       <main className={cn(
-        "mx-auto px-6 py-12 min-h-screen flex flex-col",
+        "mx-auto px-6 py-4 min-h-screen flex flex-col",
         room ? "max-w-6xl" : "max-w-md"
       )}>
         
@@ -329,7 +355,7 @@ function GameContainer() {
               {/* Main Content Area */}
               <div className="flex-1 w-full flex flex-col min-w-0">
                 {/* Game Info Bar */}
-                <div className="flex items-center justify-between mb-8 bg-zinc-900/50 p-4 rounded-2xl border border-zinc-800">
+                <div className="flex items-center justify-between mb-4 bg-zinc-900/50 p-4 rounded-2xl border border-zinc-800">
                   <div className="flex items-center gap-3">
                     <div className="bg-emerald-500/10 p-2 rounded-xl text-emerald-500">
                       <Hash size={18} />
@@ -339,29 +365,20 @@ function GameContainer() {
                       <p className="font-mono font-bold text-lg leading-none">{room.id}</p>
                     </div>
                   </div>
-                    <div className="flex items-center gap-2">
-                      {currentPlayer?.role === 'impostor' && currentPlayer?.active && room?.status !== 'lobby' && room?.status !== 'results' && (
-                        <button 
-                          onClick={() => setShowGuessModal(true)}
-                          className="bg-amber-500/10 hover:bg-amber-500/20 text-amber-500 text-[10px] font-bold uppercase tracking-widest px-3 py-2 rounded-lg border border-amber-500/20 transition-all flex items-center gap-2"
-                        >
-                          Chutar Palavra
-                        </button>
-                      )}
-                      
-                      {currentPlayer && !currentPlayer.active && room.status !== 'lobby' && room.status !== 'results' && (
-                        <span className="bg-amber-500/10 text-amber-500 text-[10px] font-bold uppercase tracking-widest px-2 py-1 rounded-lg border border-amber-500/20">
-                          Espectador
-                        </span>
-                      )}
-                      <button 
-                        onClick={leaveRoom}
-                        className="text-zinc-500 hover:text-red-400 transition-colors p-2"
-                      >
-                        <LogOut size={20} />
-                      </button>
-                    </div>
+                  <div className="flex items-center gap-2">
+                    {currentPlayer && !currentPlayer.active && room.status !== 'lobby' && room.status !== 'results' && (
+                      <span className="bg-amber-500/10 text-amber-500 text-[10px] font-bold uppercase tracking-widest px-2 py-1 rounded-lg border border-amber-500/20">
+                        Espectador
+                      </span>
+                    )}
+                    <button 
+                      onClick={leaveRoom}
+                      className="text-zinc-500 hover:text-red-400 transition-colors p-2"
+                    >
+                      <LogOut size={20} />
+                    </button>
                   </div>
+                </div>
 
                 <AnimatePresence mode="wait">
                   {room.status === 'lobby' && (

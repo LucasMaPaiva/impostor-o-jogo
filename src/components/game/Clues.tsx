@@ -33,8 +33,8 @@ export const Clues: React.FC<CluesProps> = ({
   const nextPlayer = activeOrderedPlayers[nextPlayerIndex];
 
   return (
-    <div className="flex-1 flex flex-col space-y-8">
-      <div className="space-y-4">
+    <div className="flex-1 flex flex-col space-y-4">
+      <div className="space-y-2">
         <div className="space-y-1">
           <h2 className="text-2xl font-black italic uppercase tracking-tighter">Rodada de Dicas</h2>
           <div className="flex items-center gap-2">
@@ -63,7 +63,7 @@ export const Clues: React.FC<CluesProps> = ({
               key={p.id}
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
-              className={`flex items-center justify-between p-4 rounded-2xl border transition-all duration-500 ${
+              className={`flex items-center justify-between p-2 rounded-2xl border transition-all duration-500 ${
                 isTurn
                   ? "bg-emerald-500/10 border-emerald-500/30 scale-[1.02] shadow-[0_0_20px_rgba(16,185,129,0.1)]"
                   : isEliminated
@@ -114,7 +114,7 @@ export const Clues: React.FC<CluesProps> = ({
         })}
       </div>
 
-      <div className="mt-auto h-32" /> {/* Spacer for floating input */}
+      <div className="mt-auto h-8" /> {/* Spacer for floating input */}
 
       <AnimatePresence>
         {isMyTurn && (

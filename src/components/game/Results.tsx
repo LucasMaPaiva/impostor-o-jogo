@@ -21,7 +21,7 @@ export const Results: React.FC<ResultsProps> = ({ room, currentUserId, onRestart
   const impostorNames = impostors.map(p => p.name).join(', ');
 
   return (
-    <div className="flex-1 flex flex-col items-center justify-center text-center space-y-10">
+    <div className="flex-1 flex flex-col items-center justify-center text-center space-y-4">
       <div className="space-y-4">
         <motion.div 
           initial={{ scale: 0.8, opacity: 0 }}
@@ -58,7 +58,7 @@ export const Results: React.FC<ResultsProps> = ({ room, currentUserId, onRestart
         </div>
       </div>
 
-      <div className="w-full space-y-4 pt-12 border-t border-zinc-900 mt-auto">
+      <div className="w-full space-y-4 pt-4 border-t border-zinc-900 mt-auto">
         <button 
           onClick={onRestart}
           className="w-full bg-white hover:bg-zinc-200 text-black py-4 rounded-2xl flex items-center justify-center gap-2 uppercase font-black tracking-tighter text-lg transition-all shadow-[0_10px_30px_rgba(255,255,255,0.1)] active:scale-95 group"

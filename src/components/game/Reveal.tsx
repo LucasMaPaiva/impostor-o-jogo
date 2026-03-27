@@ -28,7 +28,7 @@ export const Reveal: React.FC<RevealProps> = ({ player, players, category, isRea
   const stopReveal = () => setIsHolding(false);
 
   return (
-    <div className="flex-1 flex flex-col items-center justify-center text-center space-y-8 w-full max-w-lg mx-auto">
+    <div className="flex-1 flex flex-col items-center justify-center text-center space-y-4 w-full max-w-lg mx-auto">
       <div className="space-y-2">
         <h2 className="text-2xl font-bold italic uppercase tracking-tighter text-zinc-100">Sua Palavra Secreta</h2>
         <div className="flex flex-col gap-1">
@@ -50,7 +50,7 @@ export const Reveal: React.FC<RevealProps> = ({ player, players, category, isRea
           onMouseLeave={stopReveal}
           onTouchStart={startReveal}
           onTouchEnd={stopReveal}
-          className="relative bg-zinc-900/80 border border-zinc-800 p-8 rounded-3xl backdrop-blur-sm overflow-hidden min-h-[160px] flex flex-col items-center justify-center cursor-pointer select-none active:scale-[0.98] transition-transform"
+          className="relative bg-zinc-900/80 border border-zinc-800 p-4 rounded-3xl backdrop-blur-sm overflow-hidden min-h-[160px] flex flex-col items-center justify-center cursor-pointer select-none active:scale-[0.98] transition-transform"
         >
           <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent pointer-events-none" />
           
@@ -84,7 +84,7 @@ export const Reveal: React.FC<RevealProps> = ({ player, players, category, isRea
       </div>
 
       {/* Ready Status List */}
-      <div className="w-full bg-zinc-900/30 border border-zinc-800/50 rounded-3xl p-6 space-y-4">
+      <div className="w-full bg-zinc-900/30 border border-zinc-800/50 rounded-3xl p-3 space-y-2">
         <div className="flex items-center justify-between border-b border-zinc-800/50 pb-3">
           <h3 className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Aguardando Jogadores</h3>
           <p className="text-[10px] text-zinc-600 font-bold uppercase tracking-tight">
@@ -113,7 +113,7 @@ export const Reveal: React.FC<RevealProps> = ({ player, players, category, isRea
         </div>
       </div>
 
-      <div className="w-full space-y-4 pt-12 border-t border-zinc-900 mt-auto">
+      <div className="w-full space-y-4 pt-4 border-t border-zinc-900 mt-auto">
         <button 
           onClick={onReady}
           disabled={isReady || !hasSeen}

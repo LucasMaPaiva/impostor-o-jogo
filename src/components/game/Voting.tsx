@@ -20,15 +20,15 @@ export const Voting: React.FC<VotingProps> = ({ room, currentUserId, onVote, onO
   const playersLeft = room.players.filter(p => !p.votedFor).length;
 
   return (
-    <div className="flex-1 flex flex-col space-y-8">
+    <div className="flex-1 flex flex-col space-y-4">
       <div className="space-y-1">
-        <h2 className="text-2xl font-black italic uppercase tracking-tighter text-red-400">Hora de Votar</h2>
+        <h2 className="text-xl font-black italic uppercase tracking-tighter text-red-400">Hora de Votar</h2>
         <p className="text-zinc-500 text-sm font-medium uppercase tracking-widest leading-none flex items-center gap-2">
           {playersLeft} {playersLeft === 1 ? "Jogador falta" : "Jogadores faltam"} votar
         </p>
       </div>
 
-      <div className="max-h-[340px] overflow-y-auto pr-1 flex flex-col gap-2 custom-scrollbar">
+      <div className="max-h-[300px] overflow-y-auto pr-1 flex flex-col gap-2 custom-scrollbar">
         {room.players.map((p) => (
           <motion.div 
             key={p.id}
@@ -42,7 +42,7 @@ export const Voting: React.FC<VotingProps> = ({ room, currentUserId, onVote, onO
                   : "bg-zinc-900/60 border-zinc-800/80"
             }`}
           >
-            <div className="flex items-center justify-between p-4">
+            <div className="flex items-center justify-between p-2">
               <div className="flex items-center gap-3 overflow-hidden">
                 <div className={`w-8 h-8 shrink-0 rounded-xl flex items-center justify-center ${p.votedFor || !p.active ? "bg-zinc-800 text-zinc-600" : "bg-red-400 text-black"}`}>
                   <p className="text-xs font-bold leading-none">{p.name[0]}</p>
